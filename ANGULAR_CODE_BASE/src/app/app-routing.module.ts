@@ -48,6 +48,16 @@ const routes: Routes = [
     data: { isAdmin: true }
   },
   {
+    path:'administrator',
+    component:MainComponent,
+    children:[
+      {
+        path: '',
+        loadChildren: 'app/administrator/administration.module#AdministrationModule'
+      }
+    ]
+  },
+  {
     path: '**',
     component: NotFoundComponent,
 

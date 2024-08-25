@@ -50,7 +50,7 @@
             <option value="">Select Property Type</option>
             <option *ngFor="let property of propertyTypeList" value="{{property._id}}">{{property.title}}</option>
           </select>
-          <small class="text-danger" *ngIf="Proptype.touched && Proptype.invalid">This field is required</small>
+          <!-- <small class="text-danger" *ngIf="Proptype.touched && Proptype.invalid">This field is required</small> -->
         </div>
         <div class="col-4">
           <label for="">Enter Total Amount <small class="text-primary">(optional)</small> </label>

@@ -17,7 +17,9 @@ export class PropertyNewComponent implements OnInit {
     public userService: UserService,
     private http: HttpClient,
     private router: Router
-  ) { }
+  ) { 
+    this.getPropertyTypeList();
+  }
 
   propertyTypeList = [];
   stateList: any[];
@@ -26,14 +28,15 @@ export class PropertyNewComponent implements OnInit {
   imgUrls = [];
   imgsToUpload = [];
   isSubmittingForm: Boolean = false;
+  
 
   getPropertyTypeList() {
-    this.commonService.togglePageLoaderFn(true);
+     this.commonService.togglePageLoaderFn(true);
     this.commonService.getPropertyTypeList()
       .subscribe(result => {
-        // console.log(result);
+         console.log(result,"ttttt");
         this.propertyTypeList = result;
-        this.commonService.togglePageLoaderFn(false);
+         this.commonService.togglePageLoaderFn(false);
       });
   }
 

@@ -1,0 +1,82 @@
+<div class="card">
+  <div class="card-header">
+    <form [formGroup]="form" novalidate>
+      <div class="row text-left">
+        <div class="col-md-2 col-12 form-group mb-0">
+          <label for="parentId">{{'Page.SelectMenu'| translate}}</label>
+          <ng-select formControlName="parentId" [items]="parentMenuList" bindLabel="name" bindValue="id" placeholder="{{'Page.Select'| translate}}" id="parentId">
+          </ng-select>
+        </div>
+        <div class="col-10 text-md-right text-left">
+          <div class="form-group form-inline">
+          </div>
+          <div *ngIf="addPermission">
+            <button type="button" class="btn btn-primary" (click)="onClick_AddEdit(0)"><i class="fa fa-plus mr-1" aria-hidden="true"></i> {{'Page.AddNew'|
+              translate}}</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-content">
+    <div class="card-body pt-1">
+      <div class="table-responsive">
+        <table class="table table-striped table-sm table-hover">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>{{'Page.Name'| translate}}</th>
+              <th>{{'Page.Title'| translate}}</th>
+              <th>{{'Page.TitleArabic'| translate}}</th>
+              <th>{{'Page.Icon'| translate}}</th>
+              <th>{{'Page.Path'| translate}}</th>
+              <th class="text-center">{{'Page.Has Child'| translate}}</th>
+              <th class="text-center">{{'Page.Order'| translate}}</th>
+              <th>{{'Page.Action'| translate}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of dataList; let i = index">
+              <td data-title="#"> {{i+1}} </td>
+              <td data-title="{{'Page.Name'| translate}}"> {{ item.name }} </td>
+              <td data-title="{{'Page.Title'| translate}}"> {{ item.title }}</td>
+              <td data-title="{{'Page.TitleArabic'| translate}}"> {{ item.titleAr }}</td>
+              <td data-title="{{'Page.Icon'| translate}}">
+                <i class="{{item.icon}} mr-1"></i> {{item.icon}}
+              </td>
+              <td data-title="{{'Page.Path'| translate}}"> {{ item.path }}</td>
+              <td class="text-center" data-title="{{'Page.Has Child'| translate}}"> {{ item.class.includes('has-sub') ? 'Yes': 'No' }}</td>
+              <td class="text-center" data-title="{{'Page.Order'| translate}}">
+                <div class="btn-group" role="group">
+                  <button type="button" class="btn btn-outline-primary" (click)="moveUp(item, i)" data-toggle="tooltip" placement="left" ngbTooltip="{{'Page.Move Up'| translate}}">
+                    <i class="ft-arrow-up"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-primary" (click)="moveDown(item, i)" data-toggle="tooltip" placement="right"
+                    ngbTooltip="{{'Page.Move Down'| translate}}">
+                    <i class="ft-arrow-down"></i>
+                  </button>
+                </div>
+              </td>
+              <td>
+                <a class="info p-0" ngbTooltip="{{'Page.ActionPermissions'| translate}}" (click)="onClick_Permission(item.id,item.title )" *ngIf="!item.class.includes('has-sub')">
+                  <i class="ft-eye font-medium-3 mr-2"></i>
+                </a>
+                <a class="primary p-0 m-1" ngbTooltip="{{'Page.Edit'| translate}}" (click)="onClick_AddEdit(item.id)" *ngIf="editPermission">
+                  <i class="ft-edit font-medium-3 mr-2"></i>
+                </a>
+                <a class="danger p-0" ngbTooltip="{{'Page.Delete'| translate}}" (click)="onClick_Delete(item.id)" *ngIf="deletePermission">
+                  <i class="ft-trash-2 font-medium-3"></i>
+                </a>
+              </td>
+            </tr>
+            <tr *ngIf="dataList.length == 0">
+              <td colspan="9" class="text-center">
+                {{'Page.Msg.NoMenuFound'| translate}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

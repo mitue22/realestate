@@ -1,0 +1,13 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\config",
+    "\\controllers",
+    "\\models",
+    "\\providers",
+    "\\routes",
+    "\\uploads",
+    "\\uploads\\others"
+  ],
+  "PreviewInSolutionExplorer": false
+}

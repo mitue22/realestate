@@ -6,41 +6,92 @@ const jwt = require("jsonwebtoken");
 
 var secretKey = require("../config/config").secretKey;
 
+const verifyToken = (req, res, next) => {
+  const token = req.headers.authorization;
+  if (!token) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.status(401).json({ message: 'Unauthorized' });
+    }
+    req.user = decoded.user; // Attach decoded user information to request object
+    next(); // Continue to the next middleware or route handler
+  });
+};
+
+module.exports.verifyToken = verifyToken;
 module.exports = {
-  userLogin: (req, res) => {
+  // userLogin: (req, res) => {
+  //   var loginType;
+  //   if (req.body.emailPhone != "" && req.body.password != "") {
+  //     if (isNaN(req.body.emailPhone)) loginType = "email";
+  //     else loginType = "phoneNo";
+  //     userM
+  //       .findOne()
+  //       .where(loginType, req.body.emailPhone)
+  //       .exec((err, data) => {
+  //         if (err) res.status(400).send(err);
+  //         else if (data) {
+  //           // res.send(data.);
+  //           bcrypt.compare(req.body.password, data.password, function(
+  //             err,
+  //             passMatch
+  //           ) {
+  //             if (err) res.status(400).send(err);
+  //             else if (passMatch) {
+  //               let jwtData = {
+  //                 _id: data["_id"],
+  //                 fname: data["fname"],
+  //                 lname: data["lname"],
+  //                 email: data["email"],
+  //                 isAdmin: data["isAdmin"]
+  //               };
+  //                var token = jwt.sign({ user: jwtData }, secretKey);
+  //               res
+  //                 .status(200)
+  //                 .json({ message: "Login Successful", token: token });
+  //             } else res.status(401).json({ message: "Invalid Credentials1" });
+  //           });
+  //         } else res.status(401).json({ message: "Invalid Credentials2" });
+  //       });
+  //   } else res.status(400).json({ message: "Provide all Credentials" });
+  // },
+userLogin : (req, res) => {
     var loginType;
-    if (req.body.emailPhone != "" && req.body.password != "") {
-      if (isNaN(req.body.emailPhone)) loginType = "email";
-      else loginType = "phoneNo";
-      userM
-        .findOne()
-        .where(loginType, req.body.emailPhone)
-        .exec((err, data) => {
-          if (err) res.status(400).send(err);
-          else if (data) {
-            // res.send(data.);
-            bcrypt.compare(req.body.password, data.password, function(
-              err,
-              passMatch
-            ) {
-              if (err) res.status(400).send(err);
-              else if (passMatch) {
-                let jwtData = {
-                  _id: data["_id"],
-                  fname: data["fname"],
-                  lname: data["lname"],
-                  email: data["email"],
-                  isAdmin: data["isAdmin"]
-                };
-                var token = jwt.sign({ user: jwtData }, secretKey);
-                res
-                  .status(200)
-                  .json({ message: "Login Successful", token: token });
-              } else res.status(401).json({ message: "Invalid Credentials1" });
-            });
-          } else res.status(401).json({ message: "Invalid Credentials2" });
+    if (req.body.emailPhone && req.body.password) {
+      if (isNaN(req.body.emailPhone)) loginType = 'email';
+      else loginType = 'phoneNo';
+      userM.findOne({ [loginType]: req.body.emailPhone }, (err, user) => {
+        if (err) {
+          return res.status(400).send(err);
+        }
+        if (!user) {
+          return res.status(401).json({ message: 'Invalid Credentials' });
+        }
+        bcrypt.compare(req.body.password, user.password, (err, passMatch) => {
+          if (err) {
+            return res.status(400).send(err);
+          }
+          if (passMatch) {
+            const jwtData = {
+              _id: user._id,
+              fname: user.fname,
+              lname: user.lname,
+              email: user.email,
+              isAdmin: user.isAdmin
+            };
+            const token = jwt.sign({ user: jwtData }, secretKey);
+            res.status(200).json({ message: 'Login Successful', token: token });
+          } else {
+            res.status(401).json({ message: 'Invalid Credentials' });
+          }
         });
-    } else res.status(400).json({ message: "Provide all Credentials" });
+      });
+    } else {
+      res.status(400).json({ message: 'Provide all Credentials' });
+    }
   },
   userRegistration: (req, res) => {
     // res.send(req.body);

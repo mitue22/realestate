@@ -2,14 +2,20 @@ const mongoose = require('mongoose');
 var state_model = require('../models/state');
 var city_model = require('../models/city');
 var users = require('../models/users');
-
-
-
+var propertyType = require('../models/propertyTypes');
+ var propertyTypeOriginal_model = require('../models/propertyTypeOriginal');
 module.exports = {
+    propertyTypeList: (req, res) => {
+        propertyTypeOriginal_model.find().exec((err, data) => {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            res.status(200).send(data);
+          }
+        });
+     },
     // STATES
     getStateList: (req, res) => {
-        // console.log('GET statelist');
-        
         state_model.find({ is_active: true })
         .exec((err, data) => {
             if(err)
@@ -40,10 +46,10 @@ module.exports = {
     getCityList: (req, res) => {
         city_model.find({ state_id: req.params.state_id, is_active: true })
             .populate('state_id', 'name')
-            .exec((err, data) => {
+            .exec((err, result) => {
             if(err)
                 res.status(400).send(err);
-            res.status(200).json(data);
+            res.status(200).json({data:result});
         });
     },
     addCity: async (req, res) => {

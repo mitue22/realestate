@@ -3,6 +3,7 @@ import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from '../../services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { CommonService } from '../../services/common.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login-modal',
@@ -16,7 +17,7 @@ export class LoginModalComponent implements OnInit {
     private loginService: LoginService,
     private route: ActivatedRoute,
     private router: Router,
-    private commonService: CommonService
+    private commonService: CommonService,
   ) { }
 
   alertMessage: any = {
@@ -28,13 +29,12 @@ export class LoginModalComponent implements OnInit {
   loginCheck = false;
 
   login(loginForm) {
-    console.log('loginform ', loginForm);
     this.loginCheck = true;
     let returnData = this.loginService.checkUserLogin(loginForm.value)
     .subscribe(response => {
       console.log('== response - ', response, ' type of ', response['token']);
-
-      if (response['token'] !== '') {
+      console.log(response);
+      // if (response['token'] === '') {
         this.alertMessage = {
           type: 'success',
           status: true,
@@ -43,7 +43,7 @@ export class LoginModalComponent implements OnInit {
         this.loginCheck = false;
         this.alertMessage.message = '';
         this.loginSuccess(response['token']);
-      }
+      //  }
     },
     (error: Response) => {
       this.alertMessage.type = 'danger';
@@ -58,6 +58,28 @@ export class LoginModalComponent implements OnInit {
       // this.loginError.status = true;
     });
   }
+
+  // login(loginForm: NgForm): void {
+  //   if (loginForm.valid) {
+  //     this.loginCheck = true; // Show spinner while logging in
+
+  //     const { emailPhone, loginPassword } = loginForm.value;
+  //     const password=loginPassword;
+  //     // Call authentication service to generate token
+  //     this.loginService.checkUserLogin(emailPhone,password).subscribe(
+  //       (response) => {
+  //         // Handle successful login response (e.g., store token)
+  //         this.loginCheck = false; // Hide spinner on success
+  //         this.activeModal.close('Login successful'); // Close modal or handle redirect
+  //       },
+  //       (error) => {
+  //         this.loginCheck = false; // Hide spinner on error
+  //         this.alertMessage = { message: 'Invalid credentials. Please try again.', type: 'danger' };
+  //       }
+  //     );
+  //   }
+  // }
+
 
   loginSuccess(token) {
     this.commonService.changeHeaderMessage({ type: 'success', message: 'You have logged in successfully'});

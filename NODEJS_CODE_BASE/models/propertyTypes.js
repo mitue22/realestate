@@ -7,7 +7,7 @@ propertyTypesSchema = new Schema({
     },
     type: {
         type: String,
-        required: true,
+         required: true,
         enum: ['residential', 'commercial', 'agricultural']
     },
     is_active: {
@@ -21,6 +21,5 @@ propertyTypesSchema = new Schema({
     createdOn: {
         type: Date
     }
-});
-
-module.exports = mongoose.model('propertyTypes', propertyTypesSchema);
+}, { collection: 'propertyTypes' });
+module.exports = mongoose.model('PropertyTypes', propertyTypesSchema);

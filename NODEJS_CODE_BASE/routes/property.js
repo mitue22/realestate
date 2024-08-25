@@ -4,7 +4,7 @@ const crypto = require('crypto');
 var path = require('path');
 var GridFsStorage = require('multer-gridfs-storage');
 const config = require('../config/config');
-
+var app=express();
 var router = express.Router();
 var propertyController = require('../controllers/property.controller');
 
@@ -33,11 +33,11 @@ const upload = multer({ storage });
 // ====================================ROUTES=========================================
 // ====================================================================================
 // Property type dropdown
-router.get('/type', propertyController.propertyTypeList);
+// router.get('/type', propertyController.propertyTypeList);
 router.post('/type', propertyController.addPropertyType);
 
 //Property
-router.post('/new', upload.array("propImages"), propertyController.addNewProperty);
+ router.post('/new', upload.array("propImages"), propertyController.addNewProperty);
 router.get('/list/:userId', propertyController.getUserList);
 router.get('/list/', propertyController.getFullList);
 router.get('/single/:propertySlug', propertyController.getSingleProperty);

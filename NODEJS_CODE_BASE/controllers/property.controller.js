@@ -11,19 +11,21 @@ var gfs;
 var conn = mongoose.connection;
 conn.on('connected', () => { 
     gfs = Grid(conn.db, mongoose.mongo);
+    console.log(conn.db,mongoose.mongo,"mongo");
     gfs.collection('imageMeta');
  });
-
 module.exports = {
     propertyTypeList: (req, res) => {
-        propertyType.find({ is_active: true }, (err, result) => {
+        console.log("called");
+        propertyType.find({ is_active: true }) .exec((err, result) => {
+            console.log(result,"result");
             if (err)
                 res.status(400).send(err);
             else
                 res.status(200).json(result);
         });
     },
-    addPropertyType: (req, res) => {
+addPropertyType: (req, res) => {
         var proptyp = new propertyType();
 
         proptyp.title = req.body.title;
