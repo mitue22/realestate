@@ -53,7 +53,7 @@ const routes: Routes = [
     children:[
       {
         path: '',
-        loadChildren: 'app/administrator/administration.module#AdministrationModule'
+        loadChildren: 'app/administration/administration.module#AdministrationModule'
       }
     ]
   },

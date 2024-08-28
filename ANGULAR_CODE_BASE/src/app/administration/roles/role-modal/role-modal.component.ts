@@ -1,44 +1,43 @@
-// import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-// import { TranslateService } from '@ngx-translate/core';
-// import { Role } from 'app/pages/admin/_models/user';
-// import { AdministrationService } from 'app/pages/admin/_services/administration.service';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { ToastrService } from 'ngx-toastr';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { TranslateService } from '@ngx-translate/core';
+import { AdministrationService } from 'app/administration/service/administration.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 
-// @Component({
-//   selector: 'app-role-modal',
-//   templateUrl: './role-modal.component.html',
-//   styleUrls: ['./role-modal.component.scss']
-// })
-// export class RoleModalComponent implements OnInit {
-//   @Input() roleId: number;
-//   @Output() onRole_Emit: EventEmitter<boolean> = new EventEmitter();
+@Component({
+  selector: 'app-role-modal',
+  templateUrl: './role-modal.component.html',
+  styleUrls: ['./role-modal.component.scss']
+})
+export class RoleModalComponent implements OnInit {
+  @Input() roleId: number;
+  @Output() onRole_Emit: EventEmitter<boolean> = new EventEmitter();
 
-//   submitted = false;
-//   form: FormGroup;
-//   constructor(
-//     public activeModal: NgbActiveModal,
-//     private formBuilder: FormBuilder,
-//     private administrationService: AdministrationService,
-//     public toastr: ToastrService,
-//     private spinner: NgxSpinnerService,
-//     public translate: TranslateService,
-//   ) { }
+  submitted = false;
+  form: FormGroup;
+  constructor(
+    public activeModal: NgbActiveModal,
+    private formBuilder: FormBuilder,
+    private administrationService: AdministrationService,
+    public toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    public translate: TranslateService,
+  ) { }
 
-//   ngOnInit(): void {
-//     this.form = this.formBuilder.group({
-//       name: ["", Validators.compose([Validators.required])],
-//     });
-//     if (this.roleId > 0) {
-//       this.getRoleById();
-//     }
-//   }
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      name: ["", Validators.compose([Validators.required])],
+    });
+    if (this.roleId > 0) {
+    //   this.getRoleById();
+    }
+  }
 
-//   get f() {
-//     return this.form.controls;
-//   }
+  get f() {
+    return this.form.controls;
+  }
 
 //   getRoleById() {
 //     this.administrationService.getRoleById(this.roleId).subscribe(
@@ -99,5 +98,5 @@
 //       }
 //     }
 //   }
-// }
+}
 

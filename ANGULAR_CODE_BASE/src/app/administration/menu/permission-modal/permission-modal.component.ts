@@ -1,35 +1,34 @@
-// import { AdministrationService } from './../../../_services/administration.service';
-// import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-// import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { ToastrService } from 'ngx-toastr';
-// import { PermissionFormComponent } from './permission-form/permission-form.component';
-// import swal from "sweetalert2";
-// import { TranslateService } from '@ngx-translate/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NgbActiveModal, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { AdministrationService } from 'app/administration/service/administration.service';
+import { PermissionFormComponent } from './permission-form/permission-form.component';
 
-// @Component({
-//   selector: 'app-permission-modal',
-//   templateUrl: './permission-modal.component.html',
-//   styleUrls: ['./permission-modal.component.scss']
-// })
-// export class PermissionModalComponent implements OnInit {
-//   @Input() menuId: number;
-//   @Input() menuTitle: string;
+@Component({
+  selector: 'app-permission-modal',
+  templateUrl: './permission-modal.component.html',
+  styleUrls: ['./permission-modal.component.scss']
+})
+export class PermissionModalComponent implements OnInit {
+  @Input() menuId: number;
+  @Input() menuTitle: string;
 
-//   dataList: any[] = [];
+  dataList: any[] = [];
 
-//   constructor(
-//     private administrationService: AdministrationService,
-//     private spinner: NgxSpinnerService,
-//     public toastr: ToastrService,
-//     private modalService: NgbModal,
-//     public activeModal: NgbActiveModal,
-//     public translate: TranslateService,
-//   ) { }
+  constructor(
+    private administrationService: AdministrationService,
+    private spinner: NgxSpinnerService,
+    public toastr: ToastrService,
+    private modalService: NgbModal,
+    public activeModal: NgbActiveModal,
+    public translate: TranslateService,
+  ) { }
 
-//   ngOnInit(): void {
-//     this.getDataList();
-//   }
+  ngOnInit(): void {
+    // this.getDataList();
+  }
 
 //   getDataList() {
 //     this.spinner.show()
@@ -47,19 +46,19 @@
 //     );
 //   }
 
-//   onClick_AddEdit(permissionId: number) {
-//     const modalRef = this.modalService.open(PermissionFormComponent, {
-//       centered: true,
-//       backdrop: "static",
-//     });
-//     modalRef.componentInstance.menuId = this.menuId;
-//     modalRef.componentInstance.permissionId = permissionId;
-//     modalRef.componentInstance.onPermission_Emit.subscribe((data) => {
-//       if (data != null) {
-//         this.getDataList();
-//       }
-//     });
-//   }
+  onClick_AddEdit(permissionId: number) {
+    const modalRef = this.modalService.open(PermissionFormComponent, {
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.menuId = this.menuId;
+    modalRef.componentInstance.permissionId = permissionId;
+    modalRef.componentInstance.onPermission_Emit.subscribe((data) => {
+      if (data != null) {
+        // this.getDataList();
+      }
+    });
+  }
 
 //   onClick_Delete(permissionId: any) {
 //     swal
@@ -94,4 +93,4 @@
 //         }
 //       });
 //   }
-// }
+}

@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
+import { AdministrationService } from 'app/administration/service/administration.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 
@@ -24,7 +25,7 @@ export class MenuModalComponent implements OnInit {
     private formBuilder: FormBuilder,
     public toastr: ToastrService,
     private spinner: NgxSpinnerService,
-    // private administrationService: AdministrationService,
+     private administrationService: AdministrationService,
     public translate: TranslateService,
   ) { }
 

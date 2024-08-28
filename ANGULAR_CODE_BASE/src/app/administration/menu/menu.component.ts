@@ -1,46 +1,47 @@
-// import { AdministrationService } from './../../_services/administration.service';
-// import { Component, OnInit } from '@angular/core';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { ToastrService } from 'ngx-toastr';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { MenuModalComponent } from './menu-modal/menu-modal.component';
+import { Component, OnInit } from '@angular/core';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { MenuModalComponent } from './menu-modal/menu-modal.component';
 // import swal from "sweetalert2";
 // import { PermissionModalComponent } from './permission-modal/permission-modal.component';
-// import { FormBuilder, FormGroup } from '@angular/forms';
-// import { TranslateService } from '@ngx-translate/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { TranslateService } from '@ngx-translate/core';
+import { AdministrationService } from '../service/administration.service';
+import { PermissionModalComponent } from './permission-modal/permission-modal.component';
 
-// @Component({
-//   selector: 'app-menu',
-//   templateUrl: './menu.component.html',
-//   styleUrls: ['./menu.component.scss']
-// })
-// export class MenuComponent implements OnInit {
-//   dataList: any[] = [];
-//   parentMenuList: any[] = [];
-//   addPermission = true;
-//   editPermission = true;
-//   deletePermission = true;
+@Component({
+  selector: 'app-menu',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss']
+})
+export class MenuComponent implements OnInit {
+  dataList: any[] = [];
+  parentMenuList: any[] = [];
+  addPermission = true;
+  editPermission = true;
+  deletePermission = true;
 
-//   form: FormGroup;
-//   constructor(
-//     private administrationService: AdministrationService,
-//     private formBuilder: FormBuilder,
-//     private spinner: NgxSpinnerService,
-//     public toastr: ToastrService,
-//     private modalService: NgbModal,
-//     public translate: TranslateService,
-//   ) { }
+  form: FormGroup;
+  constructor(
+    private administrationService: AdministrationService,
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService,
+    public toastr: ToastrService,
+    private modalService: NgbModal,
+    public translate: TranslateService,
+  ) { }
 
-//   ngOnInit(): void {
-//     this.form = this.formBuilder.group({
-//       parentId: [null],
-//     });
-//     this.form.get('parentId').valueChanges.subscribe(val => {
-//       this.getDataList();
-//     })
-//     this.getDataList();
-//     this.getParentMenus();
-//   }
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      parentId: [null],
+    });
+    // this.form.get('parentId').valueChanges.subscribe(val => {
+    //   this.getDataList();
+    // })
+    // this.getDataList();
+    // this.getParentMenus();
+  }
 
 //   getDataList() {
 //     this.spinner.show()
@@ -69,30 +70,30 @@
 //     );
 //   }
 
-//   onClick_AddEdit(menuId: number) {
-//     const modalRef = this.modalService.open(MenuModalComponent, {
-//       centered: true,
-//       backdrop: "static",
-//     });
-//     modalRef.componentInstance.menuId = menuId;
-//     modalRef.componentInstance.parentId = this.form.get('parentId').value;
-//     modalRef.componentInstance.onMenu_Emit.subscribe((data) => {
-//       if (data != null) {
-//         this.getDataList();
-//         this.getParentMenus();
-//       }
-//     });
-//   }
+  onClick_AddEdit(menuId: number) {
+    const modalRef = this.modalService.open(MenuModalComponent, {
+      centered: true,
+      backdrop: "static",
+    });
+    modalRef.componentInstance.menuId = menuId;
+    modalRef.componentInstance.parentId = this.form.get('parentId').value;
+    modalRef.componentInstance.onMenu_Emit.subscribe((data) => {
+      if (data != null) {
+        // this.getDataList();
+        // this.getParentMenus();
+      }
+    });
+  }
 
-//   onClick_Permission(menuId: number, menuTitle: string) {
-//     const modalRef = this.modalService.open(PermissionModalComponent, {
-//       centered: false,
-//       backdrop: "static",
-//       size: 'lg'
-//     });
-//     modalRef.componentInstance.menuId = menuId;
-//     modalRef.componentInstance.menuTitle = menuTitle;
-//   }
+  onClick_Permission(menuId: number, menuTitle: string) {
+    const modalRef = this.modalService.open(PermissionModalComponent, {
+      centered: false,
+      backdrop: "static",
+      size: 'lg'
+    });
+    modalRef.componentInstance.menuId = menuId;
+    modalRef.componentInstance.menuTitle = menuTitle;
+  }
 
 //   onClick_Delete(menuId: any) {
 //     swal
@@ -172,4 +173,4 @@
 //       );
 //     }
 //   }
-// }
+}

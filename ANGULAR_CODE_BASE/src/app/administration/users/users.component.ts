@@ -1,47 +1,45 @@
-// import { FormBuilder, FormGroup } from '@angular/forms';
-// import { Component, OnInit } from '@angular/core';
-// import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { ToastrService } from 'ngx-toastr';
-// import { AdministrationService } from '../../_services/administration.service';
-// import { UserModalComponent } from './user-modal/user-modal.component';
-// import swal from "sweetalert2";
-// import { Role, User } from '../../_models/user';
-// import { TranslateService } from '@ngx-translate/core';
-// import * as GlobalEnum from 'app/shared/data/global-constant';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { UserModalComponent } from './user-modal/user-modal.component';
+import { TranslateService } from '@ngx-translate/core';
+import { Role, User } from '../models/user';
+import { AdministrationService } from '../service/administration.service';
 
-// @Component({
-//   selector: 'app-users',
-//   templateUrl: './users.component.html',
-//   styleUrls: ['./users.component.scss']
-// })
-// export class UsersComponent implements OnInit {
-//   userList: User[] = [];
-//   page = 1;
-//   pageSize = GlobalEnum.PageSize;
-//   pageSizeList = GlobalEnum.PageSizeList;
-//   totalRecords: number = 0;
-//   form: FormGroup;
-//   roleList: Role[] = [];
+@Component({
+  selector: 'app-users',
+  templateUrl: './users.component.html',
+  styleUrls: ['./users.component.scss']
+})
+export class UsersComponent implements OnInit {
+  userList: User[] = [];
+  page = 1;
+  pageSize = 20;
+  pageSizeList = 20;
+  totalRecords: number = 0;
+  form: FormGroup;
+  roleList: Role[] = [];
 
 
-//   constructor(
-//     private administrationService: AdministrationService,
-//     private modalService: NgbModal,
-//     public toastr: ToastrService,
-//     private formBuilder: FormBuilder,
-//     private spinner: NgxSpinnerService,
-//     public translate: TranslateService,
-//   ) { }
+  constructor(
+    private administrationService: AdministrationService,
+    private modalService: NgbModal,
+    public toastr: ToastrService,
+    private formBuilder: FormBuilder,
+    private spinner: NgxSpinnerService,
+    public translate: TranslateService,
+  ) { }
 
-//   ngOnInit(): void {
-//     this.form = this.formBuilder.group({
-//       roleId: [null],
-//       searchText: [null],
-//     });
-//     this.getUserList();
-//     this.getRoleList();
-//   }
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      roleId: [null],
+      searchText: [null],
+    });
+    // this.getUserList();
+    // this.getRoleList();
+  }
 
 //   getUserList() {
 //     const filterData = {
@@ -86,35 +84,35 @@
 //     );
 //   }
 
-//   onClick_Add() {
-//     const modalRef = this.modalService.open(UserModalComponent, {
-//       centered: true,
-//       backdrop: "static",
-//       size: "lg"
-//     });
-//     modalRef.componentInstance.onUser_Emit.subscribe((data) => {
-//       if (data != null) {
-//         this.getUserList();
-//       }
-//     });
-//   }
+  onClick_Add() {
+    const modalRef = this.modalService.open(UserModalComponent, {
+      centered: true,
+      backdrop: "static",
+      size: "lg"
+    });
+    modalRef.componentInstance.onUser_Emit.subscribe((data) => {
+      if (data != null) {
+        // this.getUserList();
+      }
+    });
+  }
 
-//   onClick_Edit(id: any) {
-//     const modalRef = this.modalService.open(UserModalComponent, {
-//       centered: true,
-//       backdrop: "static",
-//       size: "lg"
-//     });
-//     modalRef.componentInstance.id = id;
-//     modalRef.componentInstance.onUser_Emit.subscribe((data) => {
-//       if (data != null) {
-//         this.getUserList();
-//       }
-//     });
-//   }
+  onClick_Edit(id: any) {
+    const modalRef = this.modalService.open(UserModalComponent, {
+      centered: true,
+      backdrop: "static",
+      size: "lg"
+    });
+    modalRef.componentInstance.id = id;
+    modalRef.componentInstance.onUser_Emit.subscribe((data) => {
+      if (data != null) {
+        // this.getUserList();
+      }
+    });
+  }
 
 //   onClick_Delete(userId: any) {
-//     swal
+//    swal
 //       .fire({
 //         title: this.translate.instant('Page.Msg.AreYouSureDelete'),
 //         text: this.translate.instant('Page.Msg.Youwillnotbeabletorevertthis'),
@@ -162,4 +160,4 @@
 //     this.page = 0;
 //     this.getUserList();
 //   }
-// }
+}

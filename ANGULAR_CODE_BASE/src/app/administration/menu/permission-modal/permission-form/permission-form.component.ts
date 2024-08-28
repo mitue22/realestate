@@ -1,47 +1,48 @@
 // import { AdministrationService } from './../../../../_services/administration.service';
-// import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-// import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-// import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-// import { NgxSpinnerService } from 'ngx-spinner';
-// import { ToastrService } from 'ngx-toastr';
-// import { TranslateService } from '@ngx-translate/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
+import { TranslateService } from '@ngx-translate/core';
+import { AdministrationService } from 'app/administration/service/administration.service';
 
-// @Component({
-//   selector: 'app-permission-form',
-//   templateUrl: './permission-form.component.html',
-//   styleUrls: ['./permission-form.component.scss']
-// })
-// export class PermissionFormComponent implements OnInit {
-//   @Input() menuId: number;
-//   @Input() permissionId: number;
-//   @Output() onPermission_Emit: EventEmitter<boolean> = new EventEmitter();
+@Component({
+  selector: 'app-permission-form',
+  templateUrl: './permission-form.component.html',
+  styleUrls: ['./permission-form.component.scss']
+})
+export class PermissionFormComponent implements OnInit {
+  @Input() menuId: number;
+  @Input() permissionId: number;
+  @Output() onPermission_Emit: EventEmitter<boolean> = new EventEmitter();
 
-//   form: FormGroup;
-//   submitted = false;
+  form: FormGroup;
+  submitted = false;
 
-//   constructor(
-//     public activeModal: NgbActiveModal,
-//     private formBuilder: FormBuilder,
-//     public toastr: ToastrService,
-//     private spinner: NgxSpinnerService,
-//     private administrationService: AdministrationService,
-//     public translate: TranslateService,
-//   ) { }
+  constructor(
+    public activeModal: NgbActiveModal,
+    private formBuilder: FormBuilder,
+    public toastr: ToastrService,
+    private spinner: NgxSpinnerService,
+    private administrationService: AdministrationService,
+    public translate: TranslateService,
+  ) { }
 
-//   ngOnInit(): void {
-//     this.form = this.formBuilder.group({
-//       name: [null, Validators.compose([Validators.required])],
-//       description: [null, Validators.compose([Validators.required])],
-//       descriptionAr: [null, Validators.compose([Validators.required])],
-//     });
-//     if (this.permissionId > 0) {
-//       this.getPermissionById();
-//     }
-//   }
+  ngOnInit(): void {
+    this.form = this.formBuilder.group({
+      name: [null, Validators.compose([Validators.required])],
+      description: [null, Validators.compose([Validators.required])],
+      descriptionAr: [null, Validators.compose([Validators.required])],
+    });
+    if (this.permissionId > 0) {
+    //   this.getPermissionById();
+    }
+  }
 
-//   get f() {
-//     return this.form.controls;
-//   }
+  get f() {
+    return this.form.controls;
+  }
 
 //   getPermissionById() {
 //     this.administrationService.getPermissionById(this.permissionId).subscribe(
@@ -97,8 +98,8 @@
 //     );
 //   }
 
-//   resetForm() {
-//     this.submitted = false;
-//     this.form.reset();
-//   }
-// }
+  resetForm() {
+    this.submitted = false;
+    this.form.reset();
+  }
+}
