@@ -2,9 +2,19 @@ const mongoose = require('mongoose');
 var state_model = require('../models/state');
 var city_model = require('../models/city');
 var users = require('../models/users');
-var propertyType = require('../models/propertyTypes');
  var propertyTypeOriginal_model = require('../models/propertyTypeOriginal');
+  var property_model=require('../models/property');
 module.exports = {
+    propertyList: (req, res) => {
+        property_model.find().exec((err, data) => {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            res.status(200).send(data);
+          }
+        });
+     },
+    //PropertyType
     propertyTypeList: (req, res) => {
         propertyTypeOriginal_model.find().exec((err, data) => {
           if (err) {

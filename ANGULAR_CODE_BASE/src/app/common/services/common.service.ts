@@ -50,7 +50,9 @@ export class CommonService {
   getPropertyTypeList(): Observable<any> {
     return this.http.get(environment.BASE_URL + '/common/type');
   }
- 
+ getPropertyList():Observable<any>{
+  return this.http.get(environment.BASE_URL + '/property/list');
+ }
   propertyList(param = '') {
     return this.http.get(environment.BASE_URL + '/property/list/' + param);
   }

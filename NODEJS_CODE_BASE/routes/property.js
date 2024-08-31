@@ -7,7 +7,7 @@ const config = require('../config/config');
 var app=express();
 var router = express.Router();
 var propertyController = require('../controllers/property.controller');
-
+var commonController=require('../controllers/common.controller');
 // Create storage engine
 const storage = new GridFsStorage({
   url: process.env.MLAB_DB_URL || config.localDB,
@@ -35,7 +35,7 @@ const upload = multer({ storage });
 // Property type dropdown
 // router.get('/type', propertyController.propertyTypeList);
 router.post('/type', propertyController.addPropertyType);
-
+router.get('/list',commonController.propertyList)
 //Property
  router.post('/new', upload.array("propImages"), propertyController.addNewProperty);
 router.get('/list/:userId', propertyController.getUserList);

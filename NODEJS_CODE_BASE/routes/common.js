@@ -18,7 +18,7 @@ router.route('/cities')
 router.get('/cities/:state_id', commonController.getCityList)
 router.delete('/city/:cityId', commonController.removeCity)
  router.get('/type', commonController.propertyTypeList);
-
+ router.get('/list',commonController.propertyList);
 //checkemail-availability
 router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability)
 

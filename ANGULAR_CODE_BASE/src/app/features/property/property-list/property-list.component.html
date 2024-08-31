@@ -1,28 +1,32 @@
 <div class="conatiner">
   <div class="row">
-    <div class="card">
-      <!-- <table class="table-responsive">
-        <thead>
-          <th>Id</th>
-          <th>Name</th>
-          <th>City</th>
-          <th>State</th>
-        </thead>
-        <tbody>
-
-        </tbody>
-    </table> -->
-    <table class="table text-center m-0">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>RoleName</th>
-          <th>Asdfgg</th>
-          <!-- <th>{{'Page.RoleName'| translate}}</th>
-          <th>{{'Page.Action'| translate}}</th> -->
-        </tr>
-      </thead>
-      </table>
+    <div class="col-12">
+      <div class="card">
+        <div class="card-body">
+          <table class="table text-center m-0">
+            <thead>
+              <tr class="fw-bold">
+                <th>#</th>
+                <th>Description</th>
+                <th>title</th>
+                <th>city</th>
+                <th>location</th>
+                <th>PropertyFor</th>
+                <th>PropertyType</th>
+                <th>status</th>
+                </tr>
+                <tr *ngFor="let item of propertyList;let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{item.description}}</td>
+                  <td>{{item.title}}</td>
+                  <td>{{item.isStatus}}</td>
+                </tr>
+            </thead>
+            </table>
+        </div>
+        
+      </div>
     </div>
+    
     </div>
 </div>

@@ -32,7 +32,7 @@ const propertySchema = mongoose.model('property', new mongoose.Schema({
         type: String,
         required: true
     },
-    length: {
+    length: {   
         type: Number,
         required: true
     },
@@ -109,6 +109,6 @@ const propertySchema = mongoose.model('property', new mongoose.Schema({
         type: Date,
         default: Date.now()
     }
-}) );
+},{ collection: 'property' })) 
 
 module.exports = propertySchema;
