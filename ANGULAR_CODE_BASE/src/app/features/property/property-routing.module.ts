@@ -10,6 +10,7 @@ import { EditPropertyComponent } from '../property/edit-property/edit-property.c
 import { PropertyMainComponent } from '../property/property-main/property-main.component';
 import { PropertyViewComponent } from '../property/property-view/property-view.component';
 import { DashboardComponent } from '../../common/components/dashboard-main/dashboard.component';
+import { PropertyListComponent } from './property-list/property-list.component';
 
 const ChildRoutes: Routes = [
   {
@@ -24,6 +25,11 @@ const ChildRoutes: Routes = [
       {
         path: 'search',
         component: FindPropertyComponent
+      },
+      {
+        path:'list',
+        component:PropertyListComponent,
+        data:{}
       },
       {
         path: 'listing',

@@ -1,4 +1,4 @@
-<ngx-spinner name="modalspin" type="timer" [fullScreen]="false"></ngx-spinner>
+<!-- <ngx-spinner name="modalspin" type="timer" [fullScreen]="false"></ngx-spinner>
 
 <div class="modal-header">
   <div *ngIf="id > 0; then editUser; else addUser"></div>
@@ -7,16 +7,16 @@
   </ng-template>
   <ng-template #addUser>
     <h4 class="modal-title">{{'Page.AddUser' | translate}}</h4>
-  </ng-template>
+  </ng-template> -->
   <!-- <h4 class="modal-title">{{ id > 0 ? 'Edit User':'Add User'}}</h4> -->
-  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+  <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
     <span aria-hidden="true">&times;</span>
   </button>
-</div>
-<form [formGroup]="form" novalidate (ngSubmit)="onSubmit_Form()">
-  <div class="modal-body">
+</div> -->
+<!-- <form [formGroup]="form" novalidate (ngSubmit)="onSubmit_Form()">
+  <div class="modal-body"> -->
     <!--* User Basic Information *-->
-    <div>
+    <!-- <div>
       <div class="form-group row">
         <label class="col-md-4 label-control" for="roleName">{{'Page.Role'| translate}}</label>
         <div class="col-md-8">
@@ -143,21 +143,21 @@
             {{'Page.Msg.Statusisrequired'| translate}}.</small>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--* Ends: User Basic Information *-->
-    <hr />
+    <!-- <hr /> -->
     <!--* User Other Information *-->
-    <div>
+    <!-- <div>
       <div class="form-group row" *ngIf="form.get('roleName').value !== role.Administrator">
         <label class="col-md-4 label-control" for="costCenterIds">{{'Page.CostCenter'| translate}}</label>
         <div class="col-md-8">
           <ng-select id="costCenterIds" formControlName="costCenterIds" [multiple]="true" [items]="costCenterList" appendTo="body" bindLabel="name" bindValue="id"
             placeholder="{{'Page.Select'| translate}}" [ngClass]="{'is-invalid': submitted && f.costCenterIds.invalid,'is-valid': submitted && !f.costCenterIds.invalid}">
-          </ng-select>
+          </ng-select> -->
           <!-- <small class="form-text text-muted danger" *ngIf="submitted && f.costCenterIds.invalid">
             <span *ngIf="f.costCenterIds.errors.required"> {{'Page.Msg.CostCenterIsRequired'| translate}}.</span>
           </small> -->
-        </div>
+        <!-- </div>
       </div>
       <div class="form-group row" *ngIf="form.get('roleName').value !== role.Administrator">
         <label class="col-md-4 label-control" for="company">{{'Page.GPCompany'| translate}}</label>
@@ -224,9 +224,9 @@
           </small>
         </div>
       </div>
-    </div>
+    </div> -->
     <!--* Ends: User Other Information *-->
-  </div>
+  <!-- </div>
   <div class="modal-footer">
     <button type="submit" class="btn btn-primary m-1">
       <i class="ft-check-square" aria-hidden="true"></i>
@@ -237,4 +237,4 @@
       {{'Page.Cancel'| translate}}
     </button>
   </div>
-</form>
+</form> -->

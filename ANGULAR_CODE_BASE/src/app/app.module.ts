@@ -34,7 +34,7 @@ import { AdministrationModule } from './administration/administration.module';
     AppRoutingModule,
     MatComponentsModule,
     NgbModalModule,
-    AdministrationModule
+    // AdministrationModule
   ],
   exports: [
     FormsModule

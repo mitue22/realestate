@@ -44,11 +44,11 @@ import { PermissionFormComponent } from "./menu/permission-modal/permission-form
     ReactiveFormsModule,
     NgSelectModule,
     // SharedModule,
-    NgbPaginationModule,
-    NgxSpinnerModule,
-    TranslateModule,
-    FileUploadModule,
-    ToastrModule,
+    // NgbPaginationModule,
+    // NgxSpinnerModule,
+    // TranslateModule,
+    // FileUploadModule,
+    // ToastrModule,
 
   ],
 })

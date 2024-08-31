@@ -11,6 +11,7 @@ import { FindPropertyComponent } from './find-property/find-property.component';
 import { PropertyListingComponent } from './property-listing/property-listing.component';
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { PropertyMainComponent } from './property-main/property-main.component';
+import { PropertyListComponent } from './property-list/property-list.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { PropertyMainComponent } from './property-main/property-main.component';
     PropertyListingComponent, 
     EditPropertyComponent,
     PropertyMainComponent,
-    PropertyViewComponent
+    PropertyViewComponent,
+    PropertyListComponent
   ],
   imports: [
     FormsModule,
