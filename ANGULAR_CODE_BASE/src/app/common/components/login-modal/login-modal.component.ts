@@ -43,6 +43,7 @@ export class LoginModalComponent implements OnInit {
         this.loginCheck = false;
         this.alertMessage.message = '';
         this.loginSuccess(response['token']);
+        this.router.navigate(['/users/dashboard']);
       //  }
     },
     (error: Response) => {

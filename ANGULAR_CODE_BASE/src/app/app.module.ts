@@ -15,6 +15,8 @@ import { MainComponent } from './main/main.component';
 import { CommonService } from './common/services/common.service';
 import { UserService } from './common/services/user.service';
 import { AdministrationModule } from './administration/administration.module';
+import { PropertyModule } from './features/property/property.module';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 
 
 @NgModule({
@@ -33,13 +35,14 @@ import { AdministrationModule } from './administration/administration.module';
     FormsModule,
     AppRoutingModule,
     MatComponentsModule,
-    NgbModalModule,
     // AdministrationModule
+    ToastrModule.forRoot()
+
   ],
   exports: [
     FormsModule
   ],
-  providers: [CommonService, UserService, Title],
+  providers: [CommonService, UserService, Title,ToastrService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

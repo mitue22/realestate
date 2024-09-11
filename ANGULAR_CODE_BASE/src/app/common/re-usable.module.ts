@@ -16,6 +16,7 @@ import { LoginModalComponent } from './components/login-modal/login-modal.compon
 import { MatComponentsModule } from '../mat-components.module';
 import { DashboardComponent } from './components/dashboard-main/dashboard.component';
 import { InputFormatDirective } from './directives/input-format.directive';
+import { NgbAccordion, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 @NgModule({
@@ -24,8 +25,8 @@ import { InputFormatDirective } from './directives/input-format.directive';
     FormsModule,
     RouterModule,
     HttpClientModule,
-    MatComponentsModule
-    
+    MatComponentsModule,
+    NgbModalModule
     // HttpClientXsrfModule.withOptions({
     //   cookieName: 'csrftoken',
     //   headerName: 'X-CSRFToken',
@@ -56,7 +57,7 @@ import { InputFormatDirective } from './directives/input-format.directive';
     AuthGuardService
   ],
   entryComponents: [
-    LoginModalComponent
+    LoginModalComponent,
   ]
 })
 export class ReUsableModule { }

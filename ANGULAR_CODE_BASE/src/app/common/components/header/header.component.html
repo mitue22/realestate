@@ -1,13 +1,20 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
-<!-- 
-<header style="margin-bottom: 0px;" [class.loggedIn]="isUserLoggedIn">
-	<div class="container">
+
+<header style="margin-bottom: 0px;padding-bottom: 0px;" [class.loggedIn]="isUserLoggedIn">
+	<div class="container-fluid">
 		<div class="row">
-			<div class="col-md-8 offset-sm-4">
-				<div class="header-ryt text-right">
+			<div class="col-md-2">
+				<a class="navbar-brand brand-logo" href=""><img src="assets/images/logo.jpg" alt="logo" height="70"/></a>
+					</div>
+			<div class="col-md-10">
+				<div class="header-ryt text-right pt-3">
+					<button type="button" style="margin-right: 5px;" *ngIf="!isUserLoggedIn" (click)="openloginModal()"
+						class="btn btn-outline-primary btn-sm">Login </button>
+					<button type="button" routerLink="/users/sign-up" *ngIf="!isUserLoggedIn"
+						class="btn btn-outline-primary btn-sm">Register</button>
 					<div *ngIf="isUserLoggedIn">
 						<div class="user-image">
-							<span><span class="text-danger">Welcome</span> {{userService.currentUser.user.fname}} </span>
+							<span><span class="text-primary">Welcome</span> {{userService.currentUser.user.fname}} </span>
 							<img [matMenuTriggerFor]="headerRytmenu" src="assets/images/user.jpg"
 								(click)="headerDropdown = !headerDropdown" class="rounded-circle p-cursor" alt="user">
 						</div>
@@ -22,11 +29,11 @@
 			</div>
 		</div>
 	</div>
-</header> -->
+</header>
 
 <!-- ---------- NAV BAR ---------- -->
-<!-- 
-<nav id="navbar" class="navbar navbar-expand-md bg-danger navbar-dash nav-dash">
+
+<!-- <nav id="navbar" class="navbar navbar-expand-md bg-gradient-danger navbar-dash nav-dash">
 	<div class="col-6 col-sm-4 offset-sm-1">
 		<button class="navbar-toggler" (click)="toggleMenuItems = !toggleMenuItems" type="button" data-toggle="collapse"
 			data-target="#collapsibleNavbar"> 
@@ -62,7 +69,7 @@
 <!-- ---------- NAV BAR ---------- -->
 
 <!-- ------------------ PAGE LOADER ---------------- -->
-<!-- <app-small-components [componentName]="'barLoader'" [loaderActive]="pageloaderStatus"></app-small-components> -->
+<app-small-components [componentName]="'barLoader'" [loaderActive]="pageloaderStatus"></app-small-components> 
 <!-- ------------------ PAGE LOADER ---------------- -->
 
 <!-- <div *ngIf="HeaderMessage.message" class="container header-message">
@@ -72,8 +79,8 @@
 		</button>
 	</div>
 </div> -->
-<!-- 
-<div class="fullPageLoaderMain">
+
+<!-- <div class="fullPageLoaderMain">
     <div class="fullPageLoader">
         <mat-spinner [diameter]="150" ></mat-spinner>
     </div>

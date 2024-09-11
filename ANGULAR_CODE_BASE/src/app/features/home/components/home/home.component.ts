@@ -8,6 +8,7 @@ import 'rxjs/add/operator/distinctUntilChanged';
 import { UserService } from '../../../../common/services/user.service';
 import { CommonService } from '../../../../common/services/common.service';
 import { Router } from "@angular/router";
+import { LoginService } from '@sa-services/login.service';
 
 @Component({
   selector: 'app-home',
@@ -15,19 +16,27 @@ import { Router } from "@angular/router";
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-
-  images: Array<string>;
+  images = [
+    'assets/images/property.jpg',
+    'assets/images/businessProperty.jpg',
+    'assets/images/commercialproperty.jpg'
+  ];
+  // images: Array<string>;
   cityList = [];
   propertyTypeList;
   searchPropData = { propertyFor: 'sell', location: '' };
   hideOwnProperty = false;
+  isUserLoggedIn: Boolean = false;
 
   constructor(
     private _http: HttpClient,
     private userService: UserService,
     private commonService: CommonService,
-    private router: Router
-  ) { }
+    private router: Router,
+    private loginService:LoginService
+  ) { 
+    this.isUserLoggedIn = loginService.isLoggedIn();
+  }
 
   search = (text$: Observable<string>) =>
     text$
@@ -38,12 +47,17 @@ export class HomeComponent implements OnInit {
       }).filter(a => a).slice(0, 10));
 
   ngOnInit() {
-    this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
-      .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
-      .subscribe(images => {
-        this.images = images;
-      });
-
+    // this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
+    //   .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
+    //   .subscribe(images => {
+    //     this.images = images;
+    //   });
+    
+    // this._http.get('https://picsum.photos/v2/list?page=1&limit=3')
+    //    .pipe(map((images: Array<{ id: number }>) => this._randomImageUrls(images)))
+    //    .subscribe(images => {
+    //      this.images = images;
+    //    });
     this.commonService.getCitylist()
       .subscribe(response => {
         this.cityList = response;

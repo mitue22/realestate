@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommonService } from '../../../common/services/common.service';
+import { UserService } from '@sa-services/user.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-property',
@@ -9,11 +11,14 @@ import { CommonService } from '../../../common/services/common.service';
   styleUrls: ['./edit-property.component.scss']
 })
 export class EditPropertyComponent implements OnInit {
-
+  isSubmittingForm:boolean;
+  imgsToUpload = [];
   constructor(
     private activatedRoute: ActivatedRoute,
     private commonService: CommonService,
-    private location: Location
+    private location: Location,
+    private userService:UserService,
+    public toastr: ToastrService,
   ) { }
 
   propertyDetail: any = {
@@ -31,6 +36,7 @@ export class EditPropertyComponent implements OnInit {
     this.commonService.getSingleProperty(propertySlug)
       .subscribe(result => {
         this.propertyDetail = result;
+        console.log(result);
       });
   }
 
@@ -52,8 +58,36 @@ export class EditPropertyComponent implements OnInit {
     }
   }
 
+  // submitForm() {
+  //   console.log("submitForm: ", );
+  // }
   submitForm(data) {
-    console.log("submitForm: ", data);
+    this.isSubmittingForm = true;
+    // data.value.userId = this.userService.currentUser.user._id;
+    this.userService.currentUser.user._id;
+
+
+    const imageData = new FormData();
+    this.imgsToUpload.forEach((ele, index) => {
+      imageData.append("propImages", ele, ele['name']);
+    })
+    imageData.append("userID", this.userService.currentUser.user._id);
+
+    for (let key in data) {
+      // iterate and set other form data
+      imageData.append(key, data[key]);
+    }
+    this.commonService.togglePageLoaderFn(true);
+    this.commonService.editProperty(imageData).subscribe(
+      (result) => {
+        this.commonService.togglePageLoaderFn(false);
+        this.toastr.success("Property edited successfully.");
+        // this.getProperty(propertySlug);
+      },(err) =>{
+        this.commonService.togglePageLoaderFn(false);
+        this.toastr.error("Failed to edit property list");
+      }
+    )
   }
 
   locationBack() {
@@ -62,20 +96,18 @@ export class EditPropertyComponent implements OnInit {
 
   ngOnInit() {
     let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
-    if (propertySlug)
+    if (propertySlug){
       this.getProperty(propertySlug);
-    else
-      console.log('not found');
-
-    this.commonService.getStatelist()
-      .subscribe(response => {
+      }
+    this.commonService.getStatelist().subscribe(response => {
         if (response.length > 0) {
           this.stateList = response;
+          console.log(this.stateList,"state");
         }
       });
 
     this.commonService.getPropertyTypeList()
       .subscribe(result => this.propertyTypeList = result);
-  }
 
+  }
 }

@@ -1,9 +1,7 @@
-<h3 class="text-center text-danger">Post a New Property-</h3>
+<h3>Add Property</h3>
 <!-- <p>{{ f.value | json }}</p> -->
 <div class="container border-main border-box-manage card">
   <form #f="ngForm" (ngSubmit)="submitForm(f)" enctype="multipart/form-data">
-    <h4>Property Info- </h4>
-    <hr class="hr">
     <div class="form-group">
       <label for=""> Upload images: <small class="text-info">(Auto-preview)</small> <small *ngIf="imgUrls.length;"
           (click)="imgUrls.length = 0;" class="p-cursor text-primary">(remove all)</small></label> <br>
@@ -106,7 +104,7 @@
     <div class="form-row">
       <div class="form-group col-md-3">
         <label for="">State:</label>
-        <select name="state" ngModel #state="ngModel" (change)="getCityList(state.value);city.value = ''" required
+        <select name="state" ngModel #state="ngModel" (change)="getCityList(state.value);" required
           class="custom-select">
           <option value="">Select State</option>
           <option *ngFor="let state of stateList" value="{{state._id}}">{{state.name}}</option>
@@ -210,7 +208,7 @@
       <small class="text-danger" *ngIf="title.touched && title.invalid">
         This field is required</small>
     </div>
-    <button [disabled]="f.invalid || isSubmittingForm" class="btn btn-danger btn-block"> <i *ngIf="isSubmittingForm"
-        class="fa fa-spinner fa-spin" aria-hidden="true"></i> Post a New Property</button>
+    <button [disabled]="f.invalid || isSubmittingForm" class="btn btn-primary btn-block"> 
+        <i class="bi bi-check-square me-1"></i>save</button>
   </form>
 </div>

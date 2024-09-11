@@ -1,7 +1,30 @@
-<div class="conatiner">
+<div class="container">
   <div class="row">
+    <h3>Property</h3>
     <div class="col-12">
       <div class="card">
+        <div class="card-header">
+          <form [formGroup]="form">
+            <div class="row">
+              <div class="col-auto pr-0">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+                  </div>
+                  <input type="text" formControlName="searchText" id="searchText" placeholder="Search" class="form-control">
+              </div>
+              </div>
+              <div class="col-4">
+              <button type="button" class="btn btn-warning me-1">Filter</button>  
+              <button type="button" class="btn btn-secondary me-1">cancel</button>                          
+              </div>
+              <div class="col-5 pr-0 text-end">
+                <button type="button" class="btn btn-primary me-1" routerLink="/property/new"><i class="bi bi-plus"></i> Add New</button>                          
+              </div>
+            </div>
+          </form>
+          
+        </div>
         <div class="card-body">
           <table class="table text-center m-0">
             <thead>
@@ -14,19 +37,29 @@
                 <th>PropertyFor</th>
                 <th>PropertyType</th>
                 <th>status</th>
+                <th></th>
                 </tr>
                 <tr *ngFor="let item of propertyList;let i = index">
                   <td>{{i+1}}</td>
                   <td>{{item.description}}</td>
                   <td>{{item.title}}</td>
-                  <td>{{item.isStatus}}</td>
+                  <td>{{item.city}}</td>
+                  <td>{{item.locality}}</td>
+                  <td>{{item.propertyFor}}</td>
+                  <td>{{item.phone}}</td>
+                  <td>{{item.status}}</td>
+                  <td><a class="info p-0" (click)="onAddEdit(item.slug)">
+                    <i class="bi bi-pencil-square text-info font-medium-3 mr-2"></i>
+                  </a>
+                  <a class="danger p-0" (click)="onDelete(item.id)">
+                    <i class="bi bi-trash text-danger font-medium-3"></i>
+                  </a>
+                </td>
                 </tr>
             </thead>
             </table>
         </div>
-        
-      </div>
+        </div>
     </div>
-    
     </div>
 </div>

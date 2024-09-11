@@ -7,6 +7,10 @@ import { DashboardHomeComponent } from './users/components/dashboard/dashboard-h
 import { ReUsableModule } from '../common/re-usable.module';
 import { RegistrationComponent } from './users/registration/registration.component';
 import { FeaturesRoutingModule } from './users/features-routing.module';
+import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { PropertyModule } from './property/property.module';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   imports: [
@@ -14,7 +18,10 @@ import { FeaturesRoutingModule } from './users/features-routing.module';
     FormsModule,
     ReactiveFormsModule,
     ReUsableModule,
-    FeaturesRoutingModule
+    FeaturesRoutingModule,
+    PropertyModule,
+    NgSelectModule,
+
   ],
   declarations: [
     RegistrationComponent,

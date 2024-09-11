@@ -59,7 +59,7 @@ module.exports = {
             .exec((err, result) => {
             if(err)
                 res.status(400).send(err);
-            res.status(200).json({data:result});
+            res.status(200).json(result);
         });
     },
     addCity: async (req, res) => {

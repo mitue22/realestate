@@ -64,22 +64,36 @@
         </div>
       </div>
       <!-- partial:partials/_navbar.html -->
-      <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
+      <!-- <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"> -->
+        <!-- <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
           <a class="navbar-brand brand-logo" href="index.html"><img src="assets/images/logo.svg" alt="logo" /></a>
           <a class="navbar-brand brand-logo-mini" href="index.html"><img src="assets/images/logo-mini.svg" alt="logo" /></a>
-        </div>
-        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+        </div> -->
+        <!-- <div class="col-2 navbar-menu-wrapper d-flex align-items-stretch">
           <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
             <span class="mdi mdi-menu"></span>
           </button>
-  </div>
-      </nav>
+          <div class="col-10 d-flex align-items-end">
+            <div class="user-image d-flex align-items-center ms-3">
+              <span class="me-2">
+                <span class="text-danger">Welcome</span> {{ userService.currentUser.user.fname }}
+              </span>
+              <img [matMenuTriggerFor]="headerRytmenu" src="assets/images/user.jpg"
+                   (click)="headerDropdown = !headerDropdown" class="rounded-circle p-cursor" alt="user" height="70">
+            </div>
+            <mat-menu #headerRytmenu="matMenu" xPosition="before">
+              <button routerLink="/users/dashboard" mat-menu-item>Dashboard</button>
+              <button *ngIf="userService.currentUser?.user.isAdmin" routerLink="/admin/dashboard" mat-menu-item>Admin</button>
+              <button (click)="handleLogout()" mat-menu-item>Logout</button>
+            </mat-menu>
+          </div>
+  </div> -->
+      <!-- </nav> -->
       <!-- partial -->
       <div class="container-fluid page-body-wrapper">
         <!-- partial:partials/_sidebar.html -->
-         <div class="col-2">
-          <nav class="sidebar sidebar-offcanvas" id="sidebar">
+         <div class="col-2 pl-0">
+          <nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-color: #dc35c631;">
             <ul class="nav">
              <li class="nav-item">
                 <a class="nav-link" routerLink="/admin/dashboard">
@@ -108,12 +122,11 @@
                 </div>
               </li>
               <li class="nav-item">
-                <a class="nav-link" data-bs-toggle="collapse" routerLink="/property/listing/all" aria-expanded="false" aria-controls="icons">
+                <a class="nav-link" data-bs-toggle="collapse" routerLink="/property/list" aria-expanded="false" aria-controls="icons">
                   <span class="menu-title">Property</span>
                   <i class="mdi mdi-contacts menu-icon"></i>
                 </a>
-                
-              </li>
+                </li>
               </ul>
               </nav>
          </div>

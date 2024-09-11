@@ -4,6 +4,7 @@ import { UserService } from '../../../common/services/user.service';
 import { CommonService } from '../../../common/services/common.service';
 import { Router } from '@angular/router';
 import { environment } from '@sa-environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-property-new',
@@ -16,9 +17,11 @@ export class PropertyNewComponent implements OnInit {
     private commonService: CommonService,
     public userService: UserService,
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    // private toastr:ToastrService
   ) { 
     this.getPropertyTypeList();
+    // this.getstateList();
   }
 
   propertyTypeList = [];
@@ -34,7 +37,6 @@ export class PropertyNewComponent implements OnInit {
      this.commonService.togglePageLoaderFn(true);
     this.commonService.getPropertyTypeList()
       .subscribe(result => {
-         console.log(result,"ttttt");
         this.propertyTypeList = result;
          this.commonService.togglePageLoaderFn(false);
       });
@@ -45,12 +47,13 @@ export class PropertyNewComponent implements OnInit {
     this.FetchingCityList = true;
 
     if (stateId) {
-      this.commonService.getCitylistByState(stateId)
-        .subscribe(response => {
+      this.commonService.getCitylistByState(stateId).subscribe((response) => {
           if (response.length > 0) {
             this.cityList = response;
             this.FetchingCityList = false;
           }
+        },(error) =>{
+          console.error("Failed to get the city list.");
         });
     }
     else {

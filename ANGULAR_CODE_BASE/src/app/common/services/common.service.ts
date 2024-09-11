@@ -64,5 +64,7 @@ export class CommonService {
   filterProperties(param = '') {
     return this.http.get(environment.BASE_URL + '/property/filter' + param);
   }
-
+editProperty(imageData:any):Observable<any>{
+  return this.http.put(environment.BASE_URL + '/property/edit', imageData);
+}
 }

@@ -30,6 +30,7 @@ export class HeaderComponent implements OnInit {
   openloginModal() {
     this.modalService.open(LoginModalComponent);
   }
+  
 
   // ----- FORM
   headerDropdown: false;
@@ -41,13 +42,13 @@ export class HeaderComponent implements OnInit {
     type: '',
     message: ''
   }
-  navItems = [
-    { path: '/users/dashboard', name: 'Dashboard' },
-    { path: '/property/new', name: 'Add New Property' },
-    { path: '/property/search', name: 'Find Property' },
-    { path: '/property/listing', name: 'My Listing' },
-    { path: '/users/profile/edit', name: 'My Profile' }
-  ];
+  // navItems = [
+  //   { path: '/users/dashboard', name: 'Dashboard' },
+  //   { path: '/property/new', name: 'Add New Property' },
+  //   { path: '/property/search', name: 'Find Property' },
+  //   { path: '/property/listing', name: 'My Listing' },
+  //   { path: '/users/profile/edit', name: 'My Profile' }
+  // ];
 
   closeHeaderMessage() {
     this.HeaderMessage.message = '';
@@ -68,17 +69,18 @@ export class HeaderComponent implements OnInit {
   pageloaderStatus: boolean = true;
 
   ngOnInit() {
+    const logoImg = document.getElementById('logoImg');
     document.addEventListener('scroll', (event) => {
-      if (window.pageYOffset > 30) {
-        document.getElementById('logoImg').classList.add('smallLogo');
-        // document.getElementById('navbar').style.top = '35px'
-      }
-      else if (window.pageYOffset < 30) {
-        document.getElementById('logoImg').classList.remove('smallLogo');
-        // document.getElementById('navbar').style.top = '0px'
+      if (logoImg) {
+        if (window.pageYOffset > 30) {
+          logoImg.classList.add('smallLogo');
+          // document.getElementById('navbar').style.top = '35px'
+        } else if (window.pageYOffset < 30) {
+          logoImg.classList.remove('smallLogo');
+          // document.getElementById('navbar').style.top = '0px'
+        }
       }
     });
-
     this.route.queryParamMap.subscribe((data) => {
       if (data.get('action') === 'signUpsuccess') {
         this.changeHeaderMessage('success', 'Congratulations, you have been successfully registered, login to continue');

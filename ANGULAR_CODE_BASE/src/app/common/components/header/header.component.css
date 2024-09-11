@@ -7,6 +7,7 @@ header {
     padding-bottom: 30px;
     -webkit-box-shadow: 0px 0px 7px 0px #aaa;
     box-shadow: 0px 0px 9px 0px #888;
+    background-color: #dc35c631;
 }
 .logoImg {
     position: absolute;
@@ -21,7 +22,7 @@ header {
 }
 .user-image img {
     width: 50px;
-    border: 1px solid #dc3544;
+    border: 1px solid #dc35c652;
     padding: 2px;
 }
 ul.header-drp-dwn {

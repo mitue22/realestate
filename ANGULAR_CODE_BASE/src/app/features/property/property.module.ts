@@ -12,6 +12,9 @@ import { PropertyListingComponent } from './property-listing/property-listing.co
 import { EditPropertyComponent } from './edit-property/edit-property.component';
 import { PropertyMainComponent } from './property-main/property-main.component';
 import { PropertyListComponent } from './property-list/property-list.component';
+import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgSelectModule } from '@ng-select/ng-select';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -21,7 +24,7 @@ import { PropertyListComponent } from './property-list/property-list.component';
     EditPropertyComponent,
     PropertyMainComponent,
     PropertyViewComponent,
-    PropertyListComponent
+    PropertyListComponent,
   ],
   imports: [
     FormsModule,
@@ -29,7 +32,9 @@ import { PropertyListComponent } from './property-list/property-list.component';
     ReUsableModule,
     CommonModule,
     PropertyRoutingModule,
-    MatComponentsModule
+    MatComponentsModule,
+    NgbModule,
+    NgbModalModule,
   ]
 })
 export class PropertyModule { }
