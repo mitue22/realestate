@@ -91,11 +91,11 @@ export class FindPropertyComponent implements OnInit {
         this.cityList = result;
       });
     
-    this.activatedRoute.queryParamMap
-    .subscribe(ele => {
-      this.filterData.propertyFor = JSON.parse(JSON.stringify(ele.getAll('propertyFor')));
-      this.filterData.type = JSON.parse(JSON.stringify(ele.getAll('type')));
-      this.filterData.city = JSON.parse(JSON.stringify(ele.getAll('city')));
-    });
+      this.activatedRoute.queryParamMap
+      .subscribe(ele => {
+        this.filterData.propertyFor = JSON.parse(JSON.stringify(ele.getAll('propertyFor')));
+        this.filterData.type = JSON.parse(JSON.stringify(ele.getAll('type')));
+        this.filterData.city = JSON.parse(JSON.stringify(ele.getAll('city')));
+      });
   }
 }

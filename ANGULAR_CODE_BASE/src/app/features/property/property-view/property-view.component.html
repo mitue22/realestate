@@ -1,4 +1,4 @@
-<div class="container">
+<!-- <div class="container">
   <div class="row mar-btm-25">
     <div *ngFor="let img of imageDetail;" class="col-md-3">
       <img src="{{env.BASE_URL}}/property/showGFSImage/{{ img.filename }}" alt="">
@@ -6,5 +6,65 @@
   </div>
   <div class="row">
     <h5>{{propertyDetail?.title}}</h5>
+  </div>
+</div> -->
+<div class="container">
+  <!-- Card for Images -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <h4>Property Images</h4>
+      <div class="row">
+        <div class="col-md-2" *ngFor="let img of imageDetail;">
+          <img src="{{env.BASE_URL}}/property/showGFSImage/{{ img.filename }}" class="img-fluid mb-2" alt="">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card for Property Details -->
+  <div class="card">
+    <div class="card-body">
+      <h4>Property Details</h4>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Property Name: <span>{{propertyDetail?.title}}</span></p>
+        </div>
+        <div class="col-md-6">
+          <p>Property Slug: <span>{{propertyDetail?.slug}}</span></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Property Type: <span>{{propertyDetail?.type?.title}}</span></p>
+        </div>
+        <div class="col-md-6">
+          <p>State: <span>{{propertyDetail?.state?.name}}</span></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p>City: <span>{{propertyDetail?.city?.name}}</span></p>
+        </div>
+        <div class="col-md-6">
+          <p>Locality: <span>{{propertyDetail?.locality}}</span></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Property For: <span>{{propertyDetail?.propertyFor}}</span></p>
+        </div>
+        <div class="col-md-6">
+          <p>Status: <span>{{propertyDetail?.status}}</span></p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p>Society Name: <span>{{propertyDetail?.SocietyName}}</span></p>
+        </div>
+        <div class="col-md-6">
+          <p>Flat No: <span>{{propertyDetail?.flatNo}}</span></p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

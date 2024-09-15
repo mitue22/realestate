@@ -8,12 +8,32 @@ var propertyTypeOriginal_model = require('../models/propertyTypeOriginal');
 var property_model = require('../models/property');
 module.exports = {
     propertyList: (req, res) => {
-        property_model.find().exec((err, data) => {
-            if (err) {
-                res.status(400).send(err);
-            } else {
-                res.status(200).send(data);
-            }
+        const filters =  req.body;
+        let query = {};
+        console.log(filters,"filters");
+        if (filters.propertyFor) {
+            query['propertyFor'] = filters.propertyFor;
+          }
+          if (filters.city) {
+            query['city'] = filters.city;
+          }
+          if (filters.type) {
+            query['type'] = filters.type;
+          }
+          const page = filters.page || 1;
+          const pageSize = filters.pageSize || GlobalEnum.PageSize;
+          const skip = (page - 1) * pageSize;
+        property_model.find(query)
+        .populate('city', 'name')
+        .populate('type', 'title')
+        .skip(skip)
+        .limit(pageSize)
+        .exec((err, data) => {
+          if (err) {
+            res.status(400).send(err);
+          } else {
+            res.status(200).send(data);
+          }
         });
     },
     //PropertyType

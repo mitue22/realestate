@@ -124,7 +124,8 @@ addPropertyType: (req, res) => {
     },
     filterProperties: (req, res) => {
         // console.log('propertyFor ', req.query.propertyFor, typeof req.query.propertyFor);
-        // console.log(req.query.propertyFor.split(","));        
+        // console.log(req.query.propertyFor.split(",")); 
+               
         var query = {};
         // query['isActive'] = true;
 
@@ -140,6 +141,7 @@ addPropertyType: (req, res) => {
             query['userId'] = { $ne: req.query.notUserId }
         if (req.query.status)
             query['status'] = { $in: req.query.status.split(",") }
+        
         console.log({ query });
         Property.find(query)
             .populate('city', 'name')
@@ -179,5 +181,84 @@ addPropertyType: (req, res) => {
             });
           }
         }) 
-    }
+    },
+    
+    editProperty: async (req, res) => {
+        try {
+            console.log(req.body,"req");
+          // Check if the property exists using the property ID from the request
+          let property = await Property.findById(req.params.id);
+          if (!property) throw new Error("Property not found");
+      
+          // Update property details
+          const updatedData = {
+            title: req.body.dataToSend.title,
+            for: req.body.dataToSend.for,
+            type: req.body.dataToSend.type,
+            state: req.body.dataToSend.state,
+            city: req.body.dataToSend.city,
+            locality: req.body.dataToSend.locality,
+            description: req.body.dataToSend.description,
+            address: req.body.dataToSend.address,
+            email: req.body.dataToSend.email,
+            phoneNo: req.body.dataToSend.phoneNo,
+            pincode: req.body.dataToSend.pincode,
+            cornrPlot: req.body.dataToSend.cornrPlot ? true : false,
+            imgPath: 'properties',
+          };
+          console.log(updatedData,"updatedData");
+          if (!req.body.isSociety) {
+            updatedData.flatNo = '';
+            updatedData.societyName = '';
+          }
+      
+          // Handle image upload
+          if (req.file) {
+            updatedData.images = [req.file.filename];
+          }
+      
+          if (req.body.title) {
+            var slug = await helpers.slugGenerator(req.body.dataToSend.title, 'title', 'property');
+            updatedData.slug = slug;
+          }
+      
+          // Update the property in the database
+          const updatedProperty = await Property.findByIdAndUpdate(
+            req.params.id,
+            { $set: updatedData },
+            { new: true } 
+          );
+          if (updatedProperty && updatedProperty._id) {
+            res.status(200).json({ updatedProperty, message: "Property has been successfully updated." });
+            return updatedProperty;
+          } else {
+            throw new Error("Something went wrong during the update");
+          }
+        } catch (err) {
+          console.log({ err });
+          res.status(400).json({ message: err.message });
+        }
+      },
+      
+      deleteProperty: (req, res) => {
+        const propertyId = req.params.id || req.body.id;  
+
+        if (!mongoose.Types.ObjectId.isValid(propertyId)) {
+            return res.status(400).send({ message: 'Invalid Property ID format' });
+        }
+
+        const objectId = mongoose.Types.ObjectId(propertyId);
+
+        Property.deleteOne({ _id: objectId }, (err, result) => {
+            if (err) {
+                return res.status(400).send({ message: 'Error deleting property', error: err.message });
+            }
+
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ message: 'Property not found' });
+            }
+
+            res.status(200).json({ message: 'Property removed successfully', data: result });
+        });
+    },
 }

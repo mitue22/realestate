@@ -4,6 +4,7 @@ import { Location } from '@angular/common';
 import { CommonService } from '../../../common/services/common.service';
 import { UserService } from '@sa-services/user.service';
 import { ToastrService } from 'ngx-toastr';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-edit-property',
@@ -13,12 +14,14 @@ import { ToastrService } from 'ngx-toastr';
 export class EditPropertyComponent implements OnInit {
   isSubmittingForm:boolean;
   imgsToUpload = [];
+  form:FormGroup;
   constructor(
     private activatedRoute: ActivatedRoute,
     private commonService: CommonService,
     private location: Location,
     private userService:UserService,
     public toastr: ToastrService,
+    private builder:FormBuilder
   ) { }
 
   propertyDetail: any = {
@@ -31,16 +34,63 @@ export class EditPropertyComponent implements OnInit {
   FetchingCityList = false;
   propertyTypeList;
   newPropertyData: any = {};
+  get f() {
+    return this.form.controls;
+  }
+  ngOnInit() {
+    this.form=this.builder.group({
+      title:[null],
+      propertyFor:[null],
+      type:[null],
+      state:[null],
+      city:[null],
+      description:[null],
+      email:[null],
+      address:[null],
+      phoneNo:[null],
+      pincode:[null],
+      locality:[null],
+      cornerPlot:[null]
+    });
+    let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
+    if (propertySlug){
+      this.getProperty(propertySlug);
+      }
+      this.getStateList();
+   
+    this.commonService.getPropertyTypeList()
+      .subscribe(result => this.propertyTypeList = result);
 
+  }
+  
   getProperty(propertySlug) {
+    console.log("called");
     this.commonService.getSingleProperty(propertySlug)
-      .subscribe(result => {
+      .subscribe((response: Response) => {
+        const result: Response['result'] = response.result; // access the result property
         this.propertyDetail = result;
-        console.log(result);
+        this.form.patchValue({
+          title: result.title,
+          propertyFor: result.propertyFor,
+          type: result.type._id || '',
+          state: result.state._id || '',
+          city: result.city._id || '',
+          locality: result.locality || '',
+          address: result.address || '',
+          description: result.description || '',
+          email: result.email || '',
+          phoneNo: result.phoneNo || '',
+          pincode: result.pincode || '',
+        });
+        const stateId = this.form.get('state').value;
+      if (stateId) {
+        this.getCityList(stateId);
+      }
       });
   }
 
   getCityList(stateId) {
+    console.log(stateId,"aaa");
     this.cityList = [];
     this.FetchingCityList = true;
 
@@ -58,27 +108,40 @@ export class EditPropertyComponent implements OnInit {
     }
   }
 
-  // submitForm() {
-  //   console.log("submitForm: ", );
-  // }
-  submitForm(data) {
+submitForm() {
     this.isSubmittingForm = true;
-    // data.value.userId = this.userService.currentUser.user._id;
-    this.userService.currentUser.user._id;
-
-
+    if(this.form.invalid){
+      alert("enter valid details");
+    }
     const imageData = new FormData();
+    imageData.append('title', this.form.get("title").value);
+    imageData.append('propertyFor', this.form.get("propertyFor").value);
+    imageData.append('type', this.form.get("type").value || '');
+    imageData.append('state', this.form.get("state").value || '');
+    imageData.append('city', this.form.get("city").value || '');
+    imageData.append('locality', this.form.get("locality").value || '');
+    imageData.append('address', this.form.get("address").value || '');
+    imageData.append('description', this.form.get("description").value || '');
+    imageData.append('email', this.form.get("email").value || '');
+    imageData.append('phoneNo', this.form.get("phoneNo").value || '');
+    imageData.append('pincode', this.form.get("pincode").value || '');
+    imageData.append('cornerPlot',this.form.get("cornerPlot").value);
     this.imgsToUpload.forEach((ele, index) => {
       imageData.append("propImages", ele, ele['name']);
-    })
-    imageData.append("userID", this.userService.currentUser.user._id);
+    });
+    const dataToSend = {};
+    imageData.forEach((value, key) => {
+      dataToSend[key] = value;
+    });
+    // for (let key in data) {
+    //   // iterate and set other form data
+    //   imageData.append(key, data[key]);
 
-    for (let key in data) {
-      // iterate and set other form data
-      imageData.append(key, data[key]);
-    }
+      // imageData.append("_id",this.propertyDetail.result._id);
+    // }
+    const id=this.propertyDetail._id;
     this.commonService.togglePageLoaderFn(true);
-    this.commonService.editProperty(imageData).subscribe(
+    this.commonService.editProperty(dataToSend,id).subscribe(
       (result) => {
         this.commonService.togglePageLoaderFn(false);
         this.toastr.success("Property edited successfully.");
@@ -93,21 +156,13 @@ export class EditPropertyComponent implements OnInit {
   locationBack() {
     this.location.back();
   }
-
-  ngOnInit() {
-    let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
-    if (propertySlug){
-      this.getProperty(propertySlug);
-      }
-    this.commonService.getStatelist().subscribe(response => {
-        if (response.length > 0) {
-          this.stateList = response;
-          console.log(this.stateList,"state");
-        }
-      });
-
-    this.commonService.getPropertyTypeList()
-      .subscribe(result => this.propertyTypeList = result);
-
-  }
+getStateList(){
+  this.commonService.getStatelist().subscribe(response => {
+    if (response.length > 0) {
+      this.stateList = response;
+    
+    }
+  });
+}
+ 
 }

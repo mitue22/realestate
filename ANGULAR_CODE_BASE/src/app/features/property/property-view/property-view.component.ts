@@ -25,7 +25,6 @@ export class PropertyViewComponent implements OnInit {
     this.commonService.togglePageLoaderFn(true);
     this.commonService.getSingleProperty(propertySlug)
       .subscribe(result => {
-        console.log( result,"result" );
         this.propertyDetail = result['result'];
         this.imageDetail = result['files'];
       },

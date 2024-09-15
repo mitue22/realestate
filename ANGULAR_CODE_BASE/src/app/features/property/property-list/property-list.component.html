@@ -5,26 +5,53 @@
       <div class="card">
         <div class="card-header">
           <form [formGroup]="form">
-            <div class="row">
-              <div class="col-auto pr-0">
-                <div class="input-group">
-                  <div class="input-group-prepend">
-                    <span class="input-group-text"><i class="bi bi-search"></i></span>
+            <div class="row align-items-center">
+              <div class="col-md-2 pr-0">
+                <div class="form-group">
+                  <label for="search">Search:</label>
+                  <div class="input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="bi bi-search"></i></span>
+                    </div>
+                    <input type="text" formControlName="searchText" id="searchText" placeholder="Search" class="form-control">
                   </div>
-                  <input type="text" formControlName="searchText" id="searchText" placeholder="Search" class="form-control">
+                </div>
               </div>
+            <div class="col-md-2 pl-1 pr-0">
+                <div class="form-group">
+                  <label for="city">City:</label>
+                  <select id="city" formControlName="city" required class="custom-select">
+                    <option value="">Select City</option>
+                    <option *ngFor="let city of cityList" value="{{city._id}}">{{city.name}}</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-4">
-              <button type="button" class="btn btn-warning me-1">Filter</button>  
-              <button type="button" class="btn btn-secondary me-1">cancel</button>                          
+            <div class="col-md-2 pr-0 pl-1">
+                <div class="form-group">
+                  <label for="type">Type:</label>
+                  <select id="type" formControlName="type" required class="custom-select">
+                    <option value="">Select Type</option>
+                    <option *ngFor="let type of propertyTypeList" value="{{type._id}}">{{type.title}}</option>
+                  </select>
+                </div>
               </div>
-              <div class="col-5 pr-0 text-end">
-                <button type="button" class="btn btn-primary me-1" routerLink="/property/new"><i class="bi bi-plus"></i> Add New</button>                          
+            
+              <div class="col-md-2 pr-0 pl-1">
+                <div class="form-group">
+                  <label for="for">Property For:</label>
+                  <select id="for" formControlName="for" required class="custom-select">
+                    <option *ngFor="let for of propertyFor" value="{{for.name}}">{{for.name}}</option>
+                  </select>
+                </div>
+              </div>
+            <div class="col-md-4 d-flex pl-1">
+                <button type="button" class="btn btn-warning me-1" (click)="onFilter()"><i class="bi bi-search me-1"></i>Filter</button>
+                <button type="button" class="btn btn-secondary me-1" (click)="onClear_Filter()"><i class="bi bi-x"></i>Clear</button>
+                <button type="button" class="btn btn-primary" routerLink="/property/new" style="padding-left: 20px;padding-right: 20px;"><i class="bi bi-plus"></i> Add New</button>
               </div>
             </div>
           </form>
-          
-        </div>
+          </div>
         <div class="card-body">
           <table class="table text-center m-0">
             <thead>
@@ -37,21 +64,25 @@
                 <th>PropertyFor</th>
                 <th>PropertyType</th>
                 <th>status</th>
-                <th></th>
+                <th>Action</th>
                 </tr>
                 <tr *ngFor="let item of propertyList;let i = index">
                   <td>{{i+1}}</td>
                   <td>{{item.description}}</td>
                   <td>{{item.title}}</td>
-                  <td>{{item.city}}</td>
+                  <td>{{item.city?.name}}</td>
                   <td>{{item.locality}}</td>
                   <td>{{item.propertyFor}}</td>
                   <td>{{item.phone}}</td>
                   <td>{{item.status}}</td>
-                  <td><a class="info p-0" (click)="onAddEdit(item.slug)">
+                  <td>
+                    <a class="info p-0" [routerLink]="'/property/view/' + item.slug"> 
+                      <i class="bi bi-eye text-info font-medium-3 mr-2"></i>
+                    </a>
+                    <a class="info p-0" (click)="onAddEdit(item.slug)"> 
                     <i class="bi bi-pencil-square text-info font-medium-3 mr-2"></i>
                   </a>
-                  <a class="danger p-0" (click)="onDelete(item.id)">
+                  <a class="danger p-0" (click)="onDelete(item._id)">
                     <i class="bi bi-trash text-danger font-medium-3"></i>
                   </a>
                 </td>
@@ -59,6 +90,17 @@
             </thead>
             </table>
         </div>
+        <div class="row">
+          <div class="col-md-10">
+              <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)" [pageSize]="pageSize" [maxSize]="10">
+              </ngb-pagination>
+          </div>
+          <div class="col-md-2">
+            <select [(ngModel)]="pageSize">
+              <option *ngFor="let pageSize of pageSizeList" [value]="pageSize.value">{{ pageSize.name }}</option>
+            </select>
+            </div>
+      </div>
         </div>
     </div>
     </div>

@@ -4,7 +4,6 @@ import { Observable } from 'rxjs/Observable';
 import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
-import { Menu1Component } from 'app/features/menu1/component/menu1/menu1.component';
 import { Role } from 'app/administration/models/user';
 
 @Injectable()
@@ -49,12 +48,15 @@ export class CommonService {
     return this.http.get(environment.BASE_URL + '/common/cities/' + stateId);
   }
 
+  //Property Service
   getPropertyTypeList(): Observable<any> {
     return this.http.get(environment.BASE_URL + '/common/type');
   }
-  getPropertyList(): Observable<any> {
-    return this.http.get(environment.BASE_URL + '/property/list');
-  }
+
+   getPropertyList(data:any):Observable<any>{
+  return this.http.post(environment.BASE_URL + '/property/list',data);
+ }
+
   propertyList(param = '') {
     return this.http.get(environment.BASE_URL + '/property/list/' + param);
   }
@@ -66,9 +68,18 @@ export class CommonService {
   filterProperties(param = '') {
     return this.http.get(environment.BASE_URL + '/property/filter' + param);
   }
-  editProperty(imageData: any): Observable<any> {
-    return this.http.put(environment.BASE_URL + '/property/edit', imageData);
+
+  editProperty(dataToSend: any,id: number,): Observable<any> {
+    const url = `${environment.BASE_URL}/property/edit/${id}`;
+    const requestBody = { id, dataToSend };
+    return this.http.put(url, requestBody);
   }
+
+  deleteProperty(id:any):Observable<any>{
+    return this.http.delete(environment.BASE_URL + "/property/deleteProperty/" + id);
+  }
+  //End Property service
+  //Menu services
   getMenu1List(): Observable<any> {
     return this.http.get(environment.BASE_URL + "/common/menu1List");
   }
@@ -81,30 +92,9 @@ export class CommonService {
   deleteMenu(menuId: string): Observable<any> {
     return this.http.delete(`${environment.BASE_URL}/common/deleteMenu/${menuId}`);
   }
-  
-  // getRoleList(): Observable<any> {
-  //   return this.http.get(environment.BASE_URL + "/common/roleList");
-  // }
+  //End Menu service
 
-  // addEditRole(roledata: any): Observable<any> {
-  //   return this.http.post(environment.BASE_URL + "/common/addEditRole", roledata);
-  // }
-
-  // getRoleById(id: number) {
-  //   return this.http.get(`${environment.BASE_URL}/role/${id}`);
-  // }
-
-  // updateRole(id: number, roleData: any) {
-  //   return this.http.put(`${environment.BASE_URL}/role/${id}`, roleData);
-  // }
-  
-  // deleterole(roleId: string): Observable<any> {
-  //   return this.http.delete(`${environment.BASE_URL}/common/deleteRole/${roleId}`);
-  // }
-
-
-
-  
+  //Role services
   getRoleList(): Observable<any> {
     return this.http.get(environment.BASE_URL + "/common/roleList");
   }
@@ -126,4 +116,6 @@ export class CommonService {
   deleterole(roleId: string): Observable<any> {
     return this.http.delete(environment.BASE_URL + "/common/deleteRole/" + roleId);
   }
+//End role service
+
 }
