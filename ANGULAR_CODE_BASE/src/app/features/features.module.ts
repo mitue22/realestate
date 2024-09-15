@@ -11,6 +11,7 @@ import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { PropertyModule } from './property/property.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule } from 'ngx-toastr';
+// import { RoleModule } from './role/role.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,6 @@ import { ToastrModule } from 'ngx-toastr';
     FeaturesRoutingModule,
     PropertyModule,
     NgSelectModule,
-
   ],
   declarations: [
     RegistrationComponent,

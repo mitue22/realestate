@@ -20,6 +20,18 @@ router.delete('/city/:cityId', commonController.removeCity)
  router.get('/type', commonController.propertyTypeList);
  router.get('/list',commonController.propertyList);
 //checkemail-availability
-router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability)
+router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability);
+
+//menu Router's
+router.route('/menu1List').get(commonController.getMenu1List)
+router.route('/addEditMenu').post(commonController.addMenu)
+router.delete('/deleteMenu/:menuId', commonController.deleteMenu);
+
+//Role Router's
+router.route('/roleList').get(commonController.getRoleList)
+router.route('/addEditRole').post(commonController.addRole)
+router.delete('/deleteRole/:roleId', commonController.deleteRole);
+router.route('/role/:id').get(commonController.getRoleById);
+router.route('/role/:id').put(commonController.updateRole);
 
 module.exports = router;

@@ -16,6 +16,17 @@ const routes: Routes = [
       }
     ]
   },
+
+  {
+    path: 'menu1',
+    component: MainComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: 'app/features/menu1/menu1.module#Menu1Module'
+      }
+    ]
+  },  
   {
     path: 'property',
     component: MainComponent,
@@ -23,6 +34,16 @@ const routes: Routes = [
       {
         path: '',
         loadChildren: 'app/features/property/property.module#PropertyModule'
+      }
+    ]
+  },
+  {
+    path: 'role',
+    component: MainComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: 'app/features/role/role.module#RoleModule'
       }
     ]
   },

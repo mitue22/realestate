@@ -17,8 +17,8 @@ import { LoginService } from '@sa-services/login.service';
 })
 export class HomeComponent implements OnInit {
   images = [
-    'assets/images/property.jpg',
-    'assets/images/businessProperty.jpg',
+    'assets/images/propert1.jpg',
+    'assets/images/p.jpg',
     'assets/images/commercialproperty.jpg'
   ];
   // images: Array<string>;

@@ -17,7 +17,8 @@ export class PropertyListComponent implements OnInit {
   @Input('blockSize') blockSize = 12;
   @Input('queryParams') queryParams = '';
   @Input('hideOwnProperty') hideOwnProperty = false;
-  constructor( private commonService: CommonService,
+  constructor(
+    public commonService: CommonService,
     private modalService:NgbModal,
     private formBuilder:FormBuilder,
     private router:Router

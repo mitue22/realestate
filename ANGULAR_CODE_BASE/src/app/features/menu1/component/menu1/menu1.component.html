@@ -1,0 +1,73 @@
+<div class="row">
+  <div class="col-12">
+    <span class="content-header"></span>
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <form>
+          <div class="row align-items-center">
+            <!-- Search Input -->
+            <div class="col-md-4">
+              <label for="search" >Search</label>
+              <div class="form-group">
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text"><i class="bi bi-search"></i> </span>
+                  </div>
+                  <input type="text" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+              </div>
+            </div>
+
+            <!-- Filter and Cancel Buttons -->
+            <div class="col-md-3">
+              <button type="submit" class="btn btn-warning btn-sm mr-1">Filter</button>
+              <button type="reset" class="btn btn-secondary btn-sm">Cancel</button>
+            </div>
+
+            <!-- Add New Button -->
+            <div class="col-md-5 text-md-right">
+              <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit(0)">
+                <i class="fa fa-plus btn-icon-prepend"></i> Add New
+              </button>
+            </div>
+          </div>
+        </form>
+
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>title</th>
+              <th>icon</th>
+              <th>path</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of menuList;let i=index">
+              <td>{{i+1}}
+              </td>
+              <td>{{item.name}}</td>
+              <td>{{item.title}}</td>
+              <td><i class="bi bi-house-door-fill"></i></td>
+              <td>{{item.path}}</td>
+              <td>
+                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item._id)">
+                  <i class="bi bi-pencil-square font-medium-4 mr-2 text-success font-weight-bold"></i>
+                </a>
+                <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item._id)">
+                  <i class="bi bi-trash3 font-medium-4 text-danger font-weight-bold"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

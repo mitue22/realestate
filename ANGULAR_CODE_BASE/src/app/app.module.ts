@@ -33,9 +33,9 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     BrowserAnimationsModule,
     ReUsableModule,
     FormsModule,
+    NgbModule,
     AppRoutingModule,
     MatComponentsModule,
-    // AdministrationModule
     ToastrModule.forRoot()
 
   ],
