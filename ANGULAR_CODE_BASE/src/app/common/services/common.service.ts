@@ -49,12 +49,15 @@ export class CommonService {
     return this.http.get(environment.BASE_URL + '/common/cities/' + stateId);
   }
 
+  //Property Service
   getPropertyTypeList(): Observable<any> {
     return this.http.get(environment.BASE_URL + '/common/type');
   }
-  getPropertyList(): Observable<any> {
-    return this.http.get(environment.BASE_URL + '/property/list');
-  }
+
+   getPropertyList(data:any):Observable<any>{
+  return this.http.post(environment.BASE_URL + '/property/list',data);
+ }
+
   propertyList(param = '') {
     return this.http.get(environment.BASE_URL + '/property/list/' + param);
   }
@@ -81,10 +84,7 @@ export class CommonService {
   deleteMenu(menuId: string): Observable<any> {
     return this.http.delete(`${environment.BASE_URL}/common/deleteMenu/${menuId}`);
   }
-  
-  // getRoleList(): Observable<any> {
-  //   return this.http.get(environment.BASE_URL + "/common/roleList");
-  // }
+  //End Menu service
 
   // addEditRole(roledata: any): Observable<any> {
   //   return this.http.post(environment.BASE_URL + "/common/addEditRole", roledata);

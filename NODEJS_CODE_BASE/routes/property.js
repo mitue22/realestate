@@ -35,7 +35,7 @@ const upload = multer({ storage });
 // Property type dropdown
 // router.get('/type', propertyController.propertyTypeList);
 router.post('/type', propertyController.addPropertyType);
-router.get('/list',commonController.propertyList)
+router.post('/list',commonController.propertyList);
 //Property
  router.post('/new', upload.array("propImages"), propertyController.addNewProperty);
 router.get('/list/:userId', propertyController.getUserList);
@@ -43,8 +43,9 @@ router.get('/list/', propertyController.getFullList);
 router.get('/single/:propertySlug', propertyController.getSingleProperty);
 router.get('/showGFSImage/:filename', propertyController.showGFSImage); // To view image in front-end
 router.post('/markAsSold/:propertySlug', propertyController.markAsSold);
-
 //Properties filter
 router.get('/filter', propertyController.filterProperties);
+router.put('/edit/:id',propertyController.editProperty);
+router.delete('/deleteProperty/:id', propertyController.deleteProperty);
 
 module.exports = router;
