@@ -2,6 +2,7 @@
   import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   import { Menu1ModalComponent } from './menu1-modal/menu1-modal.component';
   import { CommonService } from '@sa-services/common.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 // import { Menu1ModalComponent } from "./menu1-modal/menu1-modal.component";
 
@@ -15,15 +16,27 @@
   })
   export class Menu1Component implements OnInit {
 
+    form:FormGroup
     menuList:any;
     constructor(
       private modalService: NgbModal,
       private commonService:CommonService,
+      private formBuilder:FormBuilder
     ) { }
 
     ngOnInit() {
+      this.form=this.formBuilder.group({
+        searchText:[null],
+      })
       this.getMenuList()
     }
+    onClick_fiter(){
+      this.getMenuList();
+    }
+    onClear_Filter(){
+      this.form.reset();
+      this.getMenuList(); 
+     }
 
     onAddEdit(id: number) {
       const modalRef = this.modalService.open(Menu1ModalComponent, {
@@ -35,12 +48,15 @@
         this.getMenuList();  // Reload menu list when the modal emits the event
       });
     }
-    getMenuList(){
-      this.commonService.getMenu1List()
-      .subscribe(result =>{
-        this.menuList=result;
-     
-      })
+    getMenuList() {
+      const filters = {
+        searchText: this.form.get('searchText').value // Assuming `searchText` is bound to an input in your component
+      };
+    
+      this.commonService.getMenu1List(filters)  // Pass the filters to the service
+        .subscribe(result => {
+          this.menuList = result;
+        });
     }
     onDelete(menuId:string){
       Swal.fire({

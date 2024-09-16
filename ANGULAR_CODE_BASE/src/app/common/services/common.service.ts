@@ -79,9 +79,10 @@ export class CommonService {
   }
   //End Property
   //Start Menu
-  getMenu1List(): Observable<any> {
-    return this.http.get(environment.BASE_URL + "/common/menuList");
-  }
+  getMenu1List(filters: any): Observable<any> {
+    return this.http.post(environment.BASE_URL + "/common/menu1List", filters);
+}
+
 
   addEditMenu(menudata: any): Observable<any> {
     if (menudata.id) {

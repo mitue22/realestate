@@ -22,7 +22,8 @@ export class DashboardComponent implements OnInit {
     this.getMenuList();
   }
   getMenuList(){
-    this.commonService.getMenu1List()
+    const filters =[]
+    this.commonService.getMenu1List(filters)
     .subscribe(result =>{
       this.menuList=result;
    });

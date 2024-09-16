@@ -167,7 +167,20 @@ getUserById: async (req, res) => {
     }
 },
     getMenu1List: (req, res) => {
-        menu1_model.find({}, { name: 1, title: 1, icon: 1, path: 1 })  
+
+        const filters = req.body; // Receive filters from the request body
+        let query = {};
+
+        if (filters.searchText) {
+            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            query['$or'] = [
+                { name: searchRegex },
+                { title: searchRegex },
+                { icon: searchRegex },
+                { path: searchRegex }
+            ];
+        }
+        menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })  
             .exec((err, data) => {
                 if (err) {
                     return res.status(400).send(err);
