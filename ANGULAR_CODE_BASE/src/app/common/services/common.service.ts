@@ -4,9 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
-// import { Role, User } from 'app/administration/models/user';
 import { Menu } from 'app/administration/models/menu';
-import { Menu1Component } from 'app/features/menu1/component/menu1/menu1.component';
 import { Role, User } from 'app/administration/models/user';
 
 @Injectable()
@@ -79,9 +77,8 @@ export class CommonService {
   deleteProperty(id:any):Observable<any>{
     return this.http.delete(environment.BASE_URL + "/property/deleteProperty/" + id);
   }
-  //End Property service
-  //Menu services
-  //menu services
+  //End Property
+  //Start Menu
   getMenu1List(): Observable<any> {
     return this.http.get(environment.BASE_URL + "/common/menuList");
   }
