@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from '@sa-services/common.service';
+import { ToastrModule, ToastrService } from 'ngx-toastr';
 declare const Swal:any;
 
 @Component({
@@ -22,13 +23,13 @@ export class PropertyListComponent implements OnInit {
   page = 1;
   pageSize = 20;
   pageSizeList =  [
-    { pageSize: 10, name: "10 items per page", nameAr: "عدد السجلات في صفحة" + " 10" },
-    { pageSize: 20, name: "20 items per page", nameAr: "عدد السجلات في صفحة" + " 20" },
-    { pageSize: 50, name: "50 items per page", nameAr: "عدد السجلات في صفحة" + " 50" },
-    { pageSize: 100, name: "100 items per page", nameAr: "عدد السجلات في صفحة" + " 100" },
-    { pageSize: 500, name: "500 items per page", nameAr: "عدد السجلات في صفحة" + " 500" },
-    { pageSize: 1000, name: "1000 items per page", nameAr: "عدد السجلات في صفحة" + " 1000" },
-    { pageSize: 100000, name: "All items", nameAr: "جميع المواد" + " 100000" },
+    { pageSize: 10, name: "10 items per page" },
+    { pageSize: 20, name: "20 items per page" },
+    { pageSize: 50, name: "50 items per page" },
+    { pageSize: 100, name: "100 items per page" },
+    { pageSize: 500, name: "500 items per page" },
+    { pageSize: 1000, name: "1000 items per page" },
+    { pageSize: 100000, name: "All items" },
   ];
   @Input('blockView') blockView = false;
   @Input('blockSize') blockSize = 12;
@@ -37,7 +38,8 @@ export class PropertyListComponent implements OnInit {
   constructor(
     public commonService: CommonService,
     private formBuilder:FormBuilder,
-    private router:Router
+    private router:Router,
+    private toastr:ToastrService
   ) { }
 
   ngOnInit() {
@@ -87,9 +89,12 @@ for:[null]
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getPropertyList(data).subscribe((result:any) =>{
     if(result) this.propertyList=result;
+    this.totalRecord=result.totalCount;
+    this.toastr.success("success");
   },
-    (err) => console.log({ err }),
+    (err) => this.toastr.error(err,"Failed to get data."),
       () => this.commonService.togglePageLoaderFn(false));
+      
 }
 
 onAddEdit(slug:any){
@@ -110,7 +115,8 @@ onDelete(id:any){
         console.log(id)
         this.commonService.deleteProperty(id).subscribe({
           next: () => {
-            Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+            // Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+            this.toastr.success("Data deleted successfully.","Success");
             this.getPropertyList();  // Refresh the list after deletion
           },
           error: (err) => {

@@ -66,7 +66,7 @@
                 <th>status</th>
                 <th>Action</th>
                 </tr>
-                <tr *ngFor="let item of propertyList;let i = index">
+                <tr *ngFor="let item of propertyList.data;let i = index">
                   <td>{{i+1}}</td>
                   <td>{{item.description}}</td>
                   <td>{{item.title}}</td>
@@ -96,10 +96,10 @@
               </ngb-pagination>
           </div>
           <div class="col-md-2">
-            <select [(ngModel)]="pageSize">
-              <option *ngFor="let pageSize of pageSizeList" [value]="pageSize.value">{{ pageSize.name }}</option>
+            <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()">
+              <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
             </select>
-            </div>
+          </div>
       </div>
         </div>
     </div>

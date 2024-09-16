@@ -23,17 +23,26 @@ module.exports = {
           const page = filters.page || 1;
           const pageSize = filters.pageSize || GlobalEnum.PageSize;
           const skip = (page - 1) * pageSize;
-        property_model.find(query)
-        .populate('city', 'name')
-        .populate('type', 'title')
-        .skip(skip)
-        .limit(pageSize)
-        .exec((err, data) => {
-          if (err) {
-            res.status(400).send(err);
-          } else {
-            res.status(200).send(data);
-          }
+          property_model.countDocuments(query, (err, totalRecord) => {
+            if (err) {
+                return res.status(400).send(err);
+            }
+    
+            property_model.find(query)
+            .populate('city', 'name')
+            .populate('type', 'title')
+            .skip(skip)
+            .limit(pageSize)
+            .exec((err, data) => {
+                if (err) {
+                    res.status(400).send(err);
+                } else {
+                    res.status(200).send({
+                        totalCount: totalRecord, // Return the total count
+                        data: data               // Return the paginated data
+                    });
+                }
+            });
         });
     },
     //PropertyType

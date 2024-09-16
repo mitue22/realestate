@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonService } from '@sa-services/common.service';
 import { LoginService } from '@sa-services/login.service';
 
 @Component({
@@ -8,15 +9,22 @@ import { LoginService } from '@sa-services/login.service';
 })
 export class DashboardComponent implements OnInit {
   isUserLoggedIn: Boolean = false;
-
-  constructor(private loginService:LoginService) { 
+  menuList:any[]=[];
+  constructor(private loginService:LoginService,
+    private commonService:CommonService
+  ) { 
     this.isUserLoggedIn = loginService.isLoggedIn();
 }
 
   // toggleMenuItems = false;
 
   ngOnInit() {
-    
+    this.getMenuList();
   }
-
+  getMenuList(){
+    this.commonService.getMenu1List()
+    .subscribe(result =>{
+      this.menuList=result;
+   });
+  }
 }

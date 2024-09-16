@@ -36,7 +36,7 @@
       this.commonService.getMenu1List()
       .subscribe(result =>{
         this.menuList=result;
-        console.log("called menu")
+     
       })
     }
     onDelete(menuId:string){
