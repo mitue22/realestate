@@ -53,7 +53,18 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadChildren: 'app/features/features.module#FeaturesModule'
+        // loadChildren: 'app/features/users/user/user.module#UserModule'
+         loadChildren: 'app/features/features.module#FeaturesModule'
+      }
+    ]
+  },
+  {
+    path: 'permission',
+    component: MainComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: 'app/features/permission/permission.module#PermissionModule'
       }
     ]
   },

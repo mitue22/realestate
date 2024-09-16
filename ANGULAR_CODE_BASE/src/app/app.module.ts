@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 // import { HttpModule } from '@angular/http';
 
-import { NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { ReUsableModule } from './common/re-usable.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -36,8 +36,11 @@ import { ToastrModule, ToastrService } from 'ngx-toastr';
     NgbModule,
     AppRoutingModule,
     MatComponentsModule,
-    ToastrModule.forRoot()
+    ToastrModule.forRoot(),
 
+    // AdministrationModule
+    ToastrModule.forRoot(),
+    NgbModule
   ],
   exports: [
     FormsModule

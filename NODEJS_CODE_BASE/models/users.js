@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+// const role = require('./role');
 var Schema = mongoose.Schema;
 
 userSchema = new Schema({
@@ -9,7 +10,7 @@ userSchema = new Schema({
     lname: {
         type: String,
         required: true
-    },
+    }, 
     email: {
         type: String,
         unique: true,
@@ -32,6 +33,15 @@ userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'City'
     },
+    role: {
+        type: Schema.Types.ObjectId,
+        ref: 'role'
+    },
+    role: {
+        type: Schema.Types.ObjectId,
+        ref: 'role'
+      },
+    //   roleName: String,
     pincode: {
         type: Number
     },
@@ -43,13 +53,21 @@ userSchema = new Schema({
         type: Boolean,
         default: false
     },
+    status: {
+        type: Boolean,
+        default: false
+    },
     updatedOn: {
         type: Date,
         default: Date.now()
     },
     createdOn: {
         type: Date
-    }
+    },
+    userName: {
+        type: String,
+        required: true
+    }, 
 });
 
 module.exports = mongoose.model('users', userSchema);

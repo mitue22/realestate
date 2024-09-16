@@ -35,5 +35,13 @@ router.route('/addEditRole').post(commonController.addRole)
 router.delete('/deleteRole/:roleId', commonController.deleteRole);
 router.route('/role/:id').get(commonController.getRoleById);
 router.route('/role/:id').put(commonController.updateRole);
+router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability)
+router.get('/userDetailList', commonController.userList);
+
+//user
+router.route('/addEditUser').post(commonController.addUser);
+router.delete('/deleteUser/:userId', commonController.deleteUser);
+router.get('/user/:id', commonController.getUserById);
+router.route('/user/:id').put(commonController.updateUser);
 
 module.exports = router;

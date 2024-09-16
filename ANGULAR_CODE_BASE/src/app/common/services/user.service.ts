@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { JwtHelper } from "angular2-jwt";
 import { HttpClient } from '@angular/common/http';
 import { environment } from '@sa-environments/environment';
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
 
 @Injectable()
 export class UserService {
@@ -10,6 +12,11 @@ export class UserService {
     private http: HttpClient
   ) { }
 
+  togglePageLoader = new Subject<boolean>();
+  togglePageLoader$ = this.togglePageLoader.asObservable();
+  togglePageLoaderFn(data: boolean = false) {
+    this.togglePageLoader.next(data);
+  }
   get currentUser() {
     var token = localStorage.getItem('token');
     if (!token) return null;
@@ -20,7 +27,9 @@ export class UserService {
     return jwtHelper.decodeToken(token);
   }
 
-  getcurrentUserDetails(userId) {
+  getcurrentUserDetails(userId):Observable<any> {
+    console.log(userId)
     return this.http.get(environment.BASE_URL + '/user/' + userId);
   }
+ 
 }

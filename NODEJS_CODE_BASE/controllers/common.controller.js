@@ -23,17 +23,26 @@ module.exports = {
           const page = filters.page || 1;
           const pageSize = filters.pageSize || GlobalEnum.PageSize;
           const skip = (page - 1) * pageSize;
-        property_model.find(query)
-        .populate('city', 'name')
-        .populate('type', 'title')
-        .skip(skip)
-        .limit(pageSize)
-        .exec((err, data) => {
-          if (err) {
-            res.status(400).send(err);
-          } else {
-            res.status(200).send(data);
-          }
+          property_model.countDocuments(query, (err, totalRecord) => {
+            if (err) {
+                return res.status(400).send(err);
+            }
+    
+            property_model.find(query)
+            .populate('city', 'name')
+            .populate('type', 'title')
+            .skip(skip)
+            .limit(pageSize)
+            .exec((err, data) => {
+                if (err) {
+                    res.status(400).send(err);
+                } else {
+                    res.status(200).send({
+                        totalCount: totalRecord, // Return the total count
+                        data: data               // Return the paginated data
+                    });
+                }
+            });
         });
     },
     //PropertyType
@@ -118,8 +127,45 @@ module.exports = {
         });
 
     },
-
-   
+    userList: (req, res) => {
+        console.log(req,"req");
+        users.find().exec((err, result) => {
+            if (err) {
+                console.error("Error:", err);
+                res.status(400).send(err);
+            } else {
+                // console.log("Result:", result);
+                res.status(200).json(result);
+            }
+        });
+    },
+    // Add User
+    addUser: async (req, res) => {
+    try{
+        var userData = new users(req.body);            
+        const result = await userData.save();
+        console.log({result});
+        if(result) res.status(200).json({ message: 'User added successfully' });
+        else throw new Error('Something Went Wrong');
+    }
+    catch(err){
+        res.status(400).json({message: err.message});
+    }
+},
+getUserById: async (req, res) => {
+    try {
+        const userId = req.params.id;  // Get user ID from the request URL
+        const user = await users.findById(userId);  // Find user by ID
+        
+        if (user) {
+            res.status(200).json(user);
+        } else {
+            throw new Error('User not found');
+        }
+    } catch (err) {
+        res.status(400).json({ message: err.message });
+    }
+},
 
     // addMenu: async (req, res) => {
     //     try {
@@ -337,6 +383,60 @@ module.exports = {
             role.name = req.body.name;
             const result = await role.save();
             res.status(200).json({ message: 'Role updated successfully' });
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
+    deleteUser: (req, res) => {
+        const userId = req.params.userId || req.body.userId;  // Get roleId from URL params or request body
+
+        // Check if the roleId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).send({ message: 'Invalid User ID format' });
+        }
+
+        const objectId = mongoose.Types.ObjectId(userId);
+
+        // Attempt to delete the role
+        users.deleteOne({ _id: objectId }, (err, result) => {
+            if (err) {
+                return res.status(400).send({ message: 'Error deleting User', error: err.message });
+            }
+
+            // If no document was deleted, return 404 (Not Found)
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            // Role successfully deleted
+            res.status(200).json({ message: 'User removed successfully', data: result });
+        });
+    },
+    async updateUser(req, res) {
+        try {
+            const userId = req.params.userId;
+            const user = await users.findById(userId);
+            if (!user) {
+                throw new Error('user not found');
+            }
+            user.name = req.body.name;
+            const result = await user.save();
+            res.status(200).json({ message: 'user updated successfully' });
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
+    async getUserById(req, res) {
+        try {
+            const userId = req.params.userId;
+            console.log(userId,"userId");
+            const user = await users.findById(userId);
+            if (!user) {
+                throw new Error('user not found');
+            }
+            res.status(200).json(user);
         } catch (err) {
             res.status(400).json({ message: err.message });
         }

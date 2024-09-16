@@ -94,7 +94,7 @@
         <!-- partial:partials/_sidebar.html -->
          <div class="col-2 pl-0">
           <nav class="sidebar sidebar-offcanvas" id="sidebar" style="background-color: #dc35c631;">
-            <ul class="nav">
+            <!-- <ul class="nav">
              <li class="nav-item">
                 <a class="nav-link" routerLink="/admin/dashboard">
                   <span class="menu-title">Dashboard</span>
@@ -139,7 +139,28 @@
                     <span class="menu-title">menu</span>
                   </a>
                 </li>
+              </ul> -->
+              <ul class="nav">
+                <li class="nav-item" *ngFor="let item of menuList">
+                  <!-- Main Menu Item -->
+                  <a class="nav-link" 
+                     [routerLink]="item.path" 
+                     data-bs-toggle="collapse" 
+                     [attr.aria-expanded]="false" 
+                     [attr.aria-controls]="item.id">
+                    <span class="menu-title">{{ item.name }}</span>
+                    <i class="menu-arrow"></i>
+                    <i class="{{ item.icon }} menu-icon"></i> <!-- Assuming you have icons in your data -->
+                  </a>
+              </li>
               </ul>
+              <!-- <div *ngIf="item.children && item.children.length" class="collapse" [id]="item.id">
+                    <ul class="nav flex-column sub-menu">
+                      <li class="nav-item" *ngFor="let subItem of item.children">
+                        <a class="nav-link" [routerLink]="subItem.routerLink">{{ subItem.name }}</a>
+                      </li>
+                    </ul>
+                  </div> -->
               </nav>
          </div>
         
