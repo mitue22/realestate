@@ -7,7 +7,7 @@ import { AdministrationService } from 'app/administration/service/administration
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 // import * as GlobalEnum from 'app/shared/data/global-constant';
-
+ 
 @Component({
   selector: 'app-user-modal',
   templateUrl: './user-modal.component.html',
@@ -303,7 +303,7 @@ export class UserModalComponent implements OnInit {
 //     this.spinner.show('modalspin');
 //     if (this.id > 0) {
 //       // Edit
-//       this.administrationService.editUser(formData).subscribe(
+      // this.administrationService.editUser(formData).subscribe(
 //         (result) => {
 //           this.spinner.hide('modalspin');
 //           if (result && result > 0) {

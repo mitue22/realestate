@@ -22,6 +22,7 @@
 							<button routerLink="/users/dashboard" mat-menu-item>Dashboard</button>
 							<button *ngIf="userService.currentUser?.user.isAdmin" routerLink="/admin/dashboard"
 								mat-menu-item>Admin</button>
+								<button routerLink="/users/profile/edit" mat-menu-item>Profile</button>
 							<button (click)="handleLogout()" mat-menu-item>Logout</button>
 						</mat-menu>
 					</div>

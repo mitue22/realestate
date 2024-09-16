@@ -8,6 +8,7 @@ import { EditProfileComponent } from './components/profile/edit-profile/edit-pro
 import { DashboardHomeComponent } from './components/dashboard/dashboard-home/dashboard-home.component';
 import { AuthGuardService } from '../../common/services/auth-guard.service';
 import { DashboardComponent } from '../../common/components/dashboard-main/dashboard.component';
+import { UserComponent } from './components/user/user.component';
 
 const ChildRoutes: Routes = [
   {
@@ -35,7 +36,11 @@ const ChildRoutes: Routes = [
       }
     ],
     canActivate: [AuthGuardService]
-  }
+  },
+  {
+    path:'user',
+    component:UserComponent,
+    }
 ]
 
 @NgModule({

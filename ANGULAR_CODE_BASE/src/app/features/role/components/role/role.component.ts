@@ -43,6 +43,7 @@ export class RoleComponent implements OnInit {
         console.log("called");
       });
   }
+  
   onDelete(roleId:string){
     Swal.fire({
       title: 'Are you sure?',

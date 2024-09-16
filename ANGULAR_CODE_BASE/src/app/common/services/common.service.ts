@@ -5,7 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
 import { Menu1Component } from 'app/features/menu1/component/menu1/menu1.component';
-import { Role } from 'app/administration/models/user';
+import { Role, User } from 'app/administration/models/user';
 
 @Injectable()
 export class CommonService {
@@ -66,9 +66,9 @@ export class CommonService {
   filterProperties(param = '') {
     return this.http.get(environment.BASE_URL + '/property/filter' + param);
   }
-  editProperty(imageData: any): Observable<any> {
-    return this.http.put(environment.BASE_URL + '/property/edit', imageData);
-  }
+  // editProperty(imageData: any): Observable<any> {
+  //   return this.http.put(environment.BASE_URL + '/property/edit', imageData);
+  // }
   getMenu1List(): Observable<any> {
     return this.http.get(environment.BASE_URL + "/common/menu1List");
   }
@@ -102,8 +102,6 @@ export class CommonService {
   //   return this.http.delete(`${environment.BASE_URL}/common/deleteRole/${roleId}`);
   // }
 
-
-
   
   getRoleList(): Observable<any> {
     return this.http.get(environment.BASE_URL + "/common/roleList");
@@ -126,4 +124,42 @@ export class CommonService {
   deleterole(roleId: string): Observable<any> {
     return this.http.delete(environment.BASE_URL + "/common/deleteRole/" + roleId);
   }
+editProperty(imageData:any):Observable<any>{
+  return this.http.put(environment.BASE_URL + '/property/edit', imageData);
+}
+
+getUserList():Observable<any>{
+  return this.http.get(environment.BASE_URL + '/common/userDetailList');
+}
+
+// addUser(formData: any): Observable<any> {
+//   console.log(formData)
+//   return this.http.post(environment.BASE_URL + '/common/user', formData);
+// }
+
+// addEditUser(data: any): Observable<any> {
+//   return this.http.post(environment.BASE_URL + "/common/addEditUser", data);
+// }
+
+deleteUser(userId: any): Observable<any> {
+  return this.http.delete(`${environment.BASE_URL}/common/deleteUser/${userId}`);
+}
+
+
+getUserById(id: number): Observable<User> {
+  return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
+}
+
+addEditUser(userdata: any): Observable<any> {
+  if (userdata.id) {
+    // If `roledata` has an `id`, use `updateRole` API
+    return this.http.put(environment.BASE_URL + "/common/user/" + userdata.id, userdata);
+  } else {
+    // Otherwise, use `addRole` API
+    return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
+  }
+}
+
+
+
 }

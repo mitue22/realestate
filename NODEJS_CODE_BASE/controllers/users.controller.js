@@ -7,6 +7,7 @@ module.exports = {
         users.findOne({ _id: req.params.userId })
             .populate('city', 'name')
             .populate('state', 'name')
+            .populate('role','name')
             .exec((err, result) => {
                 if(err)
                     res.status(400).send(err);
@@ -15,5 +16,7 @@ module.exports = {
                     res.status(200).send(result);
                 }
             });
-    }
+    },
+    
+
 }

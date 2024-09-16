@@ -6,12 +6,16 @@ import { EditProfileComponent } from './users/components/profile/edit-profile/ed
 import { DashboardHomeComponent } from './users/components/dashboard/dashboard-home/dashboard-home.component';
 import { ReUsableModule } from '../common/re-usable.module';
 import { RegistrationComponent } from './users/registration/registration.component';
-import { FeaturesRoutingModule } from './users/features-routing.module';
-import { NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalModule, NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { PropertyModule } from './property/property.module';
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToastrModule } from 'ngx-toastr';
 // import { RoleModule } from './role/role.module';
+
+import { PermissionComponent } from './permission/permission.component';
+import { UserComponent } from './users/components/user/user.component';
+import { FeaturesRoutingModule } from './users/features-routing.module';
+import { UsersModelComponent } from './users/components/user/users-model/users-model.component';
 
 @NgModule({
   imports: [
@@ -22,11 +26,18 @@ import { ToastrModule } from 'ngx-toastr';
     FeaturesRoutingModule,
     PropertyModule,
     NgSelectModule,
-  ],
+    NgbModule
+  ]
+  ,entryComponents:[UsersModelComponent],
   declarations: [
     RegistrationComponent,
     EditProfileComponent, 
-    DashboardHomeComponent    
+    DashboardHomeComponent,
+    UserComponent,
+    UsersModelComponent,
+    PermissionComponent ,
+    UserComponent,
+    UsersModelComponent 
   ],
   providers: [
   ]
