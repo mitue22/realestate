@@ -119,6 +119,55 @@ module.exports = {
 
     },
 
+   
+
+    // addMenu: async (req, res) => {
+    //     try {
+    //         // Create a new instance of the menu1 model with the data from the request body
+    //         const menu = new menu1_model({
+    //             name: req.body.name,
+    //             title: req.body.title,
+    //             icon: req.body.icon,
+    //             path: req.body.path
+    //         });
+
+    //         // Save the new menu to the database
+    //         const result = await menu.save();
+    //         console.log({ result });
+
+    //         // If the result exists, send a success response
+    //         if (result) {
+    //             res.status(200).json({ message: 'Menu added successfully' });
+    //         } else {
+    //             throw new Error('Something went wrong');
+    //         }
+    //     } catch (err) {
+    //         // Catch any errors and send an error response
+    //         res.status(400).json({ message: err.message });
+    //     }
+    // },
+
+    // deleteMenu: (req, res) => {
+    //     const menuId = req.params.menuId || req.body.menuId;
+
+    //     if (!mongoose.Types.ObjectId.isValid(menuId)) {
+    //         return res.status(400).send({ message: 'Invalid menu ID format' });
+    //     }
+
+    //     const objectId = mongoose.Types.ObjectId(menuId);
+
+    //     menu1_model.deleteOne({ _id: objectId }, (err, result) => {
+    //         if (err) {
+    //             return res.status(400).send({ message: 'Error deleting menu', error: err.message });
+    //         }
+
+    //         if (result.deletedCount === 0) {
+    //             return res.status(404).json({ message: 'Menu not found' });
+    //         }
+
+    //         res.status(200).json({ message: 'Menu removed successfully', data: result });
+    //     });
+    // },
     getMenu1List: (req, res) => {
         menu1_model.find({}, { name: 1, title: 1, icon: 1, path: 1 })  // Projection to retrieve specific columns
             .exec((err, data) => {
@@ -128,10 +177,9 @@ module.exports = {
                 return res.status(200).send(data);  // Return data on success
             });
     },
-
+    
     addMenu: async (req, res) => {
         try {
-            // Create a new instance of the menu1 model with the data from the request body
             const menu = new menu1_model({
                 name: req.body.name,
                 title: req.body.title,
@@ -139,22 +187,39 @@ module.exports = {
                 path: req.body.path
             });
 
-            // Save the new menu to the database
             const result = await menu.save();
             console.log({ result });
 
-            // If the result exists, send a success response
             if (result) {
                 res.status(200).json({ message: 'Menu added successfully' });
             } else {
                 throw new Error('Something went wrong');
             }
         } catch (err) {
-            // Catch any errors and send an error response
             res.status(400).json({ message: err.message });
         }
     },
 
+    // Update an existing menu
+    updateMenu: async (req, res) => {
+        try {
+            const menuId = req.params.id;
+            const menu = await menu1_model.findById(menuId);
+            if (!menu) {
+                throw new Error('Menu not found');
+            }
+            menu.name = req.body.name;
+            menu.title = req.body.title;
+            menu.icon = req.body.icon;
+            menu.path = req.body.path;
+            const result = await menu.save();
+            res.status(200).json({ message: 'Menu updated successfully' });
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
+    // Delete a menu
     deleteMenu: (req, res) => {
         const menuId = req.params.menuId || req.body.menuId;
 
@@ -162,9 +227,7 @@ module.exports = {
             return res.status(400).send({ message: 'Invalid menu ID format' });
         }
 
-        const objectId = mongoose.Types.ObjectId(menuId);
-
-        menu1_model.deleteOne({ _id: objectId }, (err, result) => {
+        menu1_model.deleteOne({ _id: mongoose.Types.ObjectId(menuId) }, (err, result) => {
             if (err) {
                 return res.status(400).send({ message: 'Error deleting menu', error: err.message });
             }
@@ -176,6 +239,21 @@ module.exports = {
             res.status(200).json({ message: 'Menu removed successfully', data: result });
         });
     },
+
+    // Get a menu by ID
+    getMenuById: async (req, res) => {
+        try {
+            const menuId = req.params.id;
+            const menu = await menu1_model.findById(menuId);
+            if (!menu) {
+                throw new Error('Menu not found');
+            }
+            res.status(200).json(menu);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
     getRoleList: (req, res) => {
         role_model.find({}, { name: 1 })  // Empty filter object to retrieve all, projection for name only
             .exec((err, data) => {

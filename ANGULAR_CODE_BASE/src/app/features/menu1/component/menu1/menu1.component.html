@@ -7,7 +7,7 @@
   <div class="col-lg-12 grid-margin stretch-card">
     <div class="card">
       <div class="card-body">
-        <form>
+        <form [formGroup]="form">
           <div class="row align-items-center">
             <!-- Search Input -->
             <div class="col-md-4">
@@ -17,20 +17,20 @@
                   <div class="input-group-prepend">
                     <span class="input-group-text"><i class="bi bi-search"></i> </span>
                   </div>
-                  <input type="text" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
+                  <input type="text" formControlName="searchText" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
                 </div>
               </div>
             </div>
 
             <!-- Filter and Cancel Buttons -->
             <div class="col-md-3">
-              <button type="submit" class="btn btn-warning btn-sm mr-1">Filter</button>
+              <button type="submit" class="btn btn-warning btn-sm mr-1" (click)="onClick_fiter()">Filter</button>
               <button type="reset" class="btn btn-secondary btn-sm">Cancel</button>
             </div>
 
             <!-- Add New Button -->
             <div class="col-md-5 text-md-right">
-              <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit(0)">
+              <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit()">
                 <i class="fa fa-plus btn-icon-prepend"></i> Add New
               </button>
             </div>
@@ -54,7 +54,7 @@
               </td>
               <td>{{item.name}}</td>
               <td>{{item.title}}</td>
-              <td><i class="bi bi-house-door-fill"></i></td>
+              <td><i class="{{item.icon}} mr-1"></i></td>
               <td>{{item.path}}</td>
               <td>
                 <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item._id)">

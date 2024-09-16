@@ -23,9 +23,11 @@ router.delete('/city/:cityId', commonController.removeCity)
 router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability);
 
 //menu Router's
-router.route('/menu1List').get(commonController.getMenu1List)
-router.route('/addEditMenu').post(commonController.addMenu)
-router.delete('/deleteMenu/:menuId', commonController.deleteMenu);
+router.route('/menuList').get(commonController.getMenu1List); // List all menus
+router.route('/addEditMenu').post(commonController.addMenu); // Add or edit a menu
+router.route('/menu/:id').get(commonController.getMenuById); // Get a menu by ID
+router.route('/menu/:id').put(commonController.updateMenu); // Update a menu by ID
+router.route('/deleteMenu/:menuId').delete(commonController.deleteMenu); // Delete a menu by ID
 
 //Role Router's
 router.route('/roleList').get(commonController.getRoleList)

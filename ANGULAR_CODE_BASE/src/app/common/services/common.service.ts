@@ -5,6 +5,7 @@ import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
 import { Role } from 'app/administration/models/user';
+import { Menu } from 'app/administration/models/menu';
 
 @Injectable()
 export class CommonService {
@@ -80,14 +81,24 @@ export class CommonService {
   }
   //End Property service
   //Menu services
+  //menu services
   getMenu1List(): Observable<any> {
-    return this.http.get(environment.BASE_URL + "/common/menu1List");
+    return this.http.get(environment.BASE_URL + "/common/menuList");
   }
 
-  addEditMenu(data: any): Observable<any> {
-    return this.http.post(environment.BASE_URL + "/common/addEditMenu", data);
+  addEditMenu(menudata: any): Observable<any> {
+    if (menudata.id) {
+      // If `roledata` has an `id`, use `updateRole` API
+      return this.http.put(environment.BASE_URL + "/common/menu/" + menudata.id, menudata);
+    } else {
+      // Otherwise, use `addRole` API
+      return this.http.post(environment.BASE_URL + "/common/addEditMenu", menudata);
+    }
   }
 
+  getMenuById(id: number): Observable<Role> {
+    return this.http.get<Menu>(`${environment.BASE_URL}/common/menu/${id}`);
+  }
 
   deleteMenu(menuId: string): Observable<any> {
     return this.http.delete(`${environment.BASE_URL}/common/deleteMenu/${menuId}`);
