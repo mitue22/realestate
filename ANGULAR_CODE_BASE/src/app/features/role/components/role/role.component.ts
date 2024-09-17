@@ -4,6 +4,7 @@ import { RoleModalComponent } from './role-modal/role-modal.component';
 import { AdministrationModule } from 'app/administration/administration.module';
 import { AdministrationService } from 'app/administration/service/administration.service';
 import { CommonService } from '@sa-services/common.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 declare const Swal:any;
 
@@ -14,13 +15,17 @@ declare const Swal:any;
 })
 export class RoleComponent implements OnInit {
   roleList: any;
-
+  form:FormGroup;
   constructor(
     private modalService: NgbModal,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private formBuilder:FormBuilder
   ) { }
 
   ngOnInit(): void {
+    this.form=this.formBuilder.group({
+      searchText:[null],
+    })
     this.getRoleList();
   }
   onAddEdit(id: any) {
@@ -35,9 +40,19 @@ export class RoleComponent implements OnInit {
       }
     });
   }
+  onClick_fiter(){
+    this.getRoleList();
+  }
+  onClear_Filter(){
+    this.form.reset();
+    this.getRoleList(); 
+   }
   
   getRoleList() {
-    this.commonService.getRoleList()
+    const filters = {
+      searchText: this.form.get('searchText').value // Assuming `searchText` is bound to an input in your component
+    };
+    this.commonService.getRoleList(filters)
       .subscribe(result => {
         this.roleList = result;
         console.log("called");

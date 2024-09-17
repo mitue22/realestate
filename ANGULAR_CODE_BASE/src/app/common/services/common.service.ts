@@ -81,8 +81,7 @@ export class CommonService {
   //Start Menu
   getMenu1List(filters: any): Observable<any> {
     return this.http.post(environment.BASE_URL + "/common/menu1List", filters);
-}
-
+  }
 
   addEditMenu(menudata: any): Observable<any> {
     if (menudata.id) {
@@ -103,8 +102,8 @@ export class CommonService {
   }
   //End Menu service
 //Start role
- getRoleList(): Observable<any> {
-    return this.http.get(environment.BASE_URL + "/common/roleList");
+ getRoleList(filters:any): Observable<any> {
+    return this.http.post(environment.BASE_URL + "/common/roleList",filters);
   }
 
   addEditRole(roledata: any): Observable<any> {

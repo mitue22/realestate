@@ -266,7 +266,16 @@ getUserById: async (req, res) => {
     },
 
     getRoleList: (req, res) => {
-        role_model.find({}, { name: 1 })  // Empty filter object to retrieve all, projection for name only
+        const filters = req.body; // Receive filters from the request body
+        let query = {};
+
+        if (filters.searchText) {
+            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            query['$or'] = [
+                { name: searchRegex },
+            ];
+        }
+        role_model.find(query, { name: 1 })  // Empty filter object to retrieve all, projection for name only
             .exec((err, data) => {
                 if (err) {
                     return res.status(400).send(err);
