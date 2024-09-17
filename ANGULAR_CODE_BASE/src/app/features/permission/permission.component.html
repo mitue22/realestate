@@ -7,18 +7,44 @@
       </div>
       <div class="row">
         <div class="col-md-12 form-group">
-          <select class="form-select form-select-lg mb-3" appendTo="body" placeholder="select" id="roleName">
+          <select class="form-select form-select-lg mb-3" appendTo="body" placeholder="select" id="roleName" (change)="onChangeRole($event.target.value)">
             <option value="select">select</option>
-            <option value="Admin">Admin</option>
-            <option value="Administration">Administration</option>
+            <option *ngFor="let role of roleList" value="{{role._id}}">{{role.name}}</option>
         </select>
         </div>
       </div>
     </div>
     <hr class="m-0">
 
-    <!-- <div class="row mt-2" *ngIf="!permissionDetails"> -->
-    <div class="row mt-2">
+     <div class="card">
+      <div class="card-content" *ngIf="permissionDetails">
+        <div class="card-body">
+          <div>
+            <div class="tree">
+              <ul>
+                <li *ngFor="let first of menuList">
+                  <span>
+                    <div class="custom-control custom-checkbox d-inline">
+                      <input type="checkbox" class="custom-control-input" [name]="first.name" [id]="first.name+first.id"  (change)="onChange_Menu($event.target.checked, first._id)" 
+                        [checked]="first.isSelected">
+                      <label class="custom-control-label" [for]="first.name+first.id"><i class="mr-2" [ngClass]="first.icon"></i><span>{{first.name}}</span></label>
+                    </div>
+                  </span>
+                </li>
+              </ul>
+            </div>
+            <div class="row" *ngIf="menuList.length > 0">
+              <div class="col-md-12 text-center">
+                <button type="button" (click)="onClickSubmit()" class="btn btn-primary">
+                  <i class="ft-check-square mr-1"></i>Save
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     </div>
+    <div class="row mt-2" *ngIf="menuList.length<=0">
       <div class="col-sm-12 text-center">
         <img src="\assets\images\dashboard\erp\img_1 .jpg" alt="permission" class="img-fluid error-img mt-2" height="300" width="500">
         <h1 class="mt-4">Select role for details.</h1>

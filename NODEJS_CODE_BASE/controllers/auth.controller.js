@@ -80,7 +80,8 @@ userLogin : (req, res) => {
               fname: user.fname,
               lname: user.lname,
               email: user.email,
-              isAdmin: user.isAdmin
+              isAdmin: user.isAdmin,
+              role: user.role 
             };
             const token = jwt.sign({ user: jwtData }, secretKey);
             res.status(200).json({ message: 'Login Successful', token: token });

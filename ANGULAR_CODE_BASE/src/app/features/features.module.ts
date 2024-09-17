@@ -35,7 +35,6 @@ import { UsersModelComponent } from './users/components/user/users-model/users-m
     DashboardHomeComponent,
     UserComponent,
     UsersModelComponent,
-    PermissionComponent ,
     UserComponent,
     UsersModelComponent 
   ],

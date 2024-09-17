@@ -14,7 +14,8 @@ router.route('/state')
 router.route('/cities')
 .get(commonController.getAllCities)
 .post(commonController.addCity)
-
+router.get('/menu',commonController.getMenuDDList);
+router.get('/role',commonController.getRoleDDList);
 router.get('/cities/:state_id', commonController.getCityList)
 router.delete('/city/:cityId', commonController.removeCity)
  router.get('/type', commonController.propertyTypeList);
@@ -43,5 +44,8 @@ router.route('/addEditUser').post(commonController.addUser);
 router.delete('/deleteUser/:userId', commonController.deleteUser);
 router.get('/user/:id', commonController.getUserById);
 router.route('/user/:id').put(commonController.updateUser);
-
+router.get('/permissions/:id',commonController.getPermissionList);
+router.route('/permissions').post(commonController.postPermission);
+router.route('/permissions/delete').post(commonController.deletePermission);
+router.route('/permissions/menuList/:role').get(commonController.getMenuListByPermission);
 module.exports = router;

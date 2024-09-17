@@ -10,10 +10,13 @@ import { LoginService } from '@sa-services/login.service';
 export class DashboardComponent implements OnInit {
   isUserLoggedIn: Boolean = false;
   menuList:any[]=[];
+  userRole:string;
+  data = { emailPhone: '', loginPassword: '' }; 
   constructor(private loginService:LoginService,
     private commonService:CommonService
   ) { 
     this.isUserLoggedIn = loginService.isLoggedIn();
+    this.userRole=localStorage.getItem('role');
 }
 
   // toggleMenuItems = false;
@@ -22,9 +25,8 @@ export class DashboardComponent implements OnInit {
     this.getMenuList();
   }
   getMenuList(){
-    const filters =[]
-    this.commonService.getMenu1List(filters)
-    .subscribe(result =>{
+    this.commonService.getMenuListByPermission(this.userRole)
+    .subscribe((result:any[]) =>{
       this.menuList=result;
    });
   }

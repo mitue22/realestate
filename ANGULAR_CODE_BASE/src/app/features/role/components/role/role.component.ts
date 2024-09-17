@@ -55,7 +55,6 @@ export class RoleComponent implements OnInit {
     this.commonService.getRoleList(filters)
       .subscribe(result => {
         this.roleList = result;
-        console.log("called");
       });
   }
   

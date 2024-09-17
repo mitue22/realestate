@@ -4,7 +4,7 @@
   import { JwtHelper } from "angular2-jwt";
   import { Router } from '@angular/router';
   import { environment } from '@sa-environments/environment';
-  import { tap } from 'rxjs/operators';
+  import { map } from 'rxjs/operators';
   const httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -24,6 +24,20 @@
       let postData = { 'emailPhone': data.emailPhone, 'password': data.loginPassword }
       return this.http.post(environment.BASE_URL + '/auth/user/login', postData, httpOptions)
     }
+    // checkUserLogin(data) {
+    //   let postData = { 'emailPhone': data.emailPhone, 'password': data.loginPassword }
+    //   return this.http.post<LoginResponse>(environment.BASE_URL + '/auth/user/login', postData, httpOptions)
+    //     .pipe(
+    //       map(response => {
+    //         console.log(response, "response");
+    //         if (response && response.token) {
+    //           localStorage.setItem('token', response.token);
+    //           localStorage.setItem('role', response.role); 
+    //           return response.role; 
+    //         }
+    //       })
+    //     );
+    // }
     // checkUserLogin(emailPhone: string, loginPassword: string) {
     //   password:loginPassword;
     //   return this.http.post<any>(`${environment.BASE_URL}/auth/user/login`, { emailPhone,password })

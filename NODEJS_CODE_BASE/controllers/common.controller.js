@@ -6,6 +6,7 @@ var users = require('../models/users');
 const role_model = require('../models/role');
 var propertyTypeOriginal_model = require('../models/propertyTypeOriginal');
 var property_model = require('../models/property');
+var permission_model=require('../models/permission');
 module.exports = {
     propertyList: (req, res) => {
         const filters =  req.body;
@@ -58,6 +59,22 @@ module.exports = {
     // STATES
     getStateList: (req, res) => {
         state_model.find({ is_active: true })
+            .exec((err, data) => {
+                if (err)
+                    res.status(400).send(err);
+                res.status(200).send(data);
+            });
+    },
+    getRoleDDList:(req,res) =>{
+        role_model.find({ is_active: true })
+            .exec((err, data) => {
+                if (err)
+                    res.status(400).send(err);
+                res.status(200).send(data);
+            });
+    },
+    getMenuDDList:(req,res) =>{
+        menu1_model.find({ is_active: true })
             .exec((err, data) => {
                 if (err)
                     res.status(400).send(err);
@@ -415,4 +432,64 @@ getUserById: async (req, res) => {
             res.status(400).json({ message: err.message });
         }
     },
-} 
+    async getPermissionList(req, res) {
+        try {
+          const permissions = await permission_model.find().exec();
+          res.status(200).json(permissions);
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error fetching permission list' });
+        }
+      },
+      async postPermission(req, res) {
+        try {
+          const permissions = req.body.map((permission) => {
+            return new permission_model(permission);
+          });
+          const results = await permission_model.insertMany(permissions);
+          res.status(201).json({ message: 'Permissions created successfully', permissions: results });
+        } catch (error) {
+          console.error(error);
+          res.status(500).json({ message: 'Error creating permissions' });
+        }
+      },
+      async deletePermission(req, res) {
+        try {
+            const deleteData = req.body;
+            const promises = deleteData.map(async (data) => {
+              const existingPermission = await permission_model.findOne({ menuId: data.menuId, roleId: data.roleId });
+              if (existingPermission) {
+                await permission_model.deleteOne({ _id: existingPermission._id });
+              }
+            });
+            await Promise.all(promises);
+            res.status(200).send({ message: 'Permissions deleted successfully' });
+          } catch (error) {
+            console.error(error);
+            res.status(500).send({ message: 'Error deleting permissions' });
+          }
+        },
+        async getMenuListByPermission(req, res) {
+            try {
+              // Retrieve the role name from the request
+              const roleName = req.params.role;
+                console.log(req.body,"req");
+              // Find the role ID from the role name
+              const roleId = await role_model.findOne({ name: roleName });
+                console.log(roleName,"roleid");
+              if (!roleId) {
+                throw new Error('Role not found');
+              }
+          
+              // Find the menu IDs from the permission table
+              const menuIds = await permission_model.find({ roleId: roleId._id }, { menuId: 1 });
+          
+              // Find the menu list from the menu table
+              const menuList = await menu1_model.find({ _id: { $in: menuIds.map(menuId => menuId.menuId) } });
+          
+              res.status(200).json(menuList);
+            } catch (err) {
+              res.status(400).json({ message: err.message });
+            }
+          }
+}

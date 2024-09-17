@@ -41,7 +41,6 @@ userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'role'
       },
-    //   roleName: String,
     pincode: {
         type: Number
     },

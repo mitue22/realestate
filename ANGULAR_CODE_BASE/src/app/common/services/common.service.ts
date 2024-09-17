@@ -48,7 +48,12 @@ export class CommonService {
   getCitylistByState(stateId): Observable<any> {
     return this.http.get(environment.BASE_URL + '/common/cities/' + stateId);
   }
-
+getMenuDDList(){
+  return this.http.get(environment.BASE_URL + '/common/menu');
+}
+getRoleDDList(){
+  return this.http.get(environment.BASE_URL + '/common/role');
+}
   //Property Service
   getPropertyTypeList(): Observable<any> {
     return this.http.get(environment.BASE_URL + '/common/type');
@@ -146,4 +151,18 @@ addEditUser(userdata: any): Observable<any> {
   }
 }
 //End User
+//Start Permission
+getPermissions(roleId: number) {
+  return this.http.get(`${environment.BASE_URL}/common/permissions/${roleId}`);
+}
+postPermissions(permissionData: any) {
+  return this.http.post(`${environment.BASE_URL}/common/permissions`, permissionData);
+}
+deletePermissions(permissionData: any) {
+  return this.http.post(`${environment.BASE_URL}/common/permissions/delete`, permissionData);
+}
+getMenuListByPermission(role:string){
+  return this.http.get(`${environment.BASE_URL}/common/permissions/menuList/${role}`);
+}
+//End Permission
 }

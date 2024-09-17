@@ -11,7 +11,8 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login-modal.component.scss']
 })
 export class LoginModalComponent implements OnInit {
-
+  isRequired = true;
+  emailPhoneRequired = true;
   constructor(
     public activeModal: NgbActiveModal,
     private loginService: LoginService,
@@ -19,7 +20,9 @@ export class LoginModalComponent implements OnInit {
     private router: Router,
     private commonService: CommonService,
   ) { }
-
+  ngAfterViewInit() {
+    this.emailPhoneRequired = this.isRequired;
+  }
   alertMessage: any = {
     // status: false,
     type: '',
@@ -42,7 +45,11 @@ export class LoginModalComponent implements OnInit {
         }
         this.loginCheck = false;
         this.alertMessage.message = '';
-        this.loginSuccess(response['token']);
+        const token = response['token'];
+    const tokenParts = token.split('.');
+    const payload = JSON.parse(atob(tokenParts[1]));
+    const role = payload.user.role;
+        this.loginSuccess(response['token'],role);
         this.router.navigate(['/users/dashboard']);
       //  }
     },
@@ -82,7 +89,7 @@ export class LoginModalComponent implements OnInit {
   // }
 
 
-  loginSuccess(token) {
+  loginSuccess(token,role) {
     this.commonService.changeHeaderMessage({ type: 'success', message: 'You have logged in successfully'});
     this.activeModal.dismiss('Cross click');
     this.router.navigate([this.urltoRedirect || '/users/dashboard']);
@@ -94,7 +101,7 @@ export class LoginModalComponent implements OnInit {
 
     // Adding to local storage
     localStorage.setItem('token', token);
-
+    localStorage.setItem('role',role);
   }
 
 
