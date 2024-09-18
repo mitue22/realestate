@@ -69,6 +69,16 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'builder',
+    component: MainComponent,
+    children: [
+      {
+        path: '',
+        loadChildren: 'app/features/builder/builder.module#BuilderModule'
+      }
+    ]
+  },
+  {
     path: 'admin',
     component: MainComponent,
     children: [

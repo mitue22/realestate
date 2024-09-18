@@ -21,6 +21,7 @@ export class AdminDashboardComponent implements OnInit {
     this.http.get(`${environment.BASE_URL}/auth/admin/userList`)
       .subscribe((response: any) => {
         if (response && response.data) this.userList = response.data
+        console.log(response.data,"response");
       },
         () => { },
         () => { this.commonService.togglePageLoaderFn(false); }
