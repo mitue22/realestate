@@ -3,6 +3,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@sa-services/common.service';
 import { UserService } from '@sa-services/user.service';
 import { UsersModelComponent } from './users-model/users-model.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
 declare const Swal:any;
 
 @Component({
@@ -12,13 +13,20 @@ declare const Swal:any;
 })
 export class UserComponent implements OnInit {
   userList: any[] = [];
+  form:FormGroup;
+  
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
-    private commonService: CommonService
+    private commonService: CommonService,
+    private formBuilder:FormBuilder
+
   ) { }
 
   ngOnInit() {
+    this.form=this.formBuilder.group({
+      searchText:[null],
+    })
     this.getUserList();
   }
 
@@ -42,6 +50,15 @@ export class UserComponent implements OnInit {
         console.log("called");
       });
   }
+
+  onClick_fiter(){
+    this.getUserList();
+  }
+
+  onClear_Filter(){
+    this.form.reset();
+    this.getUserList(); 
+   }
 
   onDelete(userId:any){
     Swal.fire({
@@ -69,7 +86,4 @@ export class UserComponent implements OnInit {
     });
   }
 
-  onSubmit_Filter() {
-    this.getUserList();
-  }
 }

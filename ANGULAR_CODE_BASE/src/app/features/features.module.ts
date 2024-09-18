@@ -16,6 +16,8 @@ import { PermissionComponent } from './permission/permission.component';
 import { UserComponent } from './users/components/user/user.component';
 import { FeaturesRoutingModule } from './users/features-routing.module';
 import { UsersModelComponent } from './users/components/user/users-model/users-model.component';
+import { BuilderComponent } from './builder/builder.component';
+import { BuilderModalComponent } from './builder/builder-modal/builder-modal.component';
 
 @NgModule({
   imports: [
@@ -36,7 +38,9 @@ import { UsersModelComponent } from './users/components/user/users-model/users-m
     UserComponent,
     UsersModelComponent,
     UserComponent,
-    UsersModelComponent 
+    UsersModelComponent,
+    BuilderComponent,
+    BuilderModalComponent 
   ],
   providers: [
   ]

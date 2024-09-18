@@ -1,7 +1,7 @@
 <div class="card">
   <div class="card-content">
     <div class="card-body">
-      <form> 
+      <form [formGroup]="form"> 
         <!-- <div class="header mb-5 display-2">
           <i class="bi bi-person-fill">User</i>
         </div> -->
@@ -16,18 +16,17 @@
               <div class="input-group-prepend">
                 <span class="input-group-text"><i class="bi bi-search"></i></span>
               </div>
-              <input type="text" id="searchText" placeholder="Search" class="form-control">
+              <input type="text" formControlName="searchText" class="form-control" placeholder="search" aria-label="Username" aria-describedby="basic-addon1">
             </div>
           </div>
           <div class="col-md-4 d-flex align-items-center mt-1 mt-md-0">
-            <button type="submit" class="btn btn-warning m-1"> <i class="bi bi-search mr-2"></i>Filter</button>
-            <button type="button" class="btn btn-secondary m-1"> <i class="bi bi-x-lg mr-2"></i>Clear</button>
+            <button type="submit" class="btn btn-warning m-1" (click)="onClick_fiter()">Filter</button>
+            <button type="button" class="btn btn-secondary m-1" (click)="onClear_Filter()">Clear</button>
           </div>
           <div class="form-group col-md-5 text-right">
             <button type="button" class="btn btn-primary btn-fw mb-1 ml-auto mt-4" (click)="onClick_AddEdit(0)">
               <i class="bi bi-plus-lg mr-2" aria-hidden="true"></i>Add User
             </button>
-           <!-- <button (click)="onClick_Add()">Add new</button> -->
           </div>
         </div>
       </form>
@@ -41,7 +40,7 @@
                 <th> Username </th>
                 <th> Email </th>
                 <th> Phone Number </th>
-                <th>Status</th>
+                <th> Status </th>
                 <th> Action </th>
               </tr>
           </thead>

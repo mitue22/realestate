@@ -5,7 +5,8 @@ import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
 import { Menu } from 'app/administration/models/menu';
-import { Role, User } from 'app/administration/models/user';
+import { Role } from 'app/administration/models/user';
+import { User } from 'app/features/users/components/user/user';
 
 @Injectable()
 export class CommonService {
@@ -129,6 +130,7 @@ getRoleDDList(){
     return this.http.delete(environment.BASE_URL + "/common/deleteRole/" + roleId);
   }
 //End Role
+
 //start User
 getUserList():Observable<any>{
   return this.http.get(environment.BASE_URL + '/common/userDetailList');
@@ -138,19 +140,34 @@ deleteUser(userId: any): Observable<any> {
   return this.http.delete(`${environment.BASE_URL}/common/deleteUser/${userId}`);
 }
 
-
-getUserById(id: number): Observable<User> {
-  return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
-}
+// addEditUser(userdata: any): Observable<any> {
+//   if (userdata.id) {
+//     return this.http.put(environment.BASE_URL + "/common/user/:id/" + userdata.id, userdata);
+//   } else {
+//     return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
+//   }
+// }
 
 addEditUser(userdata: any): Observable<any> {
   if (userdata.id) {
+    // If `roledata` has an `id`, use `updateRole` API
     return this.http.put(environment.BASE_URL + "/common/user/" + userdata.id, userdata);
   } else {
+    // Otherwise, use `addRole` API
     return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
   }
 }
+
+// getUserById(id: number): Observable<User> {
+//   return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
+// }
+
+getUserById(id: any): Observable<User> {
+  return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
+}
+
 //End User
+
 //Start Permission
 getPermissions(roleId: number) {
   return this.http.get(`${environment.BASE_URL}/common/permissions/${roleId}`);
@@ -165,4 +182,13 @@ getMenuListByPermission(role:string){
   return this.http.get(`${environment.BASE_URL}/common/permissions/menuList/${role}`);
 }
 //End Permission
+
+//Start builder
+
+getBuilderList(): Observable<any> {
+  return this.http.get(environment.BASE_URL + '/common/builderList');
+}
+
+//End builder
+
 }

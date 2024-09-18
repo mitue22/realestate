@@ -3,9 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { TranslateService } from '@ngx-translate/core';
 import { CommonService } from '@sa-services/common.service';
-import { User } from 'app/administration/models/user';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
+import { User } from '../user';
 
 @Component({
   selector: 'app-users-model',
@@ -17,6 +16,8 @@ export class UsersModelComponent implements OnInit {
   @Output() onUser_Emit: EventEmitter<boolean> = new EventEmitter();
   submitted = false;
   roleList: any[] = [];
+  userId: any;
+
   showPassword = false;
 
   form: FormGroup;
@@ -30,17 +31,43 @@ export class UsersModelComponent implements OnInit {
   }
   ngOnInit() {
     this.form = this.formBuilder.group({
-      roleName: ['', Validators.required],
-      fname: ['', Validators.required],
-      lname: ['', Validators.required],
-      userName: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phoneNo: ['', Validators.required, Validators.pattern(/^[0-9]{10}$/)],
-      password: ['', Validators.required],
-      status: [null, Validators.required]
+      roleName:  ["", Validators.compose([Validators.required])],
+      fname:  ["", Validators.compose([Validators.required])],
+      lname:  ["", Validators.compose([Validators.required])],
+      userName:  ["", Validators.compose([Validators.required])],
+      email: ["", [Validators.required, Validators.email]],
+      phoneNo: ["", Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+      password:  ["", Validators.compose([Validators.required])],
+      status:  [null, Validators.compose([Validators.required])],
     });
+    if (this.id) { // Ensure to use `this.id`
+      this.userId = this.id; // Set `roleId` for editing
+      this.getUserById()
+    } else {
+      this.userId = null; // Clear `roleId` if creating a new role
+    }
+
     this.getRoleList()
   }
+
+  getUserById(): void {
+    this.commonService.getUserById(this.id).subscribe((user: User) => {
+      if (user) {
+        this.form.patchValue({
+        role: user.role,
+        fname: user.fname,
+        lname: user.lname,
+        userName: user.userName,
+        email: user.email,
+        phoneNo: user.phoneNo,
+        password: user.password,
+        status: user.status
+        });
+      }
+      console.log("called get List")
+    });
+  }
+
   
   getRoleList() {
     const filters=[]
@@ -62,7 +89,6 @@ export class UsersModelComponent implements OnInit {
     this.showPassword = !this.showPassword;
   }
 
-
   get f() {
     return this.form.controls;
   }
@@ -73,19 +99,19 @@ export class UsersModelComponent implements OnInit {
       return;
     }
     const formData = {
-          id:this.id,
-          roleName:this.form.get('roleName').value,
-          fname:this.form.get('fname').value,
-          lname:this.form.get('lname').value,
-          userName:this.form.get('userName').value,
-          email:this.form.get('email').value,
-          phoneNo:this.form.get('phoneNo').value,
-          password:this.form.get('password').value,
-          status:this.form.get('status').value,
+          id:this.userId,
+          roleName:this.form.get("roleName").value,
+          fname:this.form.get("fname").value,
+          lname:this.form.get("lname").value,
+          userName:this.form.get("userName").value,
+          email:this.form.get("email").value,
+          phoneNo:this.form.get("phoneNo").value,
+          password:this.form.get("password").value,
+          status:this.form.get("status").value,
         };
         console.log("data",this.form.value)
 
-    if (this.id) {
+    if (this.userId) {
       // Update user
       this.commonService.addEditUser(formData).subscribe((result) => {
         console.log("ID", result);

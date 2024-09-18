@@ -50,7 +50,7 @@ export class RoleComponent implements OnInit {
   
   getRoleList() {
     const filters = {
-      searchText: this.form.get('searchText').value // Assuming `searchText` is bound to an input in your component
+      searchText: this.form.get('searchText').value
     };
     this.commonService.getRoleList(filters)
       .subscribe(result => {
