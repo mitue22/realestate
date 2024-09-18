@@ -4,8 +4,11 @@ import { Observable } from 'rxjs/Observable';
 import { Title } from '@angular/platform-browser';
 import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
-import { Menu } from 'app/administration/models/menu';
-import { Role, User } from 'app/administration/models/user';
+import { Menu } from 'app/features/menu1/model/menu';
+import { Role } from 'app/features/role/model/role';
+import { User } from 'app/administration/models/user';
+// import { Menu } from 'app/administration/models/menu
+// import { Role } from 'app/features/role/model/role';
 
 @Injectable()
 export class CommonService {
@@ -98,7 +101,7 @@ getRoleDDList(){
     }
   }
 
-  getMenuById(id: number): Observable<Role> {
+  getMenuById(id: number): Observable<Menu> {
     return this.http.get<Menu>(`${environment.BASE_URL}/common/menu/${id}`);
   }
 
@@ -120,7 +123,6 @@ getRoleDDList(){
       return this.http.post(environment.BASE_URL + "/common/addEditRole", roledata);
     }
   }
-
   getRoleById(id: number): Observable<Role> {
     return this.http.get<Role>(`${environment.BASE_URL}/common/role/${id}`);
   }
