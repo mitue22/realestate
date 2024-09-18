@@ -10,7 +10,8 @@ import { CommonService } from '@sa-services/common.service';
 })
 export class BuilderComponent implements OnInit {
 
-  builderList: any[]=[];
+  builderList: any[] = [];
+
 
  constructor(
     private modalService: NgbModal,

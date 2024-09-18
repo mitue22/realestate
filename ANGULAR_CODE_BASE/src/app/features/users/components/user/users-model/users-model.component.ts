@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { CommonService } from '@sa-services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../user';
+// import { User } from '../user';
 
 @Component({
   selector: 'app-users-model',
@@ -42,7 +43,7 @@ export class UsersModelComponent implements OnInit {
     });
     if (this.id) { // Ensure to use `this.id`
       this.userId = this.id; // Set `roleId` for editing
-      this.getUserById()
+      // this.getUserById()
     } else {
       this.userId = null; // Clear `roleId` if creating a new role
     }
@@ -50,23 +51,23 @@ export class UsersModelComponent implements OnInit {
     this.getRoleList()
   }
 
-  getUserById(): void {
-    this.commonService.getUserById(this.id).subscribe((user: User) => {
-      if (user) {
-        this.form.patchValue({
-        role: user.role,
-        fname: user.fname,
-        lname: user.lname,
-        userName: user.userName,
-        email: user.email,
-        phoneNo: user.phoneNo,
-        password: user.password,
-        status: user.status
-        });
-      }
-      console.log("called get List")
-    });
-  }
+  // getUserById(): void {
+  //   this.commonService.getUserById(this.id).subscribe((user: User) => {
+  //     if (user) {
+  //       this.form.patchValue({
+  //       role: user.role,
+  //       fname: user.fname,
+  //       lname: user.lname,
+  //       userName: user.userName,
+  //       email: user.email,
+  //       phoneNo: user.phoneNo,
+  //       password: user.password,
+  //       status: user.status
+  //       });
+  //     }
+  //     console.log("called get List")
+  //   });
+  // }
 
   
   getRoleList() {

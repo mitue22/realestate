@@ -2,7 +2,8 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal, NgbModal, NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@sa-services/common.service';
-import { Role } from 'app/administration/models/user';
+import { Role } from 'app/features/role/model/role';
+// import { Role } from 'app/administration/models/user';
 
 @Component({
   selector: 'app-role-modal',

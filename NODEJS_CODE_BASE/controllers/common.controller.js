@@ -7,7 +7,7 @@ const role_model = require('../models/role');
 var propertyTypeOriginal_model = require('../models/propertyTypeOriginal');
 var property_model = require('../models/property');
 var permission_model=require('../models/permission');
-const builder = require('../models/builder');
+var builder = require('../models/builder');
 
 module.exports = {
     propertyList: (req, res) => {
@@ -404,22 +404,6 @@ module.exports = {
               res.status(400).json({ message: err.message });
             }
           },
-          //start builder
-
-          getBuilderList: (req, res) => {
-            builder.find(query, {fname:1, lname:1, email:1, password:1, pincode:1, location:1, })
-            // .populate('city', 'name')
-            // .populate('state', 'name')  
-                .exec((err, data) => {
-                    if (err) {
-                        return res.status(400).send(err);
-                    }
-                    return res.status(200).send(data); 
-                });
-        },
-          
-        
-          //end builder
 
     //start user...
           
@@ -507,4 +491,16 @@ deleteUser: (req, res) => {
     });
 },
       //end user    
+    //start Builder
+    getBuilderList: (req, res) => {
+        builder.find({}, { fname: 1, lname: 1, email: 1, password: 1 ,pincode:1,state:1,city:1,location:1})  
+            .exec((err, data) => {
+                if (err) {
+                    return res.status(400).send(err);
+                }
+                return res.status(200).send(data); 
+            });
+    },
+
+    //end Builder
 }

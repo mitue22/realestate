@@ -39,6 +39,9 @@ router.route('/role/:id').put(commonController.updateRole);
 router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability)
 router.get('/userDetailList', commonController.userList);
 
+//builders
+router.route('/builderList').get(commonController.getBuilderList);
+
 //user
 router.route('/addEditUser').post(commonController.addUser);
 router.delete('/deleteUser/:userId', commonController.deleteUser);

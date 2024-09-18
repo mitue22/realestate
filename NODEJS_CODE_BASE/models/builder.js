@@ -16,9 +16,6 @@ const builderSchema = new Schema({
         ref: 'City'
     },
     location: { type: String, required: true },
-
-
-
     
 }, { collection: 'builder' });
 
