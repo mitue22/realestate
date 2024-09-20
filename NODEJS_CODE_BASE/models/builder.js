@@ -6,7 +6,8 @@ const builderSchema = new Schema({
     lname: { type: String, required: true },
     email: { type: String, required: true },
     password: { type: String, required: true },
-    pincode: { type:Number,require},
+    pincode: { type:Number,required : true},
+    phoneNo:{type:Number,required : true},
     state: {
         type: Schema.Types.ObjectId,
         ref: 'States'

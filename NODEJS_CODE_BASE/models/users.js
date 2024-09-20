@@ -37,10 +37,6 @@ userSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'role'
     },
-    role: {
-        type: Schema.Types.ObjectId,
-        ref: 'role'
-      },
     pincode: {
         type: Number
     },

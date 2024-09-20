@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BuilderModalComponent } from './builder-modal/builder-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@sa-services/common.service';
-
+declare const Swal:any;
 @Component({
   selector: 'app-builder',
   templateUrl: './builder.component.html',
@@ -31,7 +31,7 @@ export class BuilderComponent implements OnInit {
       });
   }
 
-  onAddEdit(id: any) {
+  onAddEdit(id: Number) {
     const modalRef = this.modalService.open(BuilderModalComponent, {
       centered: true,
       backdrop: "static",
@@ -43,4 +43,31 @@ export class BuilderComponent implements OnInit {
       }
     });
   }
+
+  onDelete(BuilderId:any){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!',
+    })
+    .then((result) => {
+      if (result.isConfirmed) {
+        console.log(BuilderId)
+        this.commonService.deleteBuilder(BuilderId).subscribe({
+          next: () => {
+            Swal.fire('Deleted!', 'User has been deleted.', 'success');
+            this.getBuilderList();  // Refresh the list after deletion
+          },
+          error: (err) => {
+            Swal.fire('Error!', 'There was an error deleting the user.', 'error');
+          }
+        });
+      }
+    });
+  }
+
 }

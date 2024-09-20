@@ -2,28 +2,41 @@
   <h4 class="modal-header">Builder Information</h4>
   <button type="button" class="close" (click)="activeModal.dismiss('Cross click')">&times;</button>
 </div>
-<form>
+<form [formGroup]="form" novalidate  (ngSubmit)="submit_form()">
   <div class="modal-body">
     <div class="form-group row">
       <label class="col-md-4 label-control" for="fname">First Name</label>
       <div class="col-md-8">
-        <input id="fname" type="text" class="form-control"/>
+        <input formControlName="fname" id="fname" type="text" class="form-control"
+        [ngClass]="{'is-invalid': submitted && f.fname.invalid,'is-valid': submitted && !f.fname.invalid}"/>
+        <small class="form-text text-danger" *ngIf="submitted && f.fname.invalid">
+          <span *ngIf="f.fname.errors.required">First name is required </span>
+        </small>
       </div>
     </div>
     <div class="form-group row">
       <label class="col-md-4 label-control" for="lname">Last Name</label>
       <div class="col-md-8">
-        <input id="lname" type="text" class="form-control"/>
+        <input formControlName="lname" id="lname" type="text" class="form-control"
+        [ngClass]="{'is-invalid': submitted && f.lname.invalid,'is-valid': submitted && !f.lname.invalid}"/>
+        <small class="form-text text-danger" *ngIf="submitted && f.lname.invalid">
+          <span *ngIf="f.lname.errors.required">Last name is required </span>
+        </small>
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-md-4 label-control" for="email">Email</label>
       <div class="col-md-8">
-        <input id="email" type="text" class="form-control"/>
+        <input formControlName="email" id="email" type="text" class="form-control"
+        [ngClass]="{'is-invalid': submitted && f.email.invalid,'is-valid': submitted && !f.email.invalid}"/>
+        <small class="form-text text-danger" *ngIf="submitted && f.email.invalid">
+          <span *ngIf="f.email.errors.required">Email is required </span>
+        </small>
       </div>
     </div>
 
+    <!-- Phone Number -->
     <div class="form-group row">
       <label class="col-md-4 label-control" for="phoneNo">Phone Number</label>
       <div class="col-md-8">
@@ -31,22 +44,46 @@
           <div class="input-group-prepend">
             <span class="input-group-text text-dark" dir="ltr">+966</span>
           </div>
-          <input id="phoneNo" type="text" class="form-control"/>
+          <input id="phoneNo" type="text" class="form-control" formControlName="phoneNo"
+          [ngClass]="{'is-invalid': submitted && f.phoneNo.errors, 'is-valid': submitted && !f.phoneNo.errors}"/>
         </div>
+        <div *ngIf="submitted && f.phoneNo.errors" class="text-danger">
+          <span *ngIf="f.phoneNo.errors.required">Phone Number is required</span>
+          <!-- <span *ngIf="f.phoneNo.errors.pattern">Phone Number must be 9 digits</span> -->
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-md-4 label-control" for="password">Password</label>
+      <div class="col-md-8">
+          <input formControlName="password" id="password" type="text" class="form-control"
+          [ngClass]="{'is-invalid': submitted && f.password.invalid,'is-valid': submitted && !f.password.invalid}"/>
+          <small class="form-text text-danger" *ngIf="submitted && f.password.invalid">
+            <span *ngIf="f.password.errors.required">password  is required </span>
+          </small>
       </div>
     </div>
 
     <div class="form-group row">
       <label class="col-md-4 label-control" for="location">Location</label>
       <div class="col-md-8">
-        <input id="location" type="text" class="form-control"/>
+        <input formControlName="location" id="location" type="text" class="form-control"
+        [ngClass]="{'is-invalid': submitted && f.location.invalid,'is-valid': submitted && !f.location.invalid}"/>
+        <small class="form-text text-danger" *ngIf="submitted && f.location.invalid">
+          <span *ngIf="f.location.errors.required">Location is required </span>
+        </small>
       </div>
     </div>
 
       <div class="form-group row">
       <label class="col-md-4 label-control" for="pincode">Pincode</label>
       <div class="col-md-8">
-        <input id="pincode" type="text" class="form-control"/>
+        <input formControlName="pincode" id="pincode" type="text" class="form-control"
+        [ngClass]="{'is-invalid': submitted && f.pincode.invalid,'is-valid': submitted && !f.pincode.invalid}" />
+        <small class="form-text text-danger" *ngIf="submitted && f.pincode.invalid">
+          <span *ngIf="f.pincode.errors.required">Pincode is required </span>
+        </small>
       </div>
     </div>
 

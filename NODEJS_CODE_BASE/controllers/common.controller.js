@@ -407,18 +407,17 @@ module.exports = {
 
     //start user...
           
-    userList: (req, res) => {
+    userList: (req, res) => {        
         users.find().exec((err, result) => {
             if (err) {
                 console.error("Error:", err);
                 res.status(400).send(err);
             } else {
-                // console.log("Result:", result);
                 res.status(200).json(result);
             }
         });
     },
-
+    
     // Add User
     addUser: async (req, res) => {
     try{
@@ -441,8 +440,14 @@ async updateUser(req, res) {
       if (!user) {
         throw new Error('User not found');
       }
-      const userData = req.body;
-      user.set(userData);
+      user.role = req.body.role;
+      user.fname = req.body.fname;
+      user.lname = req.body.lname;
+      user.userName = req.body.userName;
+      user.email = req.body.email;
+      user.password = req.body.password;
+      user.phoneNo = req.body.phoneNo;
+      user.status = req.body.status
       const result = await user.save();
       res.status(200).json({ message: 'User updated successfully', data: result });
     } catch (err) {
@@ -450,16 +455,15 @@ async updateUser(req, res) {
     }
   },
 
-getUserById: async (req, res) => {
+
+    getUserById: async (req, res) => {
     try {
-        const userId = req.params.id;  // Get user ID from the request URL
-        const user = await users.findById(userId);  // Find user by ID
-        
-        if (user) {
-            res.status(200).json(user);
-        } else {
-            throw new Error('User not found');
+        const userId = req.params.id;
+        const user = await user.findById(userId);
+        if (!user) {
+            throw new Error('user not found');
         }
+        res.status(200).json(user);
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -493,7 +497,7 @@ deleteUser: (req, res) => {
       //end user    
     //start Builder
     getBuilderList: (req, res) => {
-        builder.find({}, { fname: 1, lname: 1, email: 1, password: 1 ,pincode:1,state:1,city:1,location:1})  
+        builder.find({}, { fname: 1, lname: 1, email: 1,password:1,phoneNo:1,pincode:1,state:1,city:1,location:1})  
             .exec((err, data) => {
                 if (err) {
                     return res.status(400).send(err);
@@ -501,6 +505,79 @@ deleteUser: (req, res) => {
                 return res.status(200).send(data); 
             });
     },
+    addBuilder: async (req, res) => {
+        try{
+            var BuilderData = new builder(req.body);            
+            const result = await BuilderData.save();
+            console.log({result});
+            if(result) res.status(200).json({ message: 'User added successfully' });
+            else throw new Error('Something Went Wrong');
+        }
+        catch(err){
+            res.status(400).json({message: err.message});
+        }
+    },
+    getBuilderById: async (req, res) => {
+        try {
+            const builderId = req.params.id;
+            console.log(builderId,"builder");
+            const builders = await builder.findById(builderId);
+            if (!builders) {
+                throw new Error('builder not found');
+            }
+            res.status(200).json(builders);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+    updateBuilder: async (req, res) => {
+  try {
+    const builderId = req.params.id;
+    const builder = await builder.findById(builderId);
+    if (!builder) {
+      throw new Error('Builder not found');
+    }
+    builder.fname = req.body.fname;
+    builder.lname = req.body.lname;
+    builder.email = req.body.email;
+    builder.password = req.body.password;
+    builder.phoneNo = req.body.phoneNo;
+    builder.pincode = req.body.pincode;
+    builder.location = req.body.location;
+    const result = await builder.save();
+    res.status(200).json({ message: 'Builder updated successfully', data: result });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+},
+    
+
+//delete user
+deleteBuilder: (req, res) => {
+    const BuilderId = req.params.BuilderId || req.body.BuilderId;  // Get roleId from URL params or request body
+
+    // Check if the roleId is a valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(BuilderId)) {
+        return res.status(400).send({ message: 'Invalid User ID format' });
+    }
+
+    const objectId = mongoose.Types.ObjectId(BuilderId);
+
+    // Attempt to delete the role
+    builder.deleteOne({ _id: objectId }, (err, result) => {
+        if (err) {
+            return res.status(400).send({ message: 'Error deleting Builder', error: err.message });
+        }
+
+        // If no document was deleted, return 404 (Not Found)
+        if (result.deletedCount === 0) {
+            return res.status(404).json({ message: 'Builder not found' });
+        }
+
+        // Role successfully deleted
+        res.status(200).json({ message: 'Builder removed successfully', data: result });
+    });
+},
 
     //end Builder
 }

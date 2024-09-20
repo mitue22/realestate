@@ -41,6 +41,10 @@ router.get('/userDetailList', commonController.userList);
 
 //builders
 router.route('/builderList').get(commonController.getBuilderList);
+router.post('/addBuilder', commonController.addBuilder); 
+router.route('/builder/:id').get(commonController.getBuilderById);  
+router.route('/builder/:id').put(commonController.updateBuilder);
+router.route('/deleteBuilder/:BuilderId').delete(commonController.deleteBuilder); // Delete a menu by ID
 
 //user
 router.route('/addEditUser').post(commonController.addUser);

@@ -30,7 +30,7 @@
 
             <!-- Add New Button -->
             <div class="col-md-5 text-md-right">
-              <button type="button" class="btn btn-primary btn-sm">
+              <button type="button" class="btn btn-primary btn-sm" (click)="onAddEdit()">
                 <i class="fa fa-plus btn-icon-prepend"></i> Add New
               </button>
             </div>
@@ -57,9 +57,8 @@
               <td>{{item.phoneNo}}</td>
               <td>{{item.pincode}}</td>
               <td>{{item.location}}</td>
-
               <td>
-                <a class="info p-0 m-1" ngbTooltip="Edit" >
+                <a class="info p-0 m-1" ngbTooltip="Edit" (click)="onAddEdit(item._id)">
                   <i class="bi bi-pencil-square font-medium-4 mr-2 text-success font-weight-bold"></i>
                 </a>
                 <a class="danger p-0" ngbTooltip="Delete" (click)="onDelete(item._id)">

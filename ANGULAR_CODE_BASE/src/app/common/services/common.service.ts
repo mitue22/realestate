@@ -6,7 +6,9 @@ import { Subject } from 'rxjs/Subject';
 import { environment } from '@sa-environments/environment';
 import { Menu } from 'app/features/menu1/model/menu';
 import { Role } from 'app/features/role/model/role';
-import { User } from 'app/administration/models/user';
+import { Builder } from 'app/features/builder/builder';
+import { User } from 'app/features/users/components/user/user';
+
 
 @Injectable()
 export class CommonService {
@@ -135,34 +137,20 @@ getUserList():Observable<any>{
   return this.http.get(environment.BASE_URL + '/common/userDetailList');
 }
 
-deleteUser(userId: any): Observable<any> {
-  return this.http.delete(`${environment.BASE_URL}/common/deleteUser/${userId}`);
-}
-
-// addEditUser(userdata: any): Observable<any> {
-//   if (userdata.id) {
-//     return this.http.put(environment.BASE_URL + "/common/user/:id/" + userdata.id, userdata);
-//   } else {
-//     return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
-//   }
-// }
-
 addEditUser(userdata: any): Observable<any> {
   if (userdata.id) {
-    // If `roledata` has an `id`, use `updateRole` API
     return this.http.put(environment.BASE_URL + "/common/user/" + userdata.id, userdata);
   } else {
-    // Otherwise, use `addRole` API
     return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
   }
 }
 
-// getUserById(id: number): Observable<User> {
-//   return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
-// }
-
-getUserById(id: any): Observable<User> {
+getUserById(id: number): Observable<User> {
   return this.http.get<User>(`${environment.BASE_URL}/common/user/${id}`);
+}
+
+deleteUser(userId: any): Observable<any> {
+  return this.http.delete(`${environment.BASE_URL}/common/deleteUser/${userId}`);
 }
 
 //End User
@@ -186,6 +174,37 @@ getMenuListByPermission(role:string){
 
 getBuilderList(): Observable<any> {
   return this.http.get(environment.BASE_URL + '/common/builderList');
+}
+
+// addBuilder(builderData: any): Observable<any> {
+//   return this.http.post(environment.BASE_URL + '/common/addBuilder', builderData);
+// }
+
+// getBuilderById(id: number): Observable<Builder> {
+//   return this.http.get<Builder>(`${environment.BASE_URL}/common/builder/${id}`);
+// }
+getBuilderById(id: number): Observable<Builder> {
+  return this.http.get<Builder>(`${environment.BASE_URL}/common/builder/${id}`);
+}
+
+// addBuilder(builderData: any): Observable<any> {
+//   if (builderData.id) {
+//     return this.http.put(environment.BASE_URL + "/common/builder/" + builderData.id, builderData);
+//   } else {
+//     return this.http.post(environment.BASE_URL + "/common/addBuilder", builderData);
+//   }
+// }
+
+addBuilder(builderData: any): Observable<any> {
+  return this.http.post(environment.BASE_URL + '/common/addBuilder', builderData);
+}
+
+updateBuilder(builderData: any): Observable<any> {
+  return this.http.put(environment.BASE_URL + '/common/builder/' + builderData.id, builderData);
+}
+
+deleteBuilder(BuilderId: any): Observable<any> {
+  return this.http.delete(`${environment.BASE_URL}/common/deleteBuilder/${BuilderId}`);
 }
 
 //End builder
