@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { CommonService } from '../../../common/services/common.service';
 import { UserService } from '@sa-services/user.service';
@@ -19,9 +19,9 @@ export class EditPropertyComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private commonService: CommonService,
     private location: Location,
-    private userService:UserService,
     public toastr: ToastrService,
-    private builder:FormBuilder
+    private builder:FormBuilder,
+    private router:Router
   ) { }
 
   propertyDetail: any = {
@@ -145,7 +145,9 @@ submitForm() {
       (result) => {
         this.commonService.togglePageLoaderFn(false);
         this.toastr.success("Property edited successfully.");
+        alert("Property edited successfully.");
         // this.getProperty(propertySlug);
+        this.router.navigate(['/property/list']);
       },(err) =>{
         this.commonService.togglePageLoaderFn(false);
         this.toastr.error("Failed to edit property list");

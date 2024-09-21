@@ -401,7 +401,6 @@ module.exports = {
      async getRoleById(req, res) {
         try {
             const roleId = req.params.id;
-            console.log(roleId,"roleId");
             const role = await role_model.findById(roleId);
             if (!role) {
                 throw new Error('Role not found');

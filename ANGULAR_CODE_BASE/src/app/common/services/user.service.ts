@@ -28,7 +28,6 @@ export class UserService {
   }
 
   getcurrentUserDetails(userId):Observable<any> {
-    console.log(userId)
     return this.http.get(environment.BASE_URL + '/user/' + userId);
   }
  

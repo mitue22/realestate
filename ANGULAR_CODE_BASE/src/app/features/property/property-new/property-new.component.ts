@@ -82,6 +82,7 @@ export class PropertyNewComponent implements OnInit {
         let message = result && result['message'] || '';
         if (data && data['slug']) {
           this.commonService.changeHeaderMessage({ type: 'success', message });
+          alert("property added successfully.");
           this.router.navigate([`/property/view/${data.slug}`])
         }
         else this.commonService.changeHeaderMessage({ type: 'danger', message: 'Something Went Wrong' });

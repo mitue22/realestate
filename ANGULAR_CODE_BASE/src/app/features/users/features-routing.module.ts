@@ -39,7 +39,13 @@ const ChildRoutes: Routes = [
   },
   {
     path:'user',
-    component:UserComponent,
+    component: DashboardComponent,
+    children:[
+      {
+        path:'list',
+        component:UserComponent
+      }
+    ]
     }
 ]
 
