@@ -34,8 +34,8 @@ userSchema = new Schema({
         ref: 'City'
     },
     role: {
-        type: Schema.Types.ObjectId,
-        ref: 'role'
+        type: String,
+        required: true
     },
     pincode: {
         type: Number
@@ -63,6 +63,6 @@ userSchema = new Schema({
         type: String,
         required: true
     }, 
-});
+},{collection:'users'});
 
 module.exports = mongoose.model('users', userSchema);

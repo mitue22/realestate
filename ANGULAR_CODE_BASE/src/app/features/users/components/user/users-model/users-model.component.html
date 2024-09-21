@@ -17,12 +17,12 @@
     <div class="modal-body">
       <!-- Role -->
       <div class="form-group row">
-        <label class="col-md-4 label-control" for="roleName">Role</label>
+        <label class="col-md-4 label-control" for="role">Role</label>
         <div class="col-md-8">
-          <select id="roleName" class="form-select" placeholder="select" formControlName="roleName">
-              <option *ngFor="let role of roleList" [value]="role.value">{{ role.label }}</option>
+          <select id="role" class="form-select" placeholder="select" formControlName="role">
+              <option *ngFor="let role of roleList" [value]="role.name">{{ role.name }}</option>
           </select>
-          <div *ngIf="submitted && f.roleName.errors" class="text-danger">
+          <div *ngIf="submitted && f.role.errors" class="text-danger">
             Role is required
           </div>
         </div>

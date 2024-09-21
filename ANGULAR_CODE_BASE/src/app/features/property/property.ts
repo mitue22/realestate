@@ -2,6 +2,7 @@ interface Response {
     result: {
       title: string;
       propertyFor: string;
+      cornerPlot:any;
       type: {
         _id:string;
         title: string;
@@ -12,7 +13,7 @@ interface Response {
       };
       city: {
         _id:string;
-        name: string;
+        name: string; 
       };
       locality: string;
       address: string;
@@ -20,6 +21,7 @@ interface Response {
       email: string;
       phoneNo: string;
       pincode: string;
-    };
+    
+};
     files: any[];
   }

@@ -40,7 +40,7 @@ const propertySchema = mongoose.model('property', new mongoose.Schema({
         type: Number,
         required: true
     },
-    cornrPlot: {
+    cornerPlot: {
         type: Boolean,
         default: false,
         enum: [true, false]

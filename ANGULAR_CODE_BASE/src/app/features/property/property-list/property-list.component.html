@@ -67,13 +67,13 @@
                 <th>Action</th>
                 </tr>
                 <tr *ngFor="let item of propertyList.data;let i = index">
-                  <td>{{i+1}}</td>
+                  <td>{{i + 1}}</td>
                   <td>{{item.description}}</td>
                   <td>{{item.title}}</td>
                   <td>{{item.city?.name}}</td>
                   <td>{{item.locality}}</td>
                   <td>{{item.propertyFor}}</td>
-                  <td>{{item.phone}}</td>
+                  <td>{{item.type?.title}}</td>
                   <td>{{item.status}}</td>
                   <td>
                     <a class="info p-0" [routerLink]="'/property/view/' + item.slug"> 

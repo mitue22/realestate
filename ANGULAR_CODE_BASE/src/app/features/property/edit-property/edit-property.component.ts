@@ -64,10 +64,9 @@ export class EditPropertyComponent implements OnInit {
   }
   
   getProperty(propertySlug) {
-    console.log("called");
     this.commonService.getSingleProperty(propertySlug)
       .subscribe((response: Response) => {
-        const result: Response['result'] = response.result; // access the result property
+        const result: Response['result'] = response.result;
         this.propertyDetail = result;
         this.form.patchValue({
           title: result.title,
@@ -81,6 +80,7 @@ export class EditPropertyComponent implements OnInit {
           email: result.email || '',
           phoneNo: result.phoneNo || '',
           pincode: result.pincode || '',
+          cornerPlot:result.cornerPlot,
         });
         const stateId = this.form.get('state').value;
       if (stateId) {

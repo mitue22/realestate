@@ -52,7 +52,7 @@
             <li style="font-size: 14px;">{{property.type?.title? property.type?.title : '--'  }} <b>|</b>
               {{ getFormattedDate(property.updatedOn) }}</li>
           </ul>
-          <p class="propertyDescription">{{property.description}}</p>
+          <!-- <p class="propertyDescription">{{property.description}}</p> -->
         </div>
         <div *ngIf="loginService.isLoggedIn() && property?.userId?._id == userService?.currentUser?.user?._id"
           [ngClass]="{

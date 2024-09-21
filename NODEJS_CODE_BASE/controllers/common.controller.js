@@ -12,8 +12,8 @@ var builder = require('../models/builder');
 module.exports = {
     propertyList: (req, res) => {
         const filters =  req.body;
+        console.log(filters,"page filter");
         let query = {};
-        console.log(filters,"filters");
         if (filters.propertyFor) {
             query['propertyFor'] = filters.propertyFor;
           }
@@ -24,7 +24,7 @@ module.exports = {
             query['type'] = filters.type;
           }
           const page = filters.page || 1;
-          const pageSize = filters.pageSize || GlobalEnum.PageSize;
+          const pageSize = filters.pageSize || 20;
           const skip = (page - 1) * pageSize;
           property_model.countDocuments(query, (err, totalRecord) => {
             if (err) {
@@ -68,7 +68,7 @@ module.exports = {
             });
     },
     getRoleDDList:(req,res) =>{
-        role_model.find({ is_active: true })
+        role_model.find()
             .exec((err, data) => {
                 if (err)
                     res.status(400).send(err);
@@ -76,7 +76,7 @@ module.exports = {
             });
     },
     getMenuDDList:(req,res) =>{
-        menu1_model.find({ is_active: true })
+        menu1_model.find()
             .exec((err, data) => {
                 if (err)
                     res.status(400).send(err);
@@ -421,11 +421,7 @@ module.exports = {
     // Add User
     addUser: async (req, res) => {
     try{
-        var userData = new users(req.body);            
-        const result = await userData.save();
-        console.log({result});
-        if(result) res.status(200).json({ message: 'User added successfully' });
-        else throw new Error('Something Went Wrong');
+       
     }
     catch(err){
         res.status(400).json({message: err.message});
@@ -433,23 +429,32 @@ module.exports = {
 },
 
 //update user
-async updateUser(req, res) {
+async addEditUser(req, res) {
     try {
-      const userId = req.params.id;
-      const user = await users.findById(userId);
-      if (!user) {
-        throw new Error('User not found');
+        if(req.body.id!=null){
+            const userId = req.body.id;
+            const user = await users.findById(userId);
+            if (!user) {
+              throw new Error('User not found');
+            }
+            user.role = req.body.role;
+            user.fname = req.body.fname;
+            user.lname = req.body.lname;
+            user.userName = req.body.userName;
+            user.email = req.body.email;
+            user.password = req.body.password;
+            user.phoneNo = req.body.phoneNo;
+            user.status = req.body.status
+            const result = await user.save();
+            res.status(200).json({ message: 'User updated successfully', data: result });
+        }
+      else{
+        var userData = new users(req.body);            
+        const result = await userData.save();
+        console.log({result});
+        if(result) res.status(200).json({ message: 'User added successfully' });
+        else throw new Error('Something Went Wrong');
       }
-      user.role = req.body.role;
-      user.fname = req.body.fname;
-      user.lname = req.body.lname;
-      user.userName = req.body.userName;
-      user.email = req.body.email;
-      user.password = req.body.password;
-      user.phoneNo = req.body.phoneNo;
-      user.status = req.body.status
-      const result = await user.save();
-      res.status(200).json({ message: 'User updated successfully', data: result });
     } catch (err) {
       res.status(400).json({ message: err.message });
     }
@@ -459,7 +464,7 @@ async updateUser(req, res) {
     getUserById: async (req, res) => {
     try {
         const userId = req.params.id;
-        const user = await user.findById(userId);
+        const user = await users.findById(userId);
         if (!user) {
             throw new Error('user not found');
         }

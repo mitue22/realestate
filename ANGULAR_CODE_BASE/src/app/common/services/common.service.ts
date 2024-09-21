@@ -138,11 +138,7 @@ getUserList():Observable<any>{
 }
 
 addEditUser(userdata: any): Observable<any> {
-  if (userdata.id) {
-    return this.http.put(environment.BASE_URL + "/common/user/" + userdata.id, userdata);
-  } else {
-    return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
-  }
+  return this.http.post(environment.BASE_URL + "/common/addEditUser", userdata);
 }
 
 getUserById(id: number): Observable<User> {

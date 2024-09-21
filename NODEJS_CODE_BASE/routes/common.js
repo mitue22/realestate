@@ -47,10 +47,9 @@ router.route('/builder/:id').put(commonController.updateBuilder);
 router.route('/deleteBuilder/:BuilderId').delete(commonController.deleteBuilder); // Delete a menu by ID
 
 //user
-router.route('/addEditUser').post(commonController.addUser);
+router.route('/addEditUser').post(commonController.addEditUser);
 router.delete('/deleteUser/:userId', commonController.deleteUser);
 router.get('/user/:id', commonController.getUserById);
-router.route('/user/:id').put(commonController.updateUser);
 router.get('/permissions/:id',commonController.getPermissionList);
 router.route('/permissions').post(commonController.postPermission);
 router.route('/permissions/delete').post(commonController.deletePermission);

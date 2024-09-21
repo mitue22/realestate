@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { TranslateService } from '@ngx-translate/core';
 import { CommonService } from '@sa-services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../user';
@@ -13,11 +12,10 @@ import { User } from '../user';
   styleUrls: ['./users-model.component.scss']
 })
 export class UsersModelComponent implements OnInit {
-  @Input() id: any;
+  @Input() userId: any;
   @Output() onUser_Emit: EventEmitter<boolean> = new EventEmitter();
   submitted = false;
   roleList: any[] = [];
-  userId: any;
 
   showPassword = false;
 
@@ -32,42 +30,37 @@ export class UsersModelComponent implements OnInit {
   }
   ngOnInit() {
     this.form = this.formBuilder.group({
-      roleName:  ["", Validators.compose([Validators.required])],
+      role:  ["", Validators.compose([Validators.required])],
       fname:  ["", Validators.compose([Validators.required])],
       lname:  ["", Validators.compose([Validators.required])],
       userName:  ["", Validators.compose([Validators.required])],
       email: ["", [Validators.required, Validators.email]],
-      phoneNo: ["", Validators.required, Validators.pattern(/^[0-9]{10}$/)],
+      phoneNo: ["", Validators.required],
       password:  ["", Validators.compose([Validators.required])],
       status:  [null, Validators.compose([Validators.required])],
     });
-    if (this.id) { // Ensure to use `this.id`
-      this.userId = this.id; // Set `roleId` for editing
-      // this.getUserById()
-    } else {
-      this.userId = null; // Clear `roleId` if creating a new role
+    if(this.userId){
+      this.getUserById();
     }
-
     this.getRoleList()
   }
 
-  // getUserById(): void {
-  //   this.commonService.getUserById(this.id).subscribe((user: User) => {
-  //     if (user) {
-  //       this.form.patchValue({
-  //       role: user.role,
-  //       fname: user.fname,
-  //       lname: user.lname,
-  //       userName: user.userName,
-  //       email: user.email,
-  //       phoneNo: user.phoneNo,
-  //       password: user.password,
-  //       status: user.status
-  //       });
-  //     }
-  //     console.log("called get List")
-  //   });
-  // }
+  getUserById(): void {
+    this.commonService.getUserById(this.userId).subscribe((user: User) => {
+      if (user) {
+        this.form.patchValue({
+        role: user.role,
+        fname: user.fname,
+        lname: user.lname,
+        userName: user.userName,
+        email: user.email,
+        phoneNo: user.phoneNo,
+        password: user.password,
+        status: user.status
+        });
+      }
+    });
+  }
 
   
   getRoleList() {
@@ -76,7 +69,7 @@ export class UsersModelComponent implements OnInit {
     this.commonService.getRoleList(filters).subscribe(
       (result) => {
         this.spinner.hide();
-        this.roleList = result.map(role => ({ label: role.name, value: role.roleId }));
+        this.roleList = result;
       },
       (error) => {
         this.spinner.hide();
@@ -100,8 +93,8 @@ export class UsersModelComponent implements OnInit {
       return;
     }
     const formData = {
-          id:this.userId,
-          roleName:this.form.get("roleName").value,
+          id:this.userId || null,
+          role:this.form.get("role").value,
           fname:this.form.get("fname").value,
           lname:this.form.get("lname").value,
           userName:this.form.get("userName").value,
@@ -110,9 +103,8 @@ export class UsersModelComponent implements OnInit {
           password:this.form.get("password").value,
           status:this.form.get("status").value,
         };
-        console.log("data",this.form.value)
 
-    if (this.userId) {
+    if (this.userId!="") {
       // Update user
       this.commonService.addEditUser(formData).subscribe((result) => {
         console.log("ID", result);

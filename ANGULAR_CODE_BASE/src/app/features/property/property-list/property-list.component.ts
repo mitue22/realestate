@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { CommonService } from '@sa-services/common.service';
-import { ToastrModule, ToastrService } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 declare const Swal:any;
 
 @Component({
@@ -84,7 +84,7 @@ for:[null]
      propertyFor:this.form.get('for').value || '',
      searchText:this.form.get('searchText').value || '', 
      page:this.page,
-     pageSize:this.pageSize,
+     pageSize:Number(this.pageSize),
     }
   this.commonService.togglePageLoaderFn(true);
   this.commonService.getPropertyList(data).subscribe((result:any) =>{
@@ -115,7 +115,7 @@ onDelete(id:any){
         console.log(id)
         this.commonService.deleteProperty(id).subscribe({
           next: () => {
-            // Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
+             Swal.fire('Deleted!', 'Your item has been deleted.', 'success');
             this.toastr.success("Data deleted successfully.","Success");
             this.getPropertyList();  // Refresh the list after deletion
           },
