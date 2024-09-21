@@ -147,11 +147,41 @@ module.exports = {
 
     },
 
-    getMenu1List: (req, res) => {
+    // getMenuList: (req, res) => {
 
-        const filters = req.body; // Receive filters from the request body
+    //     const filters = req.body; // Receive filters from the request body
+    //     let query = {};
+
+    //     if (filters.searchText) {
+    //         const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+    //         query['$or'] = [
+    //             { name: searchRegex },
+    //             { title: searchRegex },
+    //             { icon: searchRegex },
+    //             { path: searchRegex }
+    //         ];
+    //     }
+    //     menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })  
+    //         .exec((err, data) => {
+    //             if (err) {
+    //                 return res.status(400).send(err);
+    //             }
+    //             return res.status(200).send(data); 
+    //         });
+    // },
+    getMenuList: (req, res) => {
+        const filters = req.body; // Extract the filters from the request body
+    
+        // Validate that 'page' and 'pageSize' exist and are numbers
+        const page = parseInt(filters.page, 10) || 1;
+        const pageSize = parseInt(filters.pageSize, 10) || 20;
+    
+        // Ensure 'page' and 'pageSize' are valid numbers
+        if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
+            return res.status(400).send({ message: 'Invalid pagination parameters' });
+        }
+    
         let query = {};
-
         if (filters.searchText) {
             const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
             query['$or'] = [
@@ -161,13 +191,29 @@ module.exports = {
                 { path: searchRegex }
             ];
         }
-        menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })  
-            .exec((err, data) => {
-                if (err) {
-                    return res.status(400).send(err);
-                }
-                return res.status(200).send(data); 
-            });
+    
+        // First, get the total count of documents matching the query
+        menu1_model.countDocuments(query, (err, totalCount) => {
+            if (err) {
+                return res.status(400).send(err);
+            }
+    
+            // Then, retrieve the paginated results
+            menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })
+                .skip((page - 1) * pageSize) // Skip based on the current page
+                .limit(pageSize) // Limit the number of results to pageSize
+                .exec((err, data) => {
+                    if (err) {
+                        return res.status(400).send(err);
+                    }
+    
+                    // Send back the data along with the total count
+                    return res.status(200).json({
+                        data: data,
+                        totalCount: totalCount
+                    });
+                });
+        });
     },
     
     addMenu: async (req, res) => {
@@ -246,24 +292,62 @@ module.exports = {
         }
     },
 
-    getRoleList: (req, res) => {
-        const filters = req.body; // Receive filters from the request body
-        let query = {};
+    // getRoleList: (req, res) => {
+    //     const filters = req.body; // Receive filters from the request body
+    //     let query = {};
 
-        if (filters.searchText) {
-            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
-            query['$or'] = [
-                { name: searchRegex },
-            ];
+    //     if (filters.searchText) {
+    //         const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+    //         query['$or'] = [
+    //             { name: searchRegex },
+    //         ];
+    //     }
+    //     role_model.find(query, { name: 1 })  // Empty filter object to retrieve all, projection for name only
+    //         .exec((err, data) => {
+    //             if (err) {
+    //                 return res.status(400).send(err);
+    //             }
+    //             return res.status(200).send(data);  // Return the data on success
+    //         });
+    // },
+    getRoleList: (req, res) => {
+        const filters = req.body; // Extract the filters from the request body
+    
+        // Validate that 'page' and 'pageSize' exist and are numbers
+        const page = parseInt(filters.page, 10) || 1;
+        const pageSize = parseInt(filters.pageSize, 10) || 20;
+    
+        // Ensure 'page' and 'pageSize' are valid numbers
+        if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
+            return res.status(400).send({ message: 'Invalid pagination parameters' });
         }
-        role_model.find(query, { name: 1 })  // Empty filter object to retrieve all, projection for name only
-            .exec((err, data) => {
-                if (err) {
-                    return res.status(400).send(err);
-                }
-                return res.status(200).send(data);  // Return the data on success
-            });
-    },
+    
+        let query = {};
+        if (filters.searchText) {
+            const searchRegex = new RegExp(filters.searchText, 'i');
+            query['$or'] = [{ name: searchRegex }];
+        }
+    
+        role_model.countDocuments(query, (err, totalCount) => {
+            if (err) {
+                return res.status(400).send(err);
+            }
+    
+            role_model.find(query, { name: 1 })
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .exec((err, data) => {
+                    if (err) {
+                        return res.status(400).send(err);
+                    }
+                    return res.status(200).json({
+                        data: data,
+                        totalCount: totalCount
+                    });
+                });
+        });
+    },    
+     
     addRole: async (req, res) => {
         try {
             // Create a new instance of the role model with the data from the request body
