@@ -28,6 +28,10 @@ const propertySchema = mongoose.model('property', new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'City'
     },
+    builder_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Builder'
+    },
     locality: {
         type: String,
         required: true
