@@ -4,7 +4,6 @@ import { UserService } from '../../../common/services/user.service';
 import { CommonService } from '../../../common/services/common.service';
 import { Router } from '@angular/router';
 import { environment } from '@sa-environments/environment';
-import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-property-new',
@@ -22,6 +21,7 @@ export class PropertyNewComponent implements OnInit {
   ) { 
     this.getPropertyTypeList();
     // this.getstateList();
+    this.getBuilderList();
   }
 
   propertyTypeList = [];
@@ -31,7 +31,7 @@ export class PropertyNewComponent implements OnInit {
   imgUrls = [];
   imgsToUpload = [];
   isSubmittingForm: Boolean = false;
-  
+  builderList:any[]=[];
 
   getPropertyTypeList() {
      this.commonService.togglePageLoaderFn(true);
@@ -60,9 +60,17 @@ export class PropertyNewComponent implements OnInit {
       this.cityList = [];
     }
   }
+  getBuilderList() {
+    this.commonService.getBuilderDdlList()
+      .subscribe(result => {
+        this.builderList = result;
+      }, error => {
+        console.error(error);
+      });
+  }
 
   submitForm(data) {
-    console.log({ data });
+    console.log(data.value,"data");
     this.isSubmittingForm = true;
     data.value.userId = this.userService.currentUser.user._id;
 
@@ -77,7 +85,6 @@ export class PropertyNewComponent implements OnInit {
     this.commonService.togglePageLoaderFn(true);
     this.http.post(environment.BASE_URL + '/property/new', imageData)
       .subscribe(result => {
-        console.log({ result });
         let data = result && result['result'] || {};
         let message = result && result['message'] || '';
         if (data && data['slug']) {

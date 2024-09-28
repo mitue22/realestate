@@ -584,8 +584,8 @@ module.exports = {
     },
     //end user    
     //start Builder
-    getBuilderList: (req, res) => {
-        builder_model.find({}, { fname: 1, lname: 1, email: 1, password: 1, phoneNo: 1, pincode: 1, state: 1, city: 1, location: 1 })
+    getBuilderDDlList: (req, res) => {
+        builder_model.find()
             .exec((err, data) => {
                 if (err) {
                     return res.status(400).send(err);

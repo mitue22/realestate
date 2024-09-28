@@ -51,6 +51,7 @@ addPropertyType: (req, res) => {
             req.body.cornrPlot = req.body.cornrPlot ? true : false;
             req.body.images = imgs;      
             req.body.imgPath = 'properties';
+            req.body.builder_id=req.body.builder;
             if(!req.body.isSociety){
                 req.body.flatNo = '';
                 req.body.societyName = '';
@@ -205,8 +206,8 @@ addPropertyType: (req, res) => {
             pincode: req.body.dataToSend.pincode,
             cornrPlot: req.body.dataToSend.cornrPlot ? true : false,
             imgPath: 'properties',
+            builder_id:req.body.builder
           };
-          console.log(updatedData,"updatedData");
           if (!req.body.isSociety) {
             updatedData.flatNo = '';
             updatedData.societyName = '';

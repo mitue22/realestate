@@ -171,7 +171,9 @@ getMenuListByPermission(role:string){
 getBuilderList(): Observable<any> {
   return this.http.get(environment.BASE_URL + '/common/builderList');
 }
-
+getBuilderDdlList(): Observable<any> {
+  return this.http.get(environment.BASE_URL + '/common/builderList');
+}
 // addBuilder(builderData: any): Observable<any> {
 //   return this.http.post(environment.BASE_URL + '/common/addBuilder', builderData);
 // }

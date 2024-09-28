@@ -40,7 +40,7 @@ router.get('/checkemail-availability/email/:email', commonController.checkemailA
 router.get('/userDetailList', commonController.userList);
 
 //builders
-router.route('/builderList').get(commonController.getBuilderList);
+router.route('/builderList').get(commonController.getBuilderDDlList);
 router.route('/addEditBuilder').post(commonController.addEditBuilder);
 router.route('/builder/:id').get(commonController.getBuilderById);  
 router.route('/deleteBuilder/:BuilderId').delete(commonController.deleteBuilder); // Delete a menu by ID

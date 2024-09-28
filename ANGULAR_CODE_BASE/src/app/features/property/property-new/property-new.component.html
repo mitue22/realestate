@@ -195,6 +195,15 @@
         <small class="text-danger" *ngIf="phoneNo.touched && phoneNo.invalid">
           This field is required</small>
       </div>
+      <div class="form-group col-md-4">
+        <label for="">Builder: </label>
+        <select name="builder" ngModel #builder="ngModel" required class="custom-select">
+            <option value="">Select builder</option>
+            <option *ngFor="let builder of builderList" value="{{builder._id}}">{{builder.fname}}</option>
+          </select>
+        <small class="text-danger" *ngIf="builder.touched && builder.invalid">
+          This field is required</small>
+      </div>
     </div>
     <div class="form-group propertyTitle">
       <label for="">Property Title: <small class="text-info">(Auto-generated) </small>
