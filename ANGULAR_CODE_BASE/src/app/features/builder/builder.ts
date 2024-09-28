@@ -1,11 +1,20 @@
 export interface Builder {
-    id?: string;
-    // id: number;
-    fname: string;
-    lname:string;
-    email:string;
-    pincode:string;
-    location:string;
-    password:string;
-    phoneNo:string;
+    id:any,
+    fname: string,
+    lname:string,
+    email:string,
+    pincode:string,
+    location:string,
+    password:string,
+
+    state: {
+        _id:string;
+        name: string;
+      };
+    city: {
+        _id:string;
+        name: string;
+      };
+
+    phoneNo:string,
 }  

@@ -5,9 +5,9 @@ const builderSchema = new Schema({
     fname: { type: String, required: true },
     lname: { type: String, required: true },
     email: { type: String, required: true },
-    password: { type: String, required: true },
-    pincode: { type:Number,required : true},
-    phoneNo:{type:Number,required : true},
+    password: { type: String },
+    pincode: { type:Number},
+    phoneNo:{type:String,required : true,unique: true},
     state: {
         type: Schema.Types.ObjectId,
         ref: 'States'
@@ -18,6 +18,6 @@ const builderSchema = new Schema({
     },
     location: { type: String, required: true },
     
-}, { collection: 'builder' });
+},{collection:'builder'});
 
 module.exports = mongoose.model('builder', builderSchema);

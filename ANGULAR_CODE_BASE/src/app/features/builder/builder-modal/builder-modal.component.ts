@@ -4,6 +4,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@sa-services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Builder } from '../builder';
+// import { Builder } from '../builder';
 
 @Component({
   selector: 'app-builder-modal',
@@ -11,7 +12,7 @@ import { Builder } from '../builder';
   styleUrls: ['./builder-modal.component.scss']
 })
 export class BuilderModalComponent implements OnInit {
-  @Input() id: number;
+  @Input() builderId: any;
   @Output() onBuilder_Emit: EventEmitter<boolean> = new EventEmitter();
 
   showPassword = false;
@@ -37,21 +38,13 @@ export class BuilderModalComponent implements OnInit {
       location:['',Validators.required],
       phoneNo:['',Validators.required]
     });
-    if (this.id) {
+    if (this.builderId) {
       this.getBuilderById();
     }
   }
 
-  // getBuilderById(): void {
-  //   this.commonService.getBuilderById(this.id).subscribe(Builder=> {
-  //     if (Builder) {
-  //       this.form.patchValue(Builder);
-  //     } 
-  //   });
-  // }
-
   getBuilderById(): void {
-    this.commonService.getBuilderById(this.id).subscribe((builder: Builder) => {
+    this.commonService.getBuilderById(this.builderId).subscribe((builder: Builder) => {
       if (builder) {
         this.form.patchValue({
           fname: builder.fname,
@@ -81,7 +74,7 @@ export class BuilderModalComponent implements OnInit {
     }
   
     const builderData = {
-      id: this.id ? this.id : 0,  // Check if ID exists for update
+      id:this.builderId || null,
       fname: this.form.get("fname").value,
       lname: this.form.get("lname").value,
       email: this.form.get("email").value,
@@ -90,83 +83,32 @@ export class BuilderModalComponent implements OnInit {
       pincode: this.form.get("pincode").value,
       phoneNo: this.form.get("phoneNo").value,
     };
-  
-    if (this.id > 0) {
+    if (this.builderId!="") {
       // Update builder
-      this.commonService.updateBuilder(builderData).subscribe(
+      this.commonService.addEditBuilder(builderData).subscribe(
         response => {
           console.log('Success Response:', response);
           this.spinner.hide();
-          this.onBuilder_Emit.emit(true);  // Emit event to parent component
+          this.onBuilder_Emit.emit(true);
           this.activeModal.close();
         },
         error => {
-          this.spinner.hide();  // Hide spinner
-          // Handle error (show notification, etc.)
+          this.spinner.hide();
         }
       );
     } else {
       // Create new builder
-      this.commonService.addBuilder(builderData).subscribe(
+      this.commonService.addEditBuilder(builderData).subscribe(
         response => {
           console.log('Success Response:', response);
           this.spinner.hide();
-          this.onBuilder_Emit.emit(true);  // Emit event to parent component
+          this.onBuilder_Emit.emit(true);
           this.activeModal.close();
         },
         error => {
-          this.spinner.hide();  // Hide spinner
-          // Handle error (show notification, etc.)
+          this.spinner.hide();
         }
       );
     }
   }
-
-
-  // submit_form() {
-  //   this.submitted = true;
-  //   if (this.form.invalid) {
-  //     return;
-  //   }
-  //   const builderData = {
-  //         id:this.id,
-  //         fname:this.form.get("fname").value,
-  //         lname:this.form.get("lname").value,
-  //         email:this.form.get("email").value,
-  //         password:this.form.get("password").value,
-  //         location:this.form.get("location").value,
-  //         pincode:this.form.get("pincode").value,
-  //         phoneNo: this.form.get("phoneNo").value,
-  //   };
-  //   console.log("builderData",builderData)
-  //   this.commonService.addBuilder(builderData).subscribe(
-  //     response => {
-  //       console.log('Success Response:', response);
-  //       this.spinner.hide();  // Hide spinner
-  //       this.onBuilder_Emit.emit(true);  // Emit event to parent component
-  //       this.activeModal.close();
-  //     },
-  //     error => {
-  //       this.spinner.hide();  // Hide spinner
-  //       // Handle error (show notification, etc.)
-  //     }
-  //   );
-  // }
-
 }
-
-// if (this.id >0) {
-    //   // Update user
-    //   this.commonService.addBuilder(builderData).subscribe((result) => {
-    //     console.log("ID", result);
-    //     this.onBuilder_Emit.emit(true);
-    //     this.activeModal.close();
-    //   });
-    // } else {
-    //   // Create new user
-    //   this.commonService.addBuilder(builderData).subscribe((result) => {
-    //     console.log("ID123", result);
-    //     this.onBuilder_Emit.emit(true);
-    //     this.activeModal.close();
-    //   });
-    // }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { BuilderModalComponent } from './builder-modal/builder-modal.component';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@sa-services/common.service';
+import { FormGroup } from '@angular/forms';
 declare const Swal:any;
 @Component({
   selector: 'app-builder',
@@ -11,6 +12,7 @@ declare const Swal:any;
 export class BuilderComponent implements OnInit {
 
   builderList: any[] = [];
+  form: FormGroup;
 
 
  constructor(
@@ -21,6 +23,7 @@ export class BuilderComponent implements OnInit {
   ngOnInit() {
     this.getBuilderList();
   }
+
 
   getBuilderList() {
     this.commonService.getBuilderList()
@@ -36,7 +39,7 @@ export class BuilderComponent implements OnInit {
       centered: true,
       backdrop: "static",
     });
-    modalRef.componentInstance.id = id;
+    modalRef.componentInstance.builderId = id;
     modalRef.componentInstance.onBuilder_Emit.subscribe((data) => {
       if (data != null) {
         this.getBuilderList();

@@ -183,21 +183,10 @@ getBuilderById(id: number): Observable<Builder> {
   return this.http.get<Builder>(`${environment.BASE_URL}/common/builder/${id}`);
 }
 
-// addBuilder(builderData: any): Observable<any> {
-//   if (builderData.id) {
-//     return this.http.put(environment.BASE_URL + "/common/builder/" + builderData.id, builderData);
-//   } else {
-//     return this.http.post(environment.BASE_URL + "/common/addBuilder", builderData);
-//   }
-// }
-
-addBuilder(builderData: any): Observable<any> {
-  return this.http.post(environment.BASE_URL + '/common/addBuilder', builderData);
+addEditBuilder(builderdata: any): Observable<any> {
+  return this.http.post(environment.BASE_URL + "/common/addEditBuilder", builderdata);
 }
 
-updateBuilder(builderData: any): Observable<any> {
-  return this.http.put(environment.BASE_URL + '/common/builder/' + builderData.id, builderData);
-}
 
 deleteBuilder(BuilderId: any): Observable<any> {
   return this.http.delete(`${environment.BASE_URL}/common/deleteBuilder/${BuilderId}`);

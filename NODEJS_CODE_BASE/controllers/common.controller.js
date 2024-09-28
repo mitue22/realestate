@@ -6,46 +6,46 @@ var users = require('../models/users');
 const role_model = require('../models/role');
 var propertyTypeOriginal_model = require('../models/propertyTypeOriginal');
 var property_model = require('../models/property');
-var permission_model=require('../models/permission');
-var builder = require('../models/builder');
+var permission_model = require('../models/permission');
+var builder_model = require('../models/builder');
 
 module.exports = {
     propertyList: (req, res) => {
-        const filters =  req.body;
-        console.log(filters,"page filter");
+        const filters = req.body;
+        console.log(filters, "page filter");
         let query = {};
         if (filters.propertyFor) {
             query['propertyFor'] = filters.propertyFor;
-          }
-          if (filters.city) {
+        }
+        if (filters.city) {
             query['city'] = filters.city;
-          }
-          if (filters.type) {
+        }
+        if (filters.type) {
             query['type'] = filters.type;
-          }
-          const page = filters.page || 1;
-          const pageSize = filters.pageSize || 20;
-          const skip = (page - 1) * pageSize;
-          property_model.countDocuments(query, (err, totalRecord) => {
+        }
+        const page = filters.page || 1;
+        const pageSize = filters.pageSize || 20;
+        const skip = (page - 1) * pageSize;
+        property_model.countDocuments(query, (err, totalRecord) => {
             if (err) {
                 return res.status(400).send(err);
             }
-    
+
             property_model.find(query)
-            .populate('city', 'name')
-            .populate('type', 'title')
-            .skip(skip)
-            .limit(pageSize)
-            .exec((err, data) => {
-                if (err) {
-                    res.status(400).send(err);
-                } else {
-                    res.status(200).send({
-                        totalCount: totalRecord, // Return the total count
-                        data: data               // Return the paginated data
-                    });
-                }
-            });
+                .populate('city', 'name')
+                .populate('type', 'title')
+                .skip(skip)
+                .limit(pageSize)
+                .exec((err, data) => {
+                    if (err) {
+                        res.status(400).send(err);
+                    } else {
+                        res.status(200).send({
+                            totalCount: totalRecord, // Return the total count
+                            data: data               // Return the paginated data
+                        });
+                    }
+                });
         });
     },
     //PropertyType
@@ -67,7 +67,7 @@ module.exports = {
                 res.status(200).send(data);
             });
     },
-    getRoleDDList:(req,res) =>{
+    getRoleDDList: (req, res) => {
         role_model.find()
             .exec((err, data) => {
                 if (err)
@@ -75,7 +75,7 @@ module.exports = {
                 res.status(200).send(data);
             });
     },
-    getMenuDDList:(req,res) =>{
+    getMenuDDList: (req, res) => {
         menu1_model.find()
             .exec((err, data) => {
                 if (err)
@@ -171,16 +171,16 @@ module.exports = {
     // },
     getMenuList: (req, res) => {
         const filters = req.body; // Extract the filters from the request body
-    
+
         // Validate that 'page' and 'pageSize' exist and are numbers
         const page = parseInt(filters.page, 10) || 1;
         const pageSize = parseInt(filters.pageSize, 10) || 20;
-    
+
         // Ensure 'page' and 'pageSize' are valid numbers
         if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
             return res.status(400).send({ message: 'Invalid pagination parameters' });
         }
-    
+
         let query = {};
         if (filters.searchText) {
             const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
@@ -191,13 +191,13 @@ module.exports = {
                 { path: searchRegex }
             ];
         }
-    
+
         // First, get the total count of documents matching the query
         menu1_model.countDocuments(query, (err, totalCount) => {
             if (err) {
                 return res.status(400).send(err);
             }
-    
+
             // Then, retrieve the paginated results
             menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })
                 .skip((page - 1) * pageSize) // Skip based on the current page
@@ -206,7 +206,7 @@ module.exports = {
                     if (err) {
                         return res.status(400).send(err);
                     }
-    
+
                     // Send back the data along with the total count
                     return res.status(200).json({
                         data: data,
@@ -215,7 +215,7 @@ module.exports = {
                 });
         });
     },
-    
+
     addMenu: async (req, res) => {
         try {
             const menu = new menu1_model({
@@ -312,27 +312,27 @@ module.exports = {
     // },
     getRoleList: (req, res) => {
         const filters = req.body; // Extract the filters from the request body
-    
+
         // Validate that 'page' and 'pageSize' exist and are numbers
         const page = parseInt(filters.page, 10) || 1;
         const pageSize = parseInt(filters.pageSize, 10) || 20;
-    
+
         // Ensure 'page' and 'pageSize' are valid numbers
         if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
             return res.status(400).send({ message: 'Invalid pagination parameters' });
         }
-    
+
         let query = {};
         if (filters.searchText) {
             const searchRegex = new RegExp(filters.searchText, 'i');
             query['$or'] = [{ name: searchRegex }];
         }
-    
+
         role_model.countDocuments(query, (err, totalCount) => {
             if (err) {
                 return res.status(400).send(err);
             }
-    
+
             role_model.find(query, { name: 1 })
                 .skip((page - 1) * pageSize)
                 .limit(pageSize)
@@ -346,8 +346,8 @@ module.exports = {
                     });
                 });
         });
-    },    
-     
+    },
+
     addRole: async (req, res) => {
         try {
             // Create a new instance of the role model with the data from the request body
@@ -369,7 +369,7 @@ module.exports = {
             // Catch any errors and send an error response
             res.status(400).json({ message: err.message });
         }
-    },  
+    },
 
 
     deleteRole: (req, res) => {
@@ -398,7 +398,7 @@ module.exports = {
         });
     },
 
-     async getRoleById(req, res) {
+    async getRoleById(req, res) {
         try {
             const roleId = req.params.id;
             const role = await role_model.findById(roleId);
@@ -429,68 +429,68 @@ module.exports = {
 
     async getPermissionList(req, res) {
         try {
-          const permissions = await permission_model.find().exec();
-          res.status(200).json(permissions);
+            const permissions = await permission_model.find().exec();
+            res.status(200).json(permissions);
         } catch (error) {
-          console.error(error);
-          res.status(500).json({ message: 'Error fetching permission list' });
+            console.error(error);
+            res.status(500).json({ message: 'Error fetching permission list' });
         }
-      },
-      async postPermission(req, res) {
+    },
+    async postPermission(req, res) {
         try {
-          const permissions = req.body.map((permission) => {
-            return new permission_model(permission);
-          });
-          const results = await permission_model.insertMany(permissions);
-          res.status(201).json({ message: 'Permissions created successfully', permissions: results });
+            const permissions = req.body.map((permission) => {
+                return new permission_model(permission);
+            });
+            const results = await permission_model.insertMany(permissions);
+            res.status(201).json({ message: 'Permissions created successfully', permissions: results });
         } catch (error) {
-          console.error(error);
-          res.status(500).json({ message: 'Error creating permissions' });
+            console.error(error);
+            res.status(500).json({ message: 'Error creating permissions' });
         }
-      },
-      async deletePermission(req, res) {
+    },
+    async deletePermission(req, res) {
         try {
             const deleteData = req.body;
             const promises = deleteData.map(async (data) => {
-              const existingPermission = await permission_model.findOne({ menuId: data.menuId, roleId: data.roleId });
-              if (existingPermission) {
-                await permission_model.deleteOne({ _id: existingPermission._id });
-              }
+                const existingPermission = await permission_model.findOne({ menuId: data.menuId, roleId: data.roleId });
+                if (existingPermission) {
+                    await permission_model.deleteOne({ _id: existingPermission._id });
+                }
             });
             await Promise.all(promises);
             res.status(200).send({ message: 'Permissions deleted successfully' });
-          } catch (error) {
+        } catch (error) {
             console.error(error);
             res.status(500).send({ message: 'Error deleting permissions' });
-          }
-        },
-        async getMenuListByPermission(req, res) {
-            try {
-              // Retrieve the role name from the request
-              const roleName = req.params.role;
-                console.log(req.body,"req");
-              // Find the role ID from the role name
-              const roleId = await role_model.findOne({ name: roleName });
-                console.log(roleName,"roleid");
-              if (!roleId) {
+        }
+    },
+    async getMenuListByPermission(req, res) {
+        try {
+            // Retrieve the role name from the request
+            const roleName = req.params.role;
+            console.log(req.body, "req");
+            // Find the role ID from the role name
+            const roleId = await role_model.findOne({ name: roleName });
+            console.log(roleName, "roleid");
+            if (!roleId) {
                 throw new Error('Role not found');
-              }
-          
-              // Find the menu IDs from the permission table
-              const menuIds = await permission_model.find({ roleId: roleId._id }, { menuId: 1 });
-          
-              // Find the menu list from the menu table
-              const menuList = await menu1_model.find({ _id: { $in: menuIds.map(menuId => menuId.menuId) } });
-          
-              res.status(200).json(menuList);
-            } catch (err) {
-              res.status(400).json({ message: err.message });
             }
-          },
+
+            // Find the menu IDs from the permission table
+            const menuIds = await permission_model.find({ roleId: roleId._id }, { menuId: 1 });
+
+            // Find the menu list from the menu table
+            const menuList = await menu1_model.find({ _id: { $in: menuIds.map(menuId => menuId.menuId) } });
+
+            res.status(200).json(menuList);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
 
     //start user...
-          
-    userList: (req, res) => {        
+
+    userList: (req, res) => {
         users.find().exec((err, result) => {
             if (err) {
                 console.error("Error:", err);
@@ -500,116 +500,104 @@ module.exports = {
             }
         });
     },
-    
+
     // Add User
     addUser: async (req, res) => {
-    try{
-       
-    }
-    catch(err){
-        res.status(400).json({message: err.message});
-    }
-},
+        try {
 
-//update user
-async addEditUser(req, res) {
-    try {
-        if(req.body.id!=null){
-            const userId = req.body.id;
-            const user = await users.findById(userId);
-            if (!user) {
-              throw new Error('User not found');
-            }
-            user.role = req.body.role;
-            user.fname = req.body.fname;
-            user.lname = req.body.lname;
-            user.userName = req.body.userName;
-            user.email = req.body.email;
-            user.password = req.body.password;
-            user.phoneNo = req.body.phoneNo;
-            user.status = req.body.status
-            const result = await user.save();
-            res.status(200).json({ message: 'User updated successfully', data: result });
         }
-      else{
-        var userData = new users(req.body);            
-        const result = await userData.save();
-        console.log({result});
-        if(result) res.status(200).json({ message: 'User added successfully' });
-        else throw new Error('Something Went Wrong');
-      }
-    } catch (err) {
-      res.status(400).json({ message: err.message });
-    }
-  },
+        catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
+
+    //update user
+    async addEditUser(req, res) {
+        try {
+            if (req.body.id != null) {
+                const userId = req.body.id;
+                const user = await users.findById(userId);
+                if (!user) {
+                    throw new Error('User not found');
+                }
+                user.role = req.body.role;
+                user.fname = req.body.fname;
+                user.lname = req.body.lname;
+                user.userName = req.body.userName;
+                user.email = req.body.email;
+                user.password = req.body.password;
+                user.phoneNo = req.body.phoneNo;
+                user.status = req.body.status
+                const result = await user.save();
+                res.status(200).json({ message: 'User updated successfully', data: result });
+            }
+            else {
+                var userData = new users(req.body);
+                const result = await userData.save();
+                console.log({ result });
+                if (result) res.status(200).json({ message: 'User added successfully' });
+                else throw new Error('Something Went Wrong');
+            }
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
 
 
     getUserById: async (req, res) => {
-    try {
-        const userId = req.params.id;
-        const user = await users.findById(userId);
-        if (!user) {
-            throw new Error('user not found');
+        try {
+            const userId = req.params.id;
+            const user = await users.findById(userId);
+            if (!user) {
+                throw new Error('user not found');
+            }
+            res.status(200).json(user);
+        } catch (err) {
+            res.status(400).json({ message: err.message });
         }
-        res.status(200).json(user);
-    } catch (err) {
-        res.status(400).json({ message: err.message });
-    }
-},
-//delete user
-deleteUser: (req, res) => {
-    const userId = req.params.userId || req.body.userId;  // Get roleId from URL params or request body
+    },
+    //delete user
+    deleteUser: (req, res) => {
+        const userId = req.params.userId || req.body.userId;  // Get roleId from URL params or request body
 
-    // Check if the roleId is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(userId)) {
-        return res.status(400).send({ message: 'Invalid User ID format' });
-    }
-
-    const objectId = mongoose.Types.ObjectId(userId);
-
-    // Attempt to delete the role
-    users.deleteOne({ _id: objectId }, (err, result) => {
-        if (err) {
-            return res.status(400).send({ message: 'Error deleting User', error: err.message });
+        // Check if the roleId is a valid ObjectId
+        if (!mongoose.Types.ObjectId.isValid(userId)) {
+            return res.status(400).send({ message: 'Invalid User ID format' });
         }
 
-        // If no document was deleted, return 404 (Not Found)
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+        const objectId = mongoose.Types.ObjectId(userId);
 
-        // Role successfully deleted
-        res.status(200).json({ message: 'User removed successfully', data: result });
-    });
-},
-      //end user    
+        // Attempt to delete the role
+        users.deleteOne({ _id: objectId }, (err, result) => {
+            if (err) {
+                return res.status(400).send({ message: 'Error deleting User', error: err.message });
+            }
+
+            // If no document was deleted, return 404 (Not Found)
+            if (result.deletedCount === 0) {
+                return res.status(404).json({ message: 'User not found' });
+            }
+
+            // Role successfully deleted
+            res.status(200).json({ message: 'User removed successfully', data: result });
+        });
+    },
+    //end user    
     //start Builder
     getBuilderList: (req, res) => {
-        builder.find({}, { fname: 1, lname: 1, email: 1,password:1,phoneNo:1,pincode:1,state:1,city:1,location:1})  
+        builder_model.find({}, { fname: 1, lname: 1, email: 1, password: 1, phoneNo: 1, pincode: 1, state: 1, city: 1, location: 1 })
             .exec((err, data) => {
                 if (err) {
                     return res.status(400).send(err);
                 }
-                return res.status(200).send(data); 
+                return res.status(200).send(data);
             });
-    },
-    addBuilder: async (req, res) => {
-        try{
-            var BuilderData = new builder(req.body);            
-            const result = await BuilderData.save();
-            console.log({result});
-            if(result) res.status(200).json({ message: 'User added successfully' });
-            else throw new Error('Something Went Wrong');
-        }
-        catch(err){
-            res.status(400).json({message: err.message});
-        }
     },
     getBuilderById: async (req, res) => {
         try {
             const builderId = req.params.id;
-            console.log(builderId,"builder");
-            const builders = await builder.findById(builderId);
+            console.log(builderId, "builder");
+            const builders = await builder_model.findById(builderId);
             if (!builders) {
                 throw new Error('builder not found');
             }
@@ -618,54 +606,59 @@ deleteUser: (req, res) => {
             res.status(400).json({ message: err.message });
         }
     },
-    updateBuilder: async (req, res) => {
-  try {
-    const builderId = req.params.id;
-    const builder = await builder.findById(builderId);
-    if (!builder) {
-      throw new Error('Builder not found');
-    }
-    builder.fname = req.body.fname;
-    builder.lname = req.body.lname;
-    builder.email = req.body.email;
-    builder.password = req.body.password;
-    builder.phoneNo = req.body.phoneNo;
-    builder.pincode = req.body.pincode;
-    builder.location = req.body.location;
-    const result = await builder.save();
-    res.status(200).json({ message: 'Builder updated successfully', data: result });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-},
-    
 
-//delete user
-deleteBuilder: (req, res) => {
-    const BuilderId = req.params.BuilderId || req.body.BuilderId;  // Get roleId from URL params or request body
+    //add and edit builder
+    async addEditBuilder(req, res) {
+        try {
+            if (req.body.id != null) {
+                const builderId = req.body.id;
+                const builder = await builder_model.findById(builderId);
+                if (!builder) {
+                    throw new Error('Builder not found');
+                }
+                builder.fname = req.body.fname;
+                builder.lname = req.body.lname;
+                builder.email = req.body.email;
+                builder.password = req.body.password;
+                builder.phoneNo = req.body.phoneNo;
+                builder.pincode = req.body.pincode;
+                builder.location = req.body.location;
+                const result = await builder.save();
+                res.status(200).json({ message: 'Builder updated successfully', data: result });
+            }
+            else {
+                var BuilderData = new builder_model(req.body);
+                const result = await BuilderData.save();
+                console.log({ result });
+                if (result) res.status(200).json({ message: 'Builder added successfully' });
+                else throw new Error('Something Went Wrong');
+            }
+        } catch (err) {
+            res.status(400).json({ message: err.message });
+        }
+    },
 
-    // Check if the roleId is a valid ObjectId
-    if (!mongoose.Types.ObjectId.isValid(BuilderId)) {
-        return res.status(400).send({ message: 'Invalid User ID format' });
-    }
 
-    const objectId = mongoose.Types.ObjectId(BuilderId);
-
-    // Attempt to delete the role
-    builder.deleteOne({ _id: objectId }, (err, result) => {
-        if (err) {
-            return res.status(400).send({ message: 'Error deleting Builder', error: err.message });
+    //delete user
+    deleteBuilder: (req, res) => {
+        const BuilderId = req.params.BuilderId || req.body.BuilderId;
+        if (!mongoose.Types.ObjectId.isValid(BuilderId)) {
+            return res.status(400).send({ message: 'Invalid User ID format' });
         }
 
-        // If no document was deleted, return 404 (Not Found)
-        if (result.deletedCount === 0) {
-            return res.status(404).json({ message: 'Builder not found' });
-        }
+        const objectId = mongoose.Types.ObjectId(BuilderId);
+        builder_model.deleteOne({ _id: objectId }, (err, result) => {
+            if (err) {
+                return res.status(400).send({ message: 'Error deleting Builder', error: err.message });
+            }
 
-        // Role successfully deleted
-        res.status(200).json({ message: 'Builder removed successfully', data: result });
-    });
-},
+           if (result.deletedCount === 0) {
+                return res.status(404).json({ message: 'Builder not found' });
+            }
+
+            res.status(200).json({ message: 'Builder removed successfully', data: result });
+        });
+    },
 
     //end Builder
 }
