@@ -626,6 +626,46 @@ module.exports = {
                 return res.status(200).send(data);
             });
     },
+
+    getBuilderList: (req, res) => {
+        const filters = req.body; // Extract the filters from the request body
+        
+        // Validate that 'page' and 'pageSize' exist and are numbers
+        const page = parseInt(filters.page, 10) || 1;
+        const pageSize = parseInt(filters.pageSize, 10) || 20;
+
+        // Ensure 'page' and 'pageSize' are valid numbers
+        if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
+            return res.status(400).send({ message: 'Invalid pagination parameters' });
+        }
+
+        let query = {};
+        if (filters.searchText) {
+            const searchRegex = new RegExp(filters.searchText, 'i');
+            query['$or'] = [{ fname: searchRegex },{ lname: searchRegex },{ location: searchRegex }];
+        }
+
+        builder_model.countDocuments(query, (err, totalCount) => {
+            if (err) {
+                return res.status(400).send(err);
+            }
+
+            builder_model.find(query, { fname: 1 , lname:1 , email: 1 , pincode: 1, phoneNo: 1 , location: 1})
+                .skip((page - 1) * pageSize)
+                .limit(pageSize)
+                .exec((err, data) => {
+                    if (err) {
+                        return res.status(400).send(err);
+                    }
+                    return res.status(200).json({
+                        data: data,
+                        totalCount: totalCount
+                    });
+                });
+        });
+    },
+
+
     getBuilderById: async (req, res) => {
         try {
             const builderId = req.params.id;
@@ -692,4 +732,5 @@ module.exports = {
     },
 
     //end Builder
+
 }

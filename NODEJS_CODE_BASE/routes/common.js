@@ -40,8 +40,9 @@ router.route('/role/:id').put(commonController.updateRole);
 router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability)
 router.route('/userDetailList').post(commonController.getUserList);
 
-//builders
+//builders  
 router.route('/builderList').get(commonController.getBuilderDDlList);
+router.route('/builderList1').post(commonController.getBuilderList);
 router.route('/addEditBuilder').post(commonController.addEditBuilder);
 router.route('/builder/:id').get(commonController.getBuilderById);  
 router.route('/deleteBuilder/:BuilderId').delete(commonController.deleteBuilder); // Delete a menu by ID
