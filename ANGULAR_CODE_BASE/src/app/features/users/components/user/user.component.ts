@@ -14,7 +14,20 @@ declare const Swal:any;
 export class UserComponent implements OnInit {
   userList: any[] = [];
   form:FormGroup;
-  
+  totalRecord = 0;
+  page = 1;
+  pageSize = 20;
+  pageSizeList = [
+    {pageSize:5,name:'5 items per page'},
+    { pageSize: 10, name: '10 items per page' },
+    { pageSize: 20, name: '20 items per page' },
+    { pageSize: 50, name: '50 items per page' },
+    { pageSize: 100, name: '100 items per page' },
+    { pageSize: 500, name: '500 items per page' },
+    { pageSize: 1000, name: '1000 items per page' },
+    { pageSize: 100000, name: 'All items' }
+  ];
+
   constructor(
     private modalService: NgbModal,
     private userService: UserService,
@@ -44,10 +57,21 @@ export class UserComponent implements OnInit {
   }
 
   getUserList() {
-    this.commonService.getUserList()
-      .subscribe(result => {
-        this.userList = result;
-        console.log("called");
+    const filters = {
+      searchText: this.form.get('searchText').value,
+      page: this.page || 1,  // Default to 1 if undefined
+      pageSize: this.pageSize || 10,  // Default to 10 if undefined
+    };
+    
+    this.commonService.getUserList(filters)  // Pass the filters to the service
+      .subscribe({
+        next: (result: any) => {
+          this.userList = result.data;
+          this.totalRecord = result.totalCount;
+        },
+        error: (err) => {
+          console.error('Error fetching menus', err);
+        }
       });
   }
 
@@ -85,5 +109,13 @@ export class UserComponent implements OnInit {
       }
     });
   }
+  onClick_PageChange(e: any) {
+    this.page = e;  // Update the page number
+    this.getUserList();  // Fetch the updated list
+  }
 
+  onChange_PageSize() {
+    this.pageSize = this.pageSize;  // Update the page size
+    this.getUserList();  // Fetch the updated list with new page size
+  }
 }

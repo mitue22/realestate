@@ -28,7 +28,7 @@ const propertySchema = mongoose.model('property', new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'City'
     },
-    builder_id: {
+    builder: {
         type: Schema.Types.ObjectId,
         ref: 'Builder'
     },

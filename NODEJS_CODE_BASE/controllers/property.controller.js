@@ -85,8 +85,9 @@ addPropertyType: (req, res) => {
             var result  = await Property.findOne({ slug: req.params.propertySlug })
                 .populate('city', 'name')
                 .populate('state', 'name')
-                .populate('type', 'title');
-                
+                .populate('type', 'title')
+                .populate('builder','fname');
+                console.log(result,"result");
             var files = [];
             if(result && result.images.length){
                 files = await gfs.files.find({ filename: { $in : result.images } }).toArray();
@@ -190,7 +191,6 @@ addPropertyType: (req, res) => {
           // Check if the property exists using the property ID from the request
           let property = await Property.findById(req.params.id);
           if (!property) throw new Error("Property not found");
-      
           // Update property details
           const updatedData = {
             title: req.body.dataToSend.title,
@@ -206,7 +206,7 @@ addPropertyType: (req, res) => {
             pincode: req.body.dataToSend.pincode,
             cornrPlot: req.body.dataToSend.cornrPlot ? true : false,
             imgPath: 'properties',
-            builder_id:req.body.builder
+            builder:req.body.dataToSend.builder
           };
           if (!req.body.isSociety) {
             updatedData.flatNo = '';

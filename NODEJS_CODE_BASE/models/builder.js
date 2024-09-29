@@ -20,4 +20,4 @@ const builderSchema = new Schema({
     
 },{collection:'builder'});
 
-module.exports = mongoose.model('builder', builderSchema);
+module.exports = mongoose.model('Builder', builderSchema);

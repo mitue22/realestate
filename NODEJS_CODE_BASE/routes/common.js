@@ -31,13 +31,14 @@ router.route('/menu/:id').put(commonController.updateMenu); // Update a menu by 
 router.route('/deleteMenu/:menuId').delete(commonController.deleteMenu); // Delete a menu by ID
 
 //Role Router's
-router.route('/roleList').post(commonController.getRoleList)
-router.route('/addEditRole').post(commonController.addRole)
+router.get('/getRoleDDL',commonController.getRoleDDList);
+router.route('/roleList').post(commonController.getRoleList);
+router.route('/addEditRole').post(commonController.addRole);
 router.delete('/deleteRole/:roleId', commonController.deleteRole);
 router.route('/role/:id').get(commonController.getRoleById);
 router.route('/role/:id').put(commonController.updateRole);
 router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability)
-router.get('/userDetailList', commonController.userList);
+router.route('/userDetailList').post(commonController.getUserList);
 
 //builders
 router.route('/builderList').get(commonController.getBuilderDDlList);

@@ -110,6 +110,9 @@ getRoleDDList(){
   }
   //End Menu service
 //Start role
+getRoleDDlList():Observable<any>{
+  return this.http.get(environment.BASE_URL+"/common/getRoleDDL");
+}
  getRoleList(filters:any): Observable<any> {
     return this.http.post(environment.BASE_URL + "/common/roleList",filters);
   }
@@ -133,8 +136,8 @@ getRoleDDList(){
 //End Role
 
 //start User
-getUserList():Observable<any>{
-  return this.http.get(environment.BASE_URL + '/common/userDetailList');
+getUserList(filters:any):Observable<any>{
+  return this.http.post(environment.BASE_URL + '/common/userDetailList',filters);
 }
 
 addEditUser(userdata: any): Observable<any> {

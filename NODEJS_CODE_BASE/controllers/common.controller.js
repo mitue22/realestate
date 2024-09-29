@@ -23,6 +23,13 @@ module.exports = {
         if (filters.type) {
             query['type'] = filters.type;
         }
+        if (filters.searchText) {
+            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            query['$or'] = [
+                { description: searchRegex },
+                { title: searchRegex },
+                ];
+        }
         const page = filters.page || 1;
         const pageSize = filters.pageSize || 20;
         const skip = (page - 1) * pageSize;
@@ -292,24 +299,15 @@ module.exports = {
         }
     },
 
-    // getRoleList: (req, res) => {
-    //     const filters = req.body; // Receive filters from the request body
-    //     let query = {};
-
-    //     if (filters.searchText) {
-    //         const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
-    //         query['$or'] = [
-    //             { name: searchRegex },
-    //         ];
-    //     }
-    //     role_model.find(query, { name: 1 })  // Empty filter object to retrieve all, projection for name only
-    //         .exec((err, data) => {
-    //             if (err) {
-    //                 return res.status(400).send(err);
-    //             }
-    //             return res.status(200).send(data);  // Return the data on success
-    //         });
-    // },
+    getRoleDDlList: (req, res) => {
+        role_model.find()
+            .exec((err, data) => {
+                if (err) {
+                    return res.status(400).send(err);
+                }
+                return res.status(200).send(data);
+            });
+    },
     getRoleList: (req, res) => {
         const filters = req.body; // Extract the filters from the request body
 
@@ -489,15 +487,50 @@ module.exports = {
     },
 
     //start user...
+    getUserList: (req, res) => {
+        const filters = req.body; // Extract the filters from the request body
 
-    userList: (req, res) => {
-        users.find().exec((err, result) => {
+        // Validate that 'page' and 'pageSize' exist and are numbers
+        const page = parseInt(filters.page, 10) || 1;
+        const pageSize = parseInt(filters.pageSize, 10) || 20;
+
+        // Ensure 'page' and 'pageSize' are valid numbers
+        if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
+            return res.status(400).send({ message: 'Invalid pagination parameters' });
+        }
+
+        let query = {};
+        if (filters.searchText) {
+            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            query['$or'] = [
+                { fname: searchRegex },
+                {lname:searchRegex},
+                { userName: searchRegex },
+                { phoneNumber: searchRegex },
+            ];
+        }
+
+        // First, get the total count of documents matching the query
+        users.countDocuments(query, (err, totalCount) => {
             if (err) {
-                console.error("Error:", err);
-                res.status(400).send(err);
-            } else {
-                res.status(200).json(result);
+                return res.status(400).send(err);
             }
+
+            // Then, retrieve the paginated results
+            users.find(query)
+                .skip((page - 1) * pageSize) // Skip based on the current page
+                .limit(pageSize) // Limit the number of results to pageSize
+                .exec((err, data) => {
+                    if (err) {
+                        return res.status(400).send(err);
+                    }
+
+                    // Send back the data along with the total count
+                    return res.status(200).json({
+                        data: data,
+                        totalCount: totalCount
+                    });
+                });
         });
     },
 
@@ -596,7 +629,6 @@ module.exports = {
     getBuilderById: async (req, res) => {
         try {
             const builderId = req.params.id;
-            console.log(builderId, "builder");
             const builders = await builder_model.findById(builderId);
             if (!builders) {
                 throw new Error('builder not found');
@@ -629,7 +661,6 @@ module.exports = {
             else {
                 var BuilderData = new builder_model(req.body);
                 const result = await BuilderData.save();
-                console.log({ result });
                 if (result) res.status(200).json({ message: 'Builder added successfully' });
                 else throw new Error('Something Went Wrong');
             }

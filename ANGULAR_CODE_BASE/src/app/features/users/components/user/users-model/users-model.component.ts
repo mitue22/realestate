@@ -64,9 +64,8 @@ export class UsersModelComponent implements OnInit {
 
   
   getRoleList() {
-    const filters=[]
     this.spinner.show();
-    this.commonService.getRoleList(filters).subscribe(
+    this.commonService.getRoleDDlList().subscribe(
       (result) => {
         this.spinner.hide();
         this.roleList = result;

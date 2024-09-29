@@ -29,6 +29,7 @@ export class EditPropertyComponent implements OnInit {
     state: {},
     city: {}
   };
+  builderList:any[]=[];
   stateList;
   cityList = [];
   FetchingCityList = false;
@@ -50,14 +51,15 @@ export class EditPropertyComponent implements OnInit {
       phoneNo:[null],
       pincode:[null],
       locality:[null],
-      cornerPlot:[null]
+      cornerPlot:[null],
+      builder:[null]
     });
     let propertySlug = this.activatedRoute.snapshot.paramMap.get('propertySlug');
     if (propertySlug){
       this.getProperty(propertySlug);
       }
       this.getStateList();
-   
+      this.getBuilderList();
     this.commonService.getPropertyTypeList()
       .subscribe(result => this.propertyTypeList = result);
 
@@ -81,6 +83,7 @@ export class EditPropertyComponent implements OnInit {
           phoneNo: result.phoneNo || '',
           pincode: result.pincode || '',
           cornerPlot:result.cornerPlot,
+          builder:result.builder._id || '',
         });
         const stateId = this.form.get('state').value;
       if (stateId) {
@@ -90,7 +93,6 @@ export class EditPropertyComponent implements OnInit {
   }
 
   getCityList(stateId) {
-    console.log(stateId,"aaa");
     this.cityList = [];
     this.FetchingCityList = true;
 
@@ -126,6 +128,8 @@ submitForm() {
     imageData.append('phoneNo', this.form.get("phoneNo").value || '');
     imageData.append('pincode', this.form.get("pincode").value || '');
     imageData.append('cornerPlot',this.form.get("cornerPlot").value);
+    imageData.append('builder',this.form.get("builder").value || '');
+    console.log(this.form.value,"imageData");
     this.imgsToUpload.forEach((ele, index) => {
       imageData.append("propImages", ele, ele['name']);
     });
@@ -153,6 +157,14 @@ submitForm() {
         this.toastr.error("Failed to edit property list");
       }
     )
+  }
+  getBuilderList() {
+    this.commonService.getBuilderDdlList()
+      .subscribe(result => {
+        this.builderList = result;
+      }, error => {
+        console.error(error);
+      });
   }
 
   locationBack() {

@@ -21,7 +21,10 @@ interface Response {
       email: string;
       phoneNo: string;
       pincode: string;
-    
+      builder:{
+        _id:string,
+        fname:string;
+      };
 };
     files: any[];
   }
