@@ -81,9 +81,7 @@ onChange_Menu(isSelected: boolean, menuId: string) {
       }
     }
     onClickSubmit() {
-      // Handle saving the selected permissions
       if (this.selectedMenus.length > 0) {
-        console.log(this.selectedMenus);
         const saveData = this.selectedMenus.map(menuId => ({
           menuId: menuId,
           roleId: this.selectedRole
@@ -92,7 +90,7 @@ onChange_Menu(isSelected: boolean, menuId: string) {
           .subscribe(
             (response) => {
               console.log('Menu selection saved successfully', response);
-              this.getMenuList();  // Refresh the list after saving
+              this.getMenuList(); 
             },
             (error) => {
               console.error('Error saving menu selection', error);
@@ -100,7 +98,6 @@ onChange_Menu(isSelected: boolean, menuId: string) {
           );
       }
     
-      // Handle deleting the unselected permissions
       if (this.unselectedMenus.length > 0) {
         const deleteData = this.unselectedMenus.map(menuId => ({
           menuId: menuId,
@@ -111,7 +108,7 @@ onChange_Menu(isSelected: boolean, menuId: string) {
           .subscribe(
             (response) => {
               console.log('Menu selection deleted successfully', response);
-              this.getMenuList();  // Refresh the list after deletion
+              this.getMenuList();  
             },
             (error) => {
               console.error('Error deleting menu selection', error);

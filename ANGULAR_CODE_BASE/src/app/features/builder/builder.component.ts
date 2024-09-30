@@ -105,7 +105,6 @@ export class BuilderComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        console.log(BuilderId)
         this.commonService.deleteBuilder(BuilderId).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'User has been deleted.', 'success');

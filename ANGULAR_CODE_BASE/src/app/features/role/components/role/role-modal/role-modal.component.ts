@@ -28,11 +28,11 @@ export class RoleModalComponent implements OnInit {
       name: ["", Validators.compose([Validators.required])],
     });
   
-    if (this.id) { // Ensure to use `this.id`
-      this.roleId = this.id; // Set `roleId` for editing
+    if (this.id) { 
+      this.roleId = this.id; 
       this.getRoleById();
     } else {
-      this.roleId = null; // Clear `roleId` if creating a new role
+      this.roleId = null; 
     }
   }
   
@@ -50,28 +50,7 @@ export class RoleModalComponent implements OnInit {
   }
   
 
-  // onSubmit_Form() {
-  //   this.submitted = true;
-  //   if (this.form.invalid) {
-  //     return;
-  //   }
-  //   const roleData = this.form.value;
-  //   if (this.roleId) {
-  //     // Update role
-  //     this.commonService.updateRole(this.roleId, roleData).subscribe((result) => {
-  //       console.log("ID",result);
-  //         // this.onRole_Emit.emit();
-  //         this.activeModal.close();
-  //     });
-  //   } else {
-  //     // Create new role
-  //     this.commonService.addEditRole(roleData).subscribe((result) => {
-  //       console.log("ID123",result);
-  //       this.activeModal.close();
-  //     });
-  //   }
-  // }
-  onSubmit_Form() {
+onSubmit_Form() {
     this.submitted = true;
     if (this.form.invalid) {
       return;
@@ -84,14 +63,12 @@ export class RoleModalComponent implements OnInit {
     if (this.roleId) {
       // Update role
       this.commonService.addEditRole(roleData).subscribe((result) => {
-        console.log("ID", result);
         this.onRole_Emit.emit(true);
         this.activeModal.close();
       });
     } else {
       // Create new role
       this.commonService.addEditRole(roleData).subscribe((result) => {
-        console.log("ID123", result);
         this.onRole_Emit.emit(true);
         this.activeModal.close();
       });

@@ -112,7 +112,6 @@ onDelete(id:any){
     })
     .then((result) => {
       if (result.isConfirmed) {
-        console.log(id)
         this.commonService.deleteProperty(id).subscribe({
           next: () => {
              Swal.fire('Deleted!', 'Your item has been deleted.', 'success');

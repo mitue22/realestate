@@ -18,6 +18,7 @@ import { FeaturesRoutingModule } from './users/features-routing.module';
 import { UsersModelComponent } from './users/components/user/users-model/users-model.component';
 import { BuilderComponent } from './builder/builder.component';
 import { BuilderModalComponent } from './builder/builder-modal/builder-modal.component';
+import { BuilderModule } from './builder/builder.module';
 
 @NgModule({
   imports: [
@@ -28,7 +29,8 @@ import { BuilderModalComponent } from './builder/builder-modal/builder-modal.com
     FeaturesRoutingModule,
     PropertyModule,
     NgSelectModule,
-    NgbModule
+    NgbModule,
+    BuilderModule
   ]
   ,entryComponents:[UsersModelComponent],
   declarations: [
@@ -39,8 +41,7 @@ import { BuilderModalComponent } from './builder/builder-modal/builder-modal.com
     UsersModelComponent,
     UserComponent,
     UsersModelComponent,
-    BuilderComponent,
-    BuilderModalComponent 
+ 
   ],
   providers: [
   ]

@@ -90,17 +90,26 @@
             </thead>
             </table>
         </div>
-        <div class="row">
+        <div class="row mt-2">
           <div class="col-md-10">
-              <ngb-pagination [collectionSize]="totalRecord" [(page)]="page" (pageChange)="onClick_PageChange($event)" [pageSize]="pageSize" [maxSize]="10">
-              </ngb-pagination>
+              <!-- <ngb-pagination>
+              </ngb-pagination>-->
+              <ngb-pagination 
+  [collectionSize]="totalRecord" 
+  [(page)]="page" 
+  (pageChange)="onClick_PageChange($event)" 
+  [pageSize]="pageSize" 
+  [maxSize]="10">
+</ngb-pagination>
           </div>
           <div class="col-md-2">
-            <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()">
-              <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
-            </select>
+            <div class="form-group">
+              <select [(ngModel)]="pageSize" (ngModelChange)="onChange_PageSize()" class="form-control">
+                <option *ngFor="let size of pageSizeList" [value]="size.pageSize">{{ size.name }}</option>
+              </select>
+            </div>
           </div>
-      </div>
+        </div>
         </div>
     </div>
     </div>

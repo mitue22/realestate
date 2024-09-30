@@ -55,14 +55,12 @@ export class RegistrationComponent implements OnInit {
   }
 
   getCityList(stateId) {
-    // console.log(' - stateID -- ', stateId);
     this.cityList = [];
 
     if (stateId != 0) {
       this.commonService.getCitylistByState(stateId)
         .subscribe(response => {
-          // console.log('-- ', response['citylist']);
-          // return response['statelist'];
+         
           if (response.length > 0) {
             this.cityList = response;
           }
@@ -74,7 +72,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   registration(data) {
-    console.log(data);
     // this.router.navigate(['/'],{
     //   queryParams: { action: 'signUpsuccess' }
     // });

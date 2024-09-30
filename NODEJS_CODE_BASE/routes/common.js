@@ -24,11 +24,11 @@ router.delete('/city/:cityId', commonController.removeCity)
 router.get('/checkemail-availability/email/:email', commonController.checkemailAvailability);
 
 //menu Router's
-router.route('/menu1List').post(commonController.getMenuList); // List all menus
-router.route('/addEditMenu').post(commonController.addMenu); // Add or edit a menu
-router.route('/menu/:id').get(commonController.getMenuById); // Get a menu by ID
-router.route('/menu/:id').put(commonController.updateMenu); // Update a menu by ID
-router.route('/deleteMenu/:menuId').delete(commonController.deleteMenu); // Delete a menu by ID
+router.route('/menu1List').post(commonController.getMenuList); 
+router.route('/addEditMenu').post(commonController.addMenu); 
+router.route('/menu/:id').get(commonController.getMenuById); 
+router.route('/menu/:id').put(commonController.updateMenu); 
+router.route('/deleteMenu/:menuId').delete(commonController.deleteMenu); 
 
 //Role Router's
 router.get('/getRoleDDL',commonController.getRoleDDList);
@@ -45,7 +45,7 @@ router.route('/builderList').get(commonController.getBuilderDDlList);
 router.route('/builderList1').post(commonController.getBuilderList);
 router.route('/addEditBuilder').post(commonController.addEditBuilder);
 router.route('/builder/:id').get(commonController.getBuilderById);  
-router.route('/deleteBuilder/:BuilderId').delete(commonController.deleteBuilder); // Delete a menu by ID
+router.route('/deleteBuilder/:BuilderId').delete(commonController.deleteBuilder); 
 
 //user
 router.route('/addEditUser').post(commonController.addEditUser);

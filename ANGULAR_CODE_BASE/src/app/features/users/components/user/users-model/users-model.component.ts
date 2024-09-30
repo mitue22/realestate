@@ -4,7 +4,6 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { CommonService } from '@sa-services/common.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { User } from '../user';
-// import { User } from '../user';
 
 @Component({
   selector: 'app-users-model',
@@ -106,14 +105,12 @@ export class UsersModelComponent implements OnInit {
     if (this.userId!="") {
       // Update user
       this.commonService.addEditUser(formData).subscribe((result) => {
-        console.log("ID", result);
         this.onUser_Emit.emit(true);
         this.activeModal.close();
       });
     } else {
       // Create new user
       this.commonService.addEditUser(formData).subscribe((result) => {
-        console.log("ID123", result);
         this.onUser_Emit.emit(true);
         this.activeModal.close();
       });

@@ -24,7 +24,7 @@ module.exports = {
             query['type'] = filters.type;
         }
         if (filters.searchText) {
-            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            const searchRegex = new RegExp(filters.searchText, 'i'); 
             query['$or'] = [
                 { description: searchRegex },
                 { title: searchRegex },
@@ -48,8 +48,8 @@ module.exports = {
                         res.status(400).send(err);
                     } else {
                         res.status(200).send({
-                            totalCount: totalRecord, // Return the total count
-                            data: data               // Return the paginated data
+                            totalCount: totalRecord, 
+                            data: data               
                         });
                     }
                 });
@@ -123,7 +123,6 @@ module.exports = {
         try {
             var city = new city_model(req.body);
             const result = await city.save();
-            console.log({ result });
             if (result) res.status(200).json({ message: 'City added successfully' });
             else throw new Error('Something Went Wrong');
         }
@@ -154,43 +153,19 @@ module.exports = {
 
     },
 
-    // getMenuList: (req, res) => {
-
-    //     const filters = req.body; // Receive filters from the request body
-    //     let query = {};
-
-    //     if (filters.searchText) {
-    //         const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
-    //         query['$or'] = [
-    //             { name: searchRegex },
-    //             { title: searchRegex },
-    //             { icon: searchRegex },
-    //             { path: searchRegex }
-    //         ];
-    //     }
-    //     menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })  
-    //         .exec((err, data) => {
-    //             if (err) {
-    //                 return res.status(400).send(err);
-    //             }
-    //             return res.status(200).send(data); 
-    //         });
-    // },
+   
     getMenuList: (req, res) => {
-        const filters = req.body; // Extract the filters from the request body
-
-        // Validate that 'page' and 'pageSize' exist and are numbers
+        const filters = req.body; 
         const page = parseInt(filters.page, 10) || 1;
         const pageSize = parseInt(filters.pageSize, 10) || 20;
 
-        // Ensure 'page' and 'pageSize' are valid numbers
         if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
             return res.status(400).send({ message: 'Invalid pagination parameters' });
         }
 
         let query = {};
         if (filters.searchText) {
-            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            const searchRegex = new RegExp(filters.searchText, 'i'); 
             query['$or'] = [
                 { name: searchRegex },
                 { title: searchRegex },
@@ -199,22 +174,19 @@ module.exports = {
             ];
         }
 
-        // First, get the total count of documents matching the query
         menu1_model.countDocuments(query, (err, totalCount) => {
             if (err) {
                 return res.status(400).send(err);
             }
 
-            // Then, retrieve the paginated results
             menu1_model.find(query, { name: 1, title: 1, icon: 1, path: 1 })
-                .skip((page - 1) * pageSize) // Skip based on the current page
-                .limit(pageSize) // Limit the number of results to pageSize
+                .skip((page - 1) * pageSize) 
+                .limit(pageSize) 
                 .exec((err, data) => {
                     if (err) {
                         return res.status(400).send(err);
                     }
 
-                    // Send back the data along with the total count
                     return res.status(200).json({
                         data: data,
                         totalCount: totalCount
@@ -233,7 +205,6 @@ module.exports = {
             });
 
             const result = await menu.save();
-            console.log({ result });
 
             if (result) {
                 res.status(200).json({ message: 'Menu added successfully' });
@@ -309,13 +280,13 @@ module.exports = {
             });
     },
     getRoleList: (req, res) => {
-        const filters = req.body; // Extract the filters from the request body
+        const filters = req.body; 
 
-        // Validate that 'page' and 'pageSize' exist and are numbers
+       
         const page = parseInt(filters.page, 10) || 1;
         const pageSize = parseInt(filters.pageSize, 10) || 20;
 
-        // Ensure 'page' and 'pageSize' are valid numbers
+        
         if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
             return res.status(400).send({ message: 'Invalid pagination parameters' });
         }
@@ -348,50 +319,41 @@ module.exports = {
 
     addRole: async (req, res) => {
         try {
-            // Create a new instance of the role model with the data from the request body
             const role = new role_model({
                 name: req.body.name
             });
 
-            // Save the new role to the database
             const result = await role.save();
-            console.log({ result });
 
-            // If the result exists, send a success response
             if (result) {
                 res.status(200).json({ message: 'Role added successfully' });
             } else {
                 throw new Error('Something went wrong');
             }
         } catch (err) {
-            // Catch any errors and send an error response
             res.status(400).json({ message: err.message });
         }
     },
 
 
     deleteRole: (req, res) => {
-        const roleId = req.params.roleId || req.body.roleId;  // Get roleId from URL params or request body
+        const roleId = req.params.roleId || req.body.roleId; 
 
-        // Check if the roleId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(roleId)) {
             return res.status(400).send({ message: 'Invalid role ID format' });
         }
 
         const objectId = mongoose.Types.ObjectId(roleId);
 
-        // Attempt to delete the role
         role_model.deleteOne({ _id: objectId }, (err, result) => {
             if (err) {
                 return res.status(400).send({ message: 'Error deleting role', error: err.message });
             }
 
-            // If no document was deleted, return 404 (Not Found)
             if (result.deletedCount === 0) {
                 return res.status(404).json({ message: 'Role not found' });
             }
 
-            // Role successfully deleted
             res.status(200).json({ message: 'Role removed successfully', data: result });
         });
     },
@@ -430,7 +392,6 @@ module.exports = {
             const permissions = await permission_model.find().exec();
             res.status(200).json(permissions);
         } catch (error) {
-            console.error(error);
             res.status(500).json({ message: 'Error fetching permission list' });
         }
     },
@@ -464,20 +425,14 @@ module.exports = {
     },
     async getMenuListByPermission(req, res) {
         try {
-            // Retrieve the role name from the request
             const roleName = req.params.role;
-            console.log(req.body, "req");
-            // Find the role ID from the role name
             const roleId = await role_model.findOne({ name: roleName });
-            console.log(roleName, "roleid");
             if (!roleId) {
                 throw new Error('Role not found');
             }
 
-            // Find the menu IDs from the permission table
             const menuIds = await permission_model.find({ roleId: roleId._id }, { menuId: 1 });
 
-            // Find the menu list from the menu table
             const menuList = await menu1_model.find({ _id: { $in: menuIds.map(menuId => menuId.menuId) } });
 
             res.status(200).json(menuList);
@@ -488,20 +443,18 @@ module.exports = {
 
     //start user...
     getUserList: (req, res) => {
-        const filters = req.body; // Extract the filters from the request body
+        const filters = req.body; 
 
-        // Validate that 'page' and 'pageSize' exist and are numbers
         const page = parseInt(filters.page, 10) || 1;
         const pageSize = parseInt(filters.pageSize, 10) || 20;
 
-        // Ensure 'page' and 'pageSize' are valid numbers
         if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
             return res.status(400).send({ message: 'Invalid pagination parameters' });
         }
 
         let query = {};
         if (filters.searchText) {
-            const searchRegex = new RegExp(filters.searchText, 'i'); // Case-insensitive search
+            const searchRegex = new RegExp(filters.searchText, 'i'); 
             query['$or'] = [
                 { fname: searchRegex },
                 {lname:searchRegex},
@@ -510,22 +463,19 @@ module.exports = {
             ];
         }
 
-        // First, get the total count of documents matching the query
         users.countDocuments(query, (err, totalCount) => {
             if (err) {
                 return res.status(400).send(err);
             }
 
-            // Then, retrieve the paginated results
             users.find(query)
-                .skip((page - 1) * pageSize) // Skip based on the current page
-                .limit(pageSize) // Limit the number of results to pageSize
+                .skip((page - 1) * pageSize) 
+                .limit(pageSize) 
                 .exec((err, data) => {
                     if (err) {
                         return res.status(400).send(err);
                     }
 
-                    // Send back the data along with the total count
                     return res.status(200).json({
                         data: data,
                         totalCount: totalCount
@@ -567,7 +517,6 @@ module.exports = {
             else {
                 var userData = new users(req.body);
                 const result = await userData.save();
-                console.log({ result });
                 if (result) res.status(200).json({ message: 'User added successfully' });
                 else throw new Error('Something Went Wrong');
             }
@@ -591,27 +540,23 @@ module.exports = {
     },
     //delete user
     deleteUser: (req, res) => {
-        const userId = req.params.userId || req.body.userId;  // Get roleId from URL params or request body
+        const userId = req.params.userId || req.body.userId; 
 
-        // Check if the roleId is a valid ObjectId
         if (!mongoose.Types.ObjectId.isValid(userId)) {
             return res.status(400).send({ message: 'Invalid User ID format' });
         }
 
         const objectId = mongoose.Types.ObjectId(userId);
 
-        // Attempt to delete the role
         users.deleteOne({ _id: objectId }, (err, result) => {
             if (err) {
                 return res.status(400).send({ message: 'Error deleting User', error: err.message });
             }
 
-            // If no document was deleted, return 404 (Not Found)
             if (result.deletedCount === 0) {
                 return res.status(404).json({ message: 'User not found' });
             }
 
-            // Role successfully deleted
             res.status(200).json({ message: 'User removed successfully', data: result });
         });
     },
@@ -628,13 +573,11 @@ module.exports = {
     },
 
     getBuilderList: (req, res) => {
-        const filters = req.body; // Extract the filters from the request body
+        const filters = req.body; 
         
-        // Validate that 'page' and 'pageSize' exist and are numbers
         const page = parseInt(filters.page, 10) || 1;
         const pageSize = parseInt(filters.pageSize, 10) || 20;
 
-        // Ensure 'page' and 'pageSize' are valid numbers
         if (isNaN(page) || isNaN(pageSize) || page < 1 || pageSize < 1) {
             return res.status(400).send({ message: 'Invalid pagination parameters' });
         }

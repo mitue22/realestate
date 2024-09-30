@@ -35,9 +35,6 @@ export class LoginModalComponent implements OnInit {
     this.loginCheck = true;
     let returnData = this.loginService.checkUserLogin(loginForm.value)
     .subscribe(response => {
-      console.log('== response - ', response, ' type of ', response['token']);
-      console.log(response);
-      // if (response['token'] === '') {
         this.alertMessage = {
           type: 'success',
           status: true,
@@ -51,7 +48,6 @@ export class LoginModalComponent implements OnInit {
     const role = payload.user.role;
         this.loginSuccess(response['token'],role);
         this.router.navigate(['/users/dashboard']);
-      //  }
     },
     (error: Response) => {
       this.alertMessage.type = 'danger';
@@ -63,7 +59,6 @@ export class LoginModalComponent implements OnInit {
       else {
         this.alertMessage.message = "An Unexpected error occured";
       }
-      // this.loginError.status = true;
     });
   }
 

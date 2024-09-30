@@ -24,25 +24,13 @@ export class UserModalComponent implements OnInit {
   glAccountList: any[] = [];
   showPassword = false;
   roleList: any[] = [];
-
-//   role = GlobalEnum.eRole;
-
-  //changePassword = false;
-  mobileMask;
-  currencyMask;
   constructor(
     public activeModal: NgbActiveModal,
     private formBuilder: FormBuilder,
-    private administrationService: AdministrationService,
     public toastr: ToastrService,
-    private spinner: NgxSpinnerService,
     public translate: TranslateService,
-    // private maskService: MaskService,
   ) {
-    // this.mobileMask = this.maskService.getMobileMask();
-    // this.currencyMask = this.maskService.getCurrencyMask();
-
-    // getCurrencyMask[inputMask]="mobileMask"
+   
   }
 
   ngOnInit(): void {
@@ -56,10 +44,8 @@ export class UserModalComponent implements OnInit {
       password: [null],
       costCenterIds: [null],
       company: [null, Validators.compose([Validators.required])],
-      // bank: [null, Validators.compose([Validators.required])],
       glAccountCode: [null, Validators.compose([Validators.required])],
       glAccountIndex: [null],
-      // balance: [0, Validators.compose([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,2})?$")])],
       prettyCashAmount: [0, Validators.compose([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,2})?$")])],
       limitPerItem: [0, Validators.compose([Validators.required, Validators.pattern("^[0-9]+(.[0-9]{0,2})?$")])],
       allowOverrideLimit: [false],
@@ -68,7 +54,6 @@ export class UserModalComponent implements OnInit {
       changePasswordRequired: [true],
     });
 
-    // If id > 0 then get user details by id
     if (this.id > 0) {
     //   this.getUserById();
     } else {
@@ -87,7 +72,6 @@ export class UserModalComponent implements OnInit {
     // this.getGLCompanyDDL();
   }
 
-  // Form control instance used for form control validations
   get f() {
     return this.form.controls;
   }

@@ -70,7 +70,6 @@ export class PropertyNewComponent implements OnInit {
   }
 
   submitForm(data) {
-    console.log(data.value,"data");
     this.isSubmittingForm = true;
     data.value.userId = this.userService.currentUser.user._id;
 
@@ -104,20 +103,16 @@ export class PropertyNewComponent implements OnInit {
         })
   }
 
-  log(data) { console.log(data); }
+  // log(data) { console.log(data); }
 
   filesChange(fieldName: string, fileList) {
-    console.log({ fileList });
     if (fileList && fileList.length) {
-      // this.imgsToUpload = Object.values(fileList);
       let i = 0;
       Object.values(fileList).forEach(f => {
         if (fileList[i].size < 80000) {
-          // console.log({ f });
           let reader = new FileReader();
           reader.readAsDataURL(fileList[i]);
           let name = fileList[i].name;
-          // console.log(fileList[i]);
           this.imgsToUpload.push(f);
           reader.onload = (_event) => {
             this.imgUrls.push({ name, path: reader.result });

@@ -96,7 +96,6 @@ export class UserComponent implements OnInit {
     })
     .then((result) => {
       if (result.isConfirmed) {
-        console.log(userId)
         this.commonService.deleteUser(userId).subscribe({
           next: () => {
             Swal.fire('Deleted!', 'User has been deleted.', 'success');

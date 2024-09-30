@@ -50,11 +50,9 @@ export class PropertylistComponent implements OnInit, OnChanges {
   getPropertyList(params: any = '') {
     this.commonService.togglePageLoaderFn(true);
      if (this.hideOwnProperty && this.userService.currentUser && this.userService.currentUser.user._id) params = this.queryParams ? `${params}&notUserId=${this.userService.currentUser.user._id}` : `?notUserId=${this.userService.currentUser.user._id}`;
-    console.log('final query ', params);
     this.commonService.filterProperties(params)
       .subscribe((result: any) => {
         if (result) this.propertyList = result;
-        console.log('propertyList: ', this.propertyList);
       }, (err) => console.log({ err }),
         () => this.commonService.togglePageLoaderFn(false));
 
@@ -98,7 +96,6 @@ export class PropertylistComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    // console.log('ngOnInit');
      this.getPropertyList(this.queryParams);
   }
 

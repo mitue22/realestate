@@ -129,7 +129,6 @@ submitForm() {
     imageData.append('pincode', this.form.get("pincode").value || '');
     imageData.append('cornerPlot',this.form.get("cornerPlot").value);
     imageData.append('builder',this.form.get("builder").value || '');
-    console.log(this.form.value,"imageData");
     this.imgsToUpload.forEach((ele, index) => {
       imageData.append("propImages", ele, ele['name']);
     });
@@ -137,20 +136,13 @@ submitForm() {
     imageData.forEach((value, key) => {
       dataToSend[key] = value;
     });
-    // for (let key in data) {
-    //   // iterate and set other form data
-    //   imageData.append(key, data[key]);
-
-      // imageData.append("_id",this.propertyDetail.result._id);
-    // }
-    const id=this.propertyDetail._id;
+  const id=this.propertyDetail._id;
     this.commonService.togglePageLoaderFn(true);
     this.commonService.editProperty(dataToSend,id).subscribe(
       (result) => {
         this.commonService.togglePageLoaderFn(false);
         this.toastr.success("Property edited successfully.");
         alert("Property edited successfully.");
-        // this.getProperty(propertySlug);
         this.router.navigate(['/property/list']);
       },(err) =>{
         this.commonService.togglePageLoaderFn(false);
