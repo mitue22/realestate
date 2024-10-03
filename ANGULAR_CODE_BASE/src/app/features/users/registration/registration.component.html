@@ -5,17 +5,24 @@
             <p class="alert alert-{{ mainErrorMessage.type }}">{{ mainErrorMessage.message }}</p>
         </div>
         <div class="form-row">
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="fname" class="form-control"  placeholder="Enter First Name" required>
                 <small class="text-danger"
              *ngIf="fname.touched && fname.invalid"  >
             This field is required</small>
             </div>
-            <div class="form-group col-md-6">
+            <div class="form-group col-md-4">
                 <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="lName" class="form-control" placeholder="Enter Last Name" required>
                 <!-- ngModel name="lName" #lName="ngModel" -->
                 <small class="text-danger"
              *ngIf="lName.touched && lName.invalid"  >
+            This field is required</small>
+            </div>
+            <div class="form-group col-md-4">
+                <input type="text" [appInputFormat]="'singleWordFiltercapitalize'" formControlName="userName" class="form-control" placeholder="Enter userName" required>
+                <!-- ngModel name="lName" #lName="ngModel" -->
+                <small class="text-danger"
+             *ngIf="userName.touched && userName.invalid"  >
             This field is required</small>
             </div>
             <!-- (change)="log(name)" -->
@@ -94,11 +101,11 @@
         <div class="form-row">
             <div class="form-group col-md-12">
                 <strong>I am </strong> &nbsp;
-                <label><input type="radio" formControlName="user_type" value="1" (change)="log(user_type)" name="user_type" checked> Buyer/Owner &nbsp; </label>
-                <label><input type="radio" formControlName="user_type" value="2" (change)="log(user_type)" name="user_type"> Agent &nbsp; </label>
-                <label><input type="radio" formControlName="user_type" value="3" (change)="log(user_type)" name="user_type"> Builder &nbsp; </label>
+                <label><input type="radio" formControlName="role" value="admin" (change)="log(role)" name="role" checked> Admin/Owner &nbsp; </label>
+                <label><input type="radio" formControlName="role" value="user" (change)="log(role)" name="role"> User &nbsp; </label>
+                <label><input type="radio" formControlName="role" value="builder" (change)="log(role)" name="role"> Builder &nbsp; </label>
                 <small class="text-danger"
-                    *ngIf="user_type.touched && user_type.invalid"  >
+                    *ngIf="role.touched && role.invalid" >
                 This field is required</small>
             </div>
         </div>

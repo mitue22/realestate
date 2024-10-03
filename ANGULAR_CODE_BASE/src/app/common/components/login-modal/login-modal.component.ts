@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { LoginService } from '../../services/login.service';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -19,9 +19,11 @@ export class LoginModalComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private commonService: CommonService,
+    private cdRef: ChangeDetectorRef
   ) { }
   ngAfterViewInit() {
     this.emailPhoneRequired = this.isRequired;
+    this.cdRef.detectChanges();
   }
   alertMessage: any = {
     // status: false,
@@ -60,6 +62,7 @@ export class LoginModalComponent implements OnInit {
         this.alertMessage.message = "An Unexpected error occured";
       }
     });
+    
   }
 
   // login(loginForm: NgForm): void {

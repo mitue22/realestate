@@ -101,12 +101,13 @@ userLogin : (req, res) => {
 
     users.fname = req.body.fname;
     users.lname = req.body.lName;
+    users.userName=req.body.userName;
     users.email = req.body.email;
     users.phoneNo = req.body.phoneNo;
     users.state = req.body.state;
     users.city = req.body.city;
     users.pincode = req.body.pincode;
-    users.userType = req.body.user_type;
+    users.role = req.body.role;
     users.createdOn = new Date();
 
     bcrypt.hash(req.body.password, 10, function(err, hash) {
@@ -116,10 +117,21 @@ userLogin : (req, res) => {
 
         users.save((err, data) => {
           if (err) res.status(400).send(err);
-          else
+          else{
+            const token = jwt.sign(
+              {
+                user: {
+                  id: data._id,
+                  role: users.role, 
+                },
+              },
+              secretKey,
+              { expiresIn: '1h' } 
+            );
             res
               .status(200)
               .json({ message: "User Added Successfully", id: data._id });
+          }
         });
       }
     });
